@@ -55,11 +55,10 @@ import UsStockSellContainer from '../containers/UsStock/UsStockSellContainer'
 import UsStockSellConfirm from '../containers/UsStock/UsStockSellConfirmContainer'
 import UsStockSellComplete from '../containers/UsStock/UsStockSellCompleteContainer'
 import OrderCancelUsContainer from '../containers/Order/OrderCancelUsContainer';
-// import UsStockPurchaseContainer from '../containers/UsStock/UsStockPurchaseContainer'
 import UsStockPurchaseOrderContainer from '../containers/UsStock/UsStockPurchaseOrderContainer'
 import UsStockPurchaseOrderConfirmContainer from '../containers/UsStock/UsStockPurchaseOrderConfirmContainer'
 import UsStockPurchaseOrderComplete from '../containers/UsStock/UsStockPurchaseOrderComplete'
-// import TradeTransitionReferenceContainer from '../containers/Trade/TradeTransitionReferenceContainer';
+import LoginCallbackContainer from '../containers/Login/LoginCallbackContainer.js'
 import { AppHelmet } from '../components/Helmet';
 
 export const routes = [
@@ -347,7 +346,12 @@ export const routes = [
     path: '/account/us-stock/:code/purchase/complete',
     component: UsStockPurchaseOrderComplete,
     isAuthenticated: true
-  }
+  },
+  {
+    path: '/account/login/callback',
+    component: LoginCallbackContainer,
+    isAuthenticated: false
+  },
 ];
 
 export default function configRoutes() {
