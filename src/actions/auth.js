@@ -14,7 +14,7 @@ import {
   getToken
 } from '../utils';
 import { setLoading } from './loading'
-import {loadAccountsInfoRequest} from "./profile";
+import { loadAccountsInfoRequest } from "./profile";
 import Amplify from "../auth/amplify";
 
 export const getAuthHeader = () => {
@@ -23,12 +23,12 @@ export const getAuthHeader = () => {
   }
 }
 
-export const setHeader = (params) =>{
-  return{
+export const setHeader = (params) => {
+  return {
     params: params,
     paramsSerializer: params =>
-        qs.stringify(params, { arrayFormat: "repeat" }),
-      headers: getAuthHeader()
+      qs.stringify(params, { arrayFormat: "repeat" }),
+    headers: getAuthHeader()
   }
 }
 export const loginSuccess = () => {
@@ -89,7 +89,7 @@ export const loginRequest = (authz_code, user_id) => {
   };
 }
 
-const accountStatusRequest = () => ( dispatch => {
+const accountStatusRequest = () => (dispatch => {
   const url = `${process.env.REACT_APP_ACCOUNT_MANAGER_API}/v4/accountStatus`
   const options = {
     headers: getAuthHeader()
@@ -103,7 +103,7 @@ const accountStatusRequest = () => ( dispatch => {
         dispatch(profileRequest())
       } else {
         const redirectUri = `${process.env.REACT_APP_OPENACCOUNT_SITE || 'http://localhost:3000'}/account-state?from=bcplogin`
-        window.location.href=redirectUri
+        window.location.href = redirectUri
       }
     })
     .catch(error => {
@@ -120,9 +120,9 @@ const profileRequest = () => {
   return dispatch => {
     // dispatch(loadStockLendingStatus());
     const profileRequest = axios
-    .get(`${process.env.REACT_APP_USER_INFORMATION_API_HOST}/profile`, {
-      headers: getAuthHeader()
-    });
+      .get(`${process.env.REACT_APP_USER_INFORMATION_API_HOST}/profile`, {
+        headers: getAuthHeader()
+      });
     return profileRequest
       .then((response) => {
         const name = response.data.data.profile.name_kanji;
@@ -131,12 +131,12 @@ const profileRequest = () => {
         sessionStorage.setItem('marginAccountStatus', marginAccountStatus);
         dispatch(loginSuccess());
         dispatch(loadAccountsInfoRequest(true))
-        // const redirect = sessionStorage.getItem('redirectUrl') || '/account';
-        // setTimeout(() => { //Delay redirect to update stock lending status
-        //   dispatch(push(redirect));
-        //   sessionStorage.removeItem('redirectUrl');
-        //   dispatch(setLoading(false))
-        // }, 100)
+        const redirect = sessionStorage.getItem('redirectUrl') || '/account';
+        setTimeout(() => { //Delay redirect to update stock lending status
+          dispatch(push(redirect));
+          sessionStorage.removeItem('redirectUrl');
+          dispatch(setLoading(false))
+        }, 100)
       })
       .catch(error => {
         sessionStorage.removeItem('token');
