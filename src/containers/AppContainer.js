@@ -24,7 +24,7 @@ class AppContainer extends Component {
     const currentPath = window.location.pathname;
 
     if (sessionStorage.getItem('token') !== null && currentPath.match('/account')) {
-      const url = `${process.env.REACT_APP_ACCOUNT_MANAGER_API}/v4/accountStatus`
+      const url = `${process.env.REACT_APP_OPENACCOUNT_API_HOST}/v3/accounts/status`;
       const options = {
         headers: getAuthHeader()
       }
