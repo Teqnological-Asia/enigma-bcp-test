@@ -45,8 +45,6 @@ import OrderDetailContainer from '../containers/Order/OrderDetailContainer';
 import OrderUsDetailContainer from '../containers/Order/OrderUsDetailContainer';
 import LoginContainer from '../containers/Login/LoginContainer';
 import LogoutContainer from '../containers/Logout/LogoutContainer';
-import ReminderContainer from '../containers/Reminder/ReminderContainer';
-import ReminderCompleteContainer from '../containers/Reminder/ReminderCompleteContainer';
 import LoadingContainer from '../containers/Loading/LoadingContainer';
 import CloseAccountContainer from '../containers/CloseAccount/CloseAccountContainer';
 import LendingBalanceContainer from '../containers/Trade/TradeLendingBalanceContainer'
@@ -300,16 +298,6 @@ export const routes = [
   {
     path: '/account/logout',
     component: LogoutContainer,
-    isAuthenticated: false
-  },
-  {
-    path: '/account/reminder',
-    component: ReminderContainer,
-    isAuthenticated: false
-  },
-  {
-    path: '/account/reminder/complete',
-    component: ReminderCompleteContainer,
     isAuthenticated: false
   },
   {
