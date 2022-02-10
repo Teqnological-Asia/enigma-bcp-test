@@ -2109,6 +2109,32 @@ input[type="button"].button-block {
   border-radius: 4px;
   color: #404040; }
 
+.p-contact {
+  font-size:16px;
+  color:#323232;
+  margin-top: 20px;
+}
+
+.contact_information{
+  display: flex;
+  flex-direction: row;
+  .information_left{
+    margin-right: 70px ;
+  }
+  .p-line:before{
+    content: "";
+    display: inline-block;
+    height: 100%;
+    border: 1.5px solid #111B2C;
+    margin-right: 20px;
+  }
+}
+
+.size-text{
+  font-size:16px!important;
+  line-height: 2;
+}
+
 .p-section_total {
   width: 100%;
   display: block;
