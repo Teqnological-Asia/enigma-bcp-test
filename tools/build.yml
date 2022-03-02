@@ -19,13 +19,13 @@ phases:
       - echo -e "\n//npm.pkg.github.com/:_authToken=$TOKEN" >> .npmrc
       - |
         docker run --rm -v $(pwd):/work -w /work \
-          ghcr.io/finatext/docker-images/node:16.13 \
+          ghcr.io/finatext/docker-images/node:12.13.1 \
           yarn install
   build:
     commands:
       - |
         docker run --rm -v $(pwd):/work -w /work \
-          ghcr.io/finatext/docker-images/node:16.13 \
+          ghcr.io/finatext/docker-images/node:12.13.1 \
           yarn build:${BUILD_ENV}
 artifacts:
   files:
