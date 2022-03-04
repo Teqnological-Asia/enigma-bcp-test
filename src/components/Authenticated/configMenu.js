@@ -65,21 +65,7 @@ const configMenu = () => {
           href: "/account/trade/lendingbalance",
           subItems: [],
           groupId: 1
-        },
-        {
-          id:14,
-          name: '貸株履歴',
-          href: '/account/trade/lendinghistory',
-          subItems: [],
-          groupId: 1
-        },
-        // {
-        //   id:15,
-        //   name: '信用保証金推移',
-        //   href: '/account/trade/transition-reference',
-        //   subItems: [],
-        //   groupId: 1
-        // }
+        }
       ]
     },
     {
@@ -94,19 +80,6 @@ const configMenu = () => {
           subItems: [
             "/account/payment/withdrawal",
             "/account/payment/withdrawal/complete"
-          ],
-          groupId: 2
-        },
-        {
-          id: 6,
-          name: "単元未満株式売却",
-          // name2: '単元未満株式売却サービス',
-          href: "/account/fractional/sell",
-          subItems: [
-            "/account/fractional/complete",
-            "/account/fractional/cancel",
-            "/account/fractional/cancel/complete",
-            "/account/fractional/clame"
           ],
           groupId: 2
         },
@@ -165,22 +138,6 @@ const configMenu = () => {
         //   groupId: 3
         // },
         {
-          id: 11,
-          name: "信用建玉決済",
-          href: "/account/margin",
-          subItems: [
-            "/account/margin/:code/select",
-            "/account/margin/:code/order",
-            "/account/margin/:code/order/confirm",
-            "/account/margin/:code/order/complete",
-            "/account/margin/:code/receipt",
-            "/account/margin/:code/receipt/complete",
-            "/account/margin/:code/delivery",
-            "/account/margin/:code/delivery/complete"
-          ],
-          groupId: 3
-        },
-        {
           id: 12,
           name: "米国株式売却",
           href: "/account/us-stock",
@@ -209,7 +166,6 @@ const configMenu = () => {
 
 export default function conditionConfigMenu() {
   let sidebarList = configMenu();
-  sidebarList = checkMarginCondition(sidebarList);
   sidebarList = checkStockLendingCondition(sidebarList);
   sidebarList = checkAccountType(sidebarList);
   return sidebarList;
@@ -261,15 +217,6 @@ const removeRoute = (sidebarList, mainItemPos, matchRoute) => {
     ];
   }
   return sidebarList
-};
-
-const checkMarginCondition = sidebarList => {
-  const marginAccountStatus = sessionStorage.getItem("marginAccountStatus");
-  if (marginAccountStatus !== "2" && marginAccountStatus !== "3") {
-    const temp = removeRoute(sidebarList, sidebarList.length - 1, "/account/margin");
-    return removeRoute(temp, 1, "/account/trade/transition-reference");
-  }
-  return sidebarList;
 };
 
 const checkStockLendingCondition = sidebarList => {
