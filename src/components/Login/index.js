@@ -10,7 +10,7 @@ class Login extends Component {
       prompt = true
       sessionStorage.removeItem('prompt')
     }
-    const url = Amplify.getPocLink('bcpLogin', {prompt})
+    const url = Amplify.getPocLink('login', {prompt})
     if (url) {
       window.location.href = url
     }
