@@ -33,7 +33,6 @@ import LoginContainer from '../containers/Login/LoginContainer';
 import LogoutContainer from '../containers/Logout/LogoutContainer';
 import LoadingContainer from '../containers/Loading/LoadingContainer';
 import CloseAccountContainer from '../containers/CloseAccount/CloseAccountContainer';
-import LendingBalanceContainer from '../containers/Trade/TradeLendingBalanceContainer'
 import UsStockSellContainer from '../containers/UsStock/UsStockSellContainer'
 import UsStockSellConfirm from '../containers/UsStock/UsStockSellConfirmContainer'
 import UsStockSellComplete from '../containers/UsStock/UsStockSellCompleteContainer'
@@ -63,11 +62,6 @@ export const routes = [
   {
     path: '/account/trade/tax',
     component: TradeTaxContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/trade/lendingbalance',
-    component: LendingBalanceContainer,
     isAuthenticated: true
   },
   // {

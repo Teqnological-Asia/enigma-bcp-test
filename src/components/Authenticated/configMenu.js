@@ -58,13 +58,6 @@ const configMenu = () => {
             "/account/payment/:id/cancel/complete"
           ],
           groupId: 1
-        },
-        {
-          id: 13,
-          name: "貸株貸出状況",
-          href: "/account/trade/lendingbalance",
-          subItems: [],
-          groupId: 1
         }
       ]
     },
@@ -166,7 +159,6 @@ const configMenu = () => {
 
 export default function conditionConfigMenu() {
   let sidebarList = configMenu();
-  sidebarList = checkStockLendingCondition(sidebarList);
   sidebarList = checkAccountType(sidebarList);
   return sidebarList;
 }
@@ -194,35 +186,6 @@ const checkAccountType = sidebarList => {
       tradeItem,
       ...sidebarList.slice(2, sidebarList.length)
     ];
-  }
-  return sidebarList;
-};
-
-const removeRoute = (sidebarList, mainItemPos, matchRoute) => {
-  const sidebarItem = sidebarList[mainItemPos];
-  const items = sidebarItem.items;
-  const pos = items.findIndex(item => item.href === matchRoute);
-  if (pos !== -1) {
-    const newItems = [
-      ...items.slice(0, pos),
-      ...items.slice(pos + 1, items.length)
-    ];
-    return [
-      ...sidebarList.slice(0, mainItemPos),
-      {
-        ...sidebarItem,
-        items: newItems
-      },
-      ...sidebarList.slice(mainItemPos + 1, sidebarList.length),
-    ];
-  }
-  return sidebarList
-};
-
-const checkStockLendingCondition = sidebarList => {
-  const stockLendingStatus = sessionStorage.getItem("stockLendingStatus");
-  if (stockLendingStatus !== "2" && stockLendingStatus !== "4") {
-    return removeRoute(sidebarList, 1,"/account/trade/lendingbalance");
   }
   return sidebarList;
 };
