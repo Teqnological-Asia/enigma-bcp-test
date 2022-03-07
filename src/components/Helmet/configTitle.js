@@ -52,26 +52,6 @@ export const configTitle = [
     title: '出金完了｜お客さまサポートWEB - 株式会社スマートプラス'
   },
   {
-    route: '/account/fractional/sell$',
-    title: '単元未満株式売却｜お客さまサポートWEB - 株式会社スマートプラス'
-  },
-  {
-    route: '/account/fractional/complete$',
-    title: '売却受付済｜お客さまサポートWEB - 株式会社スマートプラス'
-  },
-  {
-    route: '/account/fractional/clame$',
-    title: '単元未満株買取請求｜お客さまサポートWEB - 株式会社スマートプラス'
-  },
-  {
-    route: '/account/fractional/cancel$',
-    title: '未満株予約確認｜お客さまサポートWEB - 株式会社スマートプラス'
-  },
-  {
-    route: '/account/fractional/cancel/complete$',
-    title: '取消完了｜お客さまサポートWEB - 株式会社スマートプラス'
-  },
-  {
     route: '/account/delivery$',
     title: '株式出庫｜お客さまサポートWEB - 株式会社スマートプラス'
   },

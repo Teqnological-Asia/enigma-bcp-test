@@ -12,11 +12,6 @@ import PaymentCancelCompleteContainer from '../containers/Payment/PaymentCancelC
 import PaymentContainer from '../containers/Payment/PaymentContainer';
 import PaymentWithdrawalContainer from '../containers/Payment/PaymentWithdrawalContainer';
 import PaymentWithdrawalCompleteContainer from '../containers/Payment/PaymentWithdrawalCompleteContainer';
-import FractionalSellContainer from '../containers/Fractional/FractionalSellContainer';
-import FractionalCompleteContainer from '../containers/Fractional/FractionalCompleteContainer';
-import FractionalClameContainer from '../containers/Fractional/FractionalClameContainer';
-import FractionalCancelContainer from '../containers/Fractional/FractionalCancelContainer';
-import FractionalCancelCompleteContainer from '../containers/Fractional/FractionalCancelCompleteContainer';
 import DeliveryContainer from '../containers/Delivery/DeliveryContainer';
 import DeliveryCompleteContainer from '../containers/Delivery/DeliveryCompleteContainer';
 import DeliveryCancelContainer from '../containers/Delivery/DeliveryCancelContainer';
@@ -27,15 +22,6 @@ import PhysicalOrderContainer from '../containers/Physical/PhysicalOrderContaine
 import PhysicalOrderConfirmContainer from '../containers/Physical/PhysicalOrderConfirmContainer';
 import PhysicalOrderCompleteContainer from '../containers/Physical/PhysicalOrderCompleteContainer';
 import BalanceContainer from '../containers/Balance/BalanceContainer';
-import MarginContainer from '../containers/Margin/MarginContainer';
-import MarginSelectContainer from '../containers/Margin/MarginSelectContainer';
-import MarginOrderContainer from '../containers/Margin/MarginOrderContainer';
-import MarginOrderConfirmContainer from '../containers/Margin/MarginOrderConfirmContainer';
-import MarginOrderCompleteContainer from '../containers/Margin/MarginOrderCompleteContainer';
-import MarginReceiptContainer from '../containers/Margin/MarginReceiptContainer';
-import MarginReceiptCompleteContainer from '../containers/Margin/MarginReceiptCompleteContainer';
-import MarginDeliveryContainer from '../containers/Margin/MarginDeliveryContainer';
-import MarginDeliveryCompleteContainer from '../containers/Margin/MarginDeliveryCompleteContainer';
 import UsStockContainer from '../containers/UsStock/UsStockContainer';
 import OrderContainer from '../containers/Order/OrderContainer';
 import OrderCancelContainer from '../containers/Order/OrderCancelContainer';
@@ -47,8 +33,6 @@ import LoginContainer from '../containers/Login/LoginContainer';
 import LogoutContainer from '../containers/Logout/LogoutContainer';
 import LoadingContainer from '../containers/Loading/LoadingContainer';
 import CloseAccountContainer from '../containers/CloseAccount/CloseAccountContainer';
-import LendingBalanceContainer from '../containers/Trade/TradeLendingBalanceContainer'
-import TradeLendingHistory from '../containers/Trade/TradeLendingHistoryContainer';
 import UsStockSellContainer from '../containers/UsStock/UsStockSellContainer'
 import UsStockSellConfirm from '../containers/UsStock/UsStockSellConfirmContainer'
 import UsStockSellComplete from '../containers/UsStock/UsStockSellCompleteContainer'
@@ -76,18 +60,8 @@ export const routes = [
     isAuthenticated: true
   },
   {
-    path: '/account/trade/lendinghistory',
-    component: TradeLendingHistory,
-    isAuthenticated: true
-  },
-  {
     path: '/account/trade/tax',
     component: TradeTaxContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/trade/lendingbalance',
-    component: LendingBalanceContainer,
     isAuthenticated: true
   },
   // {
@@ -128,31 +102,6 @@ export const routes = [
   {
     path: '/account/payment/withdrawal/complete',
     component: PaymentWithdrawalCompleteContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/fractional/sell',
-    component: FractionalSellContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/fractional/complete',
-    component: FractionalCompleteContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/fractional/clame',
-    component: FractionalClameContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/fractional/cancel',
-    component: FractionalCancelContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/fractional/cancel/complete',
-    component: FractionalCancelCompleteContainer,
     isAuthenticated: true
   },
   {
@@ -198,51 +147,6 @@ export const routes = [
   {
     path: '/account/physical/:code/order/complete',
     component: PhysicalOrderCompleteContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/margin',
-    component: MarginContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/margin/:code/select',
-    component: MarginSelectContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/margin/:code/order',
-    component: MarginOrderContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/margin/:code/order/confirm',
-    component: MarginOrderConfirmContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/margin/:code/order/complete',
-    component: MarginOrderCompleteContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/margin/:code/receipt',
-    component: MarginReceiptContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/margin/:code/receipt/complete',
-    component: MarginReceiptCompleteContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/margin/:code/delivery',
-    component: MarginDeliveryContainer,
-    isAuthenticated: true
-  },
-  {
-    path: '/account/margin/:code/delivery/complete',
-    component: MarginDeliveryCompleteContainer,
     isAuthenticated: true
   },
   {

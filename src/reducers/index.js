@@ -17,13 +17,9 @@ import paymentReducer from './payment';
 import paymentHistoryReducer from './paymentHistory';
 import paymentCancelReducer from './paymentCancel';
 import deliveryReducer from './delivery';
-import fractionalReducer from './fractional';
 import tradeTaxReducer from './tradeTax';
 import reportReducer from './report';
-import marginReducer from './margin';
 import loadingReducer from './loading';
-import tradeLendingBalanceReducer from './tradeLendingBalance'
-import tradeLendingHistoryReducer from './tradeLendingHistory'
 import tradeTransitionReferenceReducer from './tradeTransitionReference'
 export default combineReducers({
   routing: routerReducer,
@@ -44,12 +40,8 @@ export default combineReducers({
   paymentHistoryReducer,
   paymentCancelReducer,
   deliveryReducer,
-  fractionalReducer,
   tradeTaxReducer,
   reportReducer,
-  marginReducer,
   loadingReducer,
-  tradeLendingBalanceReducer,
-  tradeLendingHistoryReducer,
   tradeTransitionReferenceReducer,
 });

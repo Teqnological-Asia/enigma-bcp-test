@@ -27,7 +27,6 @@ export const getDeliverStatusSuccess = (hasFinishReading) => ({
 
 export const loadProfileRequest = (params) => {
   return dispatch => {
-    dispatch(loadStockLendingStatus());
     dispatch(setLoading(true));
     const request = axios
                       .get(`${process.env.REACT_APP_USER_INFORMATION_API_HOST}/profile`, {
@@ -54,24 +53,6 @@ export const loadProfileRequest = (params) => {
                 dispatch(setLoading(false))
               }, 100)
             });
-  };
-};
-
-export const loadStockLendingStatus = () => {
-  return dispatch => {
-    dispatch(setLoading(true));
-    const request = axios
-      .get(`${process.env.REACT_APP_STREAM_API_HOST}/v1/user/lending_stock/status`, {
-        headers: getAuthHeader()
-      });
-
-    return request
-      .then((response) => {
-        const {status} = response.data.data;
-        sessionStorage.setItem('stockLendingStatus', status);
-        dispatch(setLoading(false))
-      })
-      .catch(err => {})
   };
 };
 
