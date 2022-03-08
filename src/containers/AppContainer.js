@@ -35,7 +35,7 @@ class AppContainer extends Component {
             const res = equity.toLowerCase()
             sessionStorage.setItem('account_status', res)
           } else {
-            const redirectUri = `${process.env.PUBLIC_URL || 'http://localhost:3000'}/account-state?from=bcplogin`
+            const redirectUri = `${process.env.PUBLIC_URL || 'http://localhost:8080'}/account-state?from=bcplogin`
             window.location.href=redirectUri
           }
         })

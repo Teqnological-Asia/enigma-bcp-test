@@ -102,7 +102,7 @@ const accountStatusRequest = () => (dispatch => {
         sessionStorage.setItem('account_status', res)
         dispatch(profileRequest())
       } else {
-        const redirectUri = `${process.env.REACT_APP_OPENACCOUNT_SITE || 'http://localhost:3000'}/account-state?from=bcplogin`
+        const redirectUri = `${process.env.REACT_APP_OPENACCOUNT_SITE || 'http://localhost:8080'}/account-state?from=bcplogin`
         window.location.href = redirectUri
       }
     })
