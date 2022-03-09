@@ -72,6 +72,8 @@ export const loginRequest = (authz_code, user_id) => {
           sessionStorage.setItem('token', authToken)
           sessionStorage.setItem('is_unconfirmed', 'true')
           dispatch(accountStatusRequest())
+          dispatch(ruleOfClosingRequest())
+          dispatch(ruleOfEmergencyRequest())
         } else {
           dispatch(setLoading(false))
           dispatch(push('/account/login'))
@@ -88,6 +90,47 @@ export const loginRequest = (authz_code, user_id) => {
       })
   };
 }
+
+const ruleOfClosingRequest = () => (dispatch => {
+  const url = `${process.env.REACT_APP_ACCOUNT_MANAGER_API}/bcp/closing`
+  const options = {
+    headers: getAuthHeader()
+  }
+  return axios.get(url, options)
+    .then(response => {
+      const data = response.data;
+      sessionStorage.setItem('bankClosing', data.bank_closing_flag);
+      sessionStorage.setItem('securityClosing', data.security_closing_flag);
+    })
+    .catch(error => {
+      let errorMessage = '';
+      if (error.response) {
+        errorMessage = error.response.data.message;
+      }
+      dispatch(loginFailure(errorMessage));
+      dispatch(setLoading(false))
+    })
+})
+
+const ruleOfEmergencyRequest = () => (dispatch => {
+  const url = `${process.env.REACT_APP_ACCOUNT_MANAGER_API}/bcp/emergency`
+  const options = {
+    headers: getAuthHeader()
+  }
+  return axios.get(url, options)
+    .then(response => {
+      const data = response.data;
+      sessionStorage.setItem('emergency', data.emergency_flag);
+    })
+    .catch(error => {
+      let errorMessage = '';
+      if (error.response) {
+        errorMessage = error.response.data.message;
+      }
+      dispatch(loginFailure(errorMessage));
+      dispatch(setLoading(false))
+    })
+})
 
 const accountStatusRequest = () => (dispatch => {
   const url = `${process.env.REACT_APP_ACCOUNT_MANAGER_API}/v4/accountStatus`
