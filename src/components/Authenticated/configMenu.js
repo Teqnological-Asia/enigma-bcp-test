@@ -43,7 +43,7 @@ const configMenu = () => {
           href: "/account/trade/tax",
           subItems: [],
           groupId: 1,
-          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing','subAccount']
+          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
         },
         {
           id: 3,
@@ -170,7 +170,7 @@ const configMenu = () => {
 };
 
 
-const mainAccountRule = (configMenu, rule) => {
+const showMenuRules = (configMenu, rule) => {
   let itemBaseRule = false;
   for (let index = 1; index < configMenu.length; index++) {
     let tempItem = configMenu[index];
@@ -184,7 +184,7 @@ const mainAccountRule = (configMenu, rule) => {
   return configMenu;
 }
 
-export default function conditionConfigMenu(bankClosingFlag, securityClosingFlag , emergencyFlag = false, currentAccountType) {
+export default function conditionConfigMenu(bankClosingFlag, securityClosingFlag, emergencyFlag, currentAccountType) {
   currentAccountType = sessionStorage.getItem("currentAccountType");
   bankClosingFlag = sessionStorage.getItem("bankClosing");
   securityClosingFlag = sessionStorage.getItem("securityClosing");
@@ -206,12 +206,12 @@ export default function conditionConfigMenu(bankClosingFlag, securityClosingFlag
   }
   else {
     rule = 'subAccount';
-    if(window.location.pathname==='/account/trade/tax'){
-    rule = 'mainAccount';
+    if (window.location.pathname === '/account/trade/tax') {
+      rule = 'mainAccount';
     }
   }
 
-  return mainAccountRule(configMenu(), rule);
+  return showMenuRules(configMenu(), rule);
 }
 
 // const checkAccountType = sidebarList => {
