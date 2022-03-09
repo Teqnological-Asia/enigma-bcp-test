@@ -21,33 +21,37 @@ const configMenu = () => {
       name: "資産状況",
       is_highlight: false,
       items: [
-        // {
-        //   id: 1,
-        //   name: '口座余力',
-        //   href: '/account/balance',
-        //   subItems: [],
-        //   groupId: 1
-        // },
+        {
+          id: 0,
+          name: '口座余力',
+          href: '/account/balance',
+          subItems: [],
+          groupId: 1,
+          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
+        },
         {
           id: 1,
           name: "取引履歴",
           href: "/account/trade/history",
           subItems: [],
-          groupId: 1
+          groupId: 1,
+          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
         },
         {
           id: 2,
           name: "特定口座取引明細",
           href: "/account/trade/tax",
           subItems: [],
-          groupId: 1
+          groupId: 1,
+          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing','subAccount']
         },
         {
           id: 3,
           name: "入出金状況",
           href: "/account/payment/history",
           subItems: [],
-          groupId: 1
+          groupId: 1,
+          role: ['bankClosing', 'securityClosing', 'subAccount']
         },
         {
           id: 4,
@@ -57,7 +61,8 @@ const configMenu = () => {
             "/account/payment/:id/cancel/confirm",
             "/account/payment/:id/cancel/complete"
           ],
-          groupId: 1
+          groupId: 1,
+          role: ['bankClosing', 'securityClosing', 'subAccount']
         }
       ]
     },
@@ -74,7 +79,8 @@ const configMenu = () => {
             "/account/payment/withdrawal",
             "/account/payment/withdrawal/complete"
           ],
-          groupId: 2
+          groupId: 2,
+          role: ['bankClosing', 'securityClosing', 'subAccount']
         },
         {
           id: 7,
@@ -85,21 +91,24 @@ const configMenu = () => {
             "/account/delivery/cancel",
             "/account/delivery/cancel/complete"
           ],
-          groupId: 2
+          groupId: 2,
+          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
         },
         {
           id: 8,
           name: "電子交付サービス",
           href: "/account/report/output",
           subItems: [],
-          groupId: 2
+          groupId: 2,
+          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
         },
         {
           id: 12,
           name: "口座閉鎖",
           href: "/account/close-account",
           subItems: [],
-          groupId: 2
+          groupId: 2,
+          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
         }
       ]
     },
@@ -117,7 +126,8 @@ const configMenu = () => {
             "/account/physical/:code/order/confirm",
             "/account/physical/:code/order/complete"
           ],
-          groupId: 3
+          groupId: 3,
+          role: ['emergency', 'bankClosing', 'subAccount']
         },
         // {
         //   id: 10,
@@ -139,7 +149,8 @@ const configMenu = () => {
             "/account/us-stock/:code/sell/confirm",
             "/account/us-stock/:code/sell/complete"
           ],
-          groupId: 3
+          groupId: 3,
+          role: ['emergency', 'bankClosing', 'subAccount']
         },
         {
           id: 13,
@@ -150,51 +161,91 @@ const configMenu = () => {
             "/account/order/:id/cancel/complete",
             "/account/order/:id/detail"
           ],
-          groupId: 4
+          groupId: 4,
+          role: ['emergency', 'bankClosing', 'subAccount']
         }
       ]
     }
   ];
 };
 
-export default function conditionConfigMenu() {
-  let sidebarList = configMenu();
-  sidebarList = checkAccountType(sidebarList);
-  return sidebarList;
+
+const mainAccountRule = (configMenu, rule) => {
+  let itemBaseRule = false;
+  for (let index = 1; index < configMenu.length; index++) {
+    let tempItem = configMenu[index];
+    for (let indexOfItem = 0; indexOfItem < tempItem.items.length; indexOfItem++) {
+      itemBaseRule = tempItem.items[indexOfItem].role.includes(rule);
+      if (!itemBaseRule) {
+        delete configMenu[index].items[indexOfItem]
+      }
+    }
+  }
+  return configMenu;
 }
 
-const checkAccountType = sidebarList => {
-  const currentAccountType = sessionStorage.getItem("currentAccountType");
-  if (currentAccountType && currentAccountType === "NORMAL") {
-    // Disable Trade Tax Navi
-    const tradeItem = {
-      ...sidebarList[1],
-      items: [
-        // replace Tax item
-        sidebarList[1].items[0],
-        {
-          ...sidebarList[1].items[1],
-          isDisabled: true,
-          helpUrl: "https://help.smartplus-sec.com/s/article/bcp-syukouza"
-        },
-        ...sidebarList[1].items.slice(2, sidebarList[1].items.length)
-      ]
-    };
-    return [
-      // replace Trade item
-      sidebarList[0],
-      tradeItem,
-      ...sidebarList.slice(2, sidebarList.length)
-    ];
+export default function conditionConfigMenu(bankClosingFlag, securityClosingFlag , emergencyFlag = false, currentAccountType) {
+  currentAccountType = sessionStorage.getItem("currentAccountType");
+  bankClosingFlag = sessionStorage.getItem("bankClosing");
+  securityClosingFlag = sessionStorage.getItem("securityClosing");
+  emergencyFlag = sessionStorage.getItem("emergency");
+
+  let rule = ''
+
+  if (bankClosingFlag) {
+    rule = 'bankClosing';
   }
-  return sidebarList;
-};
+  else if (!bankClosingFlag && securityClosingFlag) {
+    rule = 'securityClosing';
+  }
+  else if (!bankClosingFlag && !securityClosingFlag && emergencyFlag) {
+    rule = 'emergency';
+  }
+  else if (!bankClosingFlag && !securityClosingFlag && !emergencyFlag && currentAccountType === "MAIN") {
+    rule = 'mainAccount';
+  }
+  else {
+    rule = 'subAccount';
+    if(window.location.pathname==='/account/trade/tax'){
+    rule = 'mainAccount';
+    }
+  }
+
+  return mainAccountRule(configMenu(), rule);
+}
+
+// const checkAccountType = sidebarList => {
+//   const currentAccountType = sessionStorage.getItem("currentAccountType");
+//   if (currentAccountType && currentAccountType === "NORMAL") {
+//     // Disable Trade Tax Navi
+//     const tradeItem = {
+//       ...sidebarList[1],
+//       items: [
+//         // replace Tax item
+//         sidebarList[1].items[0],
+//         {
+//           ...sidebarList[1].items[1],
+//           isDisabled: true,
+//           helpUrl: "https://help.smartplus-sec.com/s/article/bcp-syukouza"
+//         },
+//         ...sidebarList[1].items.slice(2, sidebarList[1].items.length)
+//       ]
+//     };
+//     return [
+//       // replace Trade item
+//       sidebarList[0],
+//       tradeItem,
+//       ...sidebarList.slice(2, sidebarList.length)
+//     ];
+//   }
+//   return sidebarList;
+// };
 
 export function findMenuInfoByPathName(pathName) {
   let result = null;
 
-  conditionConfigMenu().forEach(function(menu) {
-    menu.items.forEach(function(item) {
+  conditionConfigMenu().forEach(function (menu) {
+    menu.items.forEach(function (item) {
       const path = pathName.replace(/\/+$/, "");
       const pathPatterns = item.subItems.concat(item.href);
 
