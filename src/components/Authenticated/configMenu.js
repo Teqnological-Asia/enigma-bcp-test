@@ -170,25 +170,35 @@ const configMenu = () => {
 };
 
 
-const showMenuRules = (configMenu, rule) => {
+const listMenuBaseRules = (configMenu, rule) => {
+  let configMenuClear = configMenu;
+  let menuEmptyItemsDeleted = [configMenu[0]];
+  let itemsArray = []
   let itemBaseRule = false;
   for (let index = 1; index < configMenu.length; index++) {
     let tempItem = configMenu[index];
     for (let indexOfItem = 0; indexOfItem < tempItem.items.length; indexOfItem++) {
       itemBaseRule = tempItem.items[indexOfItem].role.includes(rule);
-      if (!itemBaseRule) {
-        delete configMenu[index].items[indexOfItem]
+      if (itemBaseRule) {
+        itemsArray.push(configMenu[index].items[indexOfItem])
       }
     }
+    configMenuClear[index].items = itemsArray;
+    itemsArray = []
   }
-  return configMenu;
+  for (let index = 1; index < configMenu.length; index++) {
+    if (configMenu[index].items.length !== 0) {
+      menuEmptyItemsDeleted.push(configMenu[index])
+    }
+  }
+  return menuEmptyItemsDeleted;
 }
 
-export default function conditionConfigMenu(bankClosingFlag, securityClosingFlag, emergencyFlag, currentAccountType) {
-  currentAccountType = sessionStorage.getItem("currentAccountType");
-  bankClosingFlag = sessionStorage.getItem("bankClosing");
-  securityClosingFlag = sessionStorage.getItem("securityClosing");
-  emergencyFlag = sessionStorage.getItem("emergency");
+export default function conditionConfigMenu() {
+  const currentAccountType = sessionStorage.getItem("currentAccountType");
+  const bankClosingFlag = sessionStorage.getItem("bankClosing");
+  const securityClosingFlag = sessionStorage.getItem("securityClosing");
+  const emergencyFlag = sessionStorage.getItem("emergency");
 
   let rule = ''
 
@@ -206,40 +216,29 @@ export default function conditionConfigMenu(bankClosingFlag, securityClosingFlag
   }
   else {
     rule = 'subAccount';
-    if (window.location.pathname === '/account/trade/tax') {
+    const pathname = window.location.pathname;
+    if (pathname === '/account/trade/tax') {
       rule = 'mainAccount';
+      return listMenuBaseRules(checkNormalAccountType(configMenu(), pathname), rule);
+
     }
   }
-
-  return showMenuRules(configMenu(), rule);
+  return listMenuBaseRules(configMenu(), rule);
 }
 
-// const checkAccountType = sidebarList => {
-//   const currentAccountType = sessionStorage.getItem("currentAccountType");
-//   if (currentAccountType && currentAccountType === "NORMAL") {
-//     // Disable Trade Tax Navi
-//     const tradeItem = {
-//       ...sidebarList[1],
-//       items: [
-//         // replace Tax item
-//         sidebarList[1].items[0],
-//         {
-//           ...sidebarList[1].items[1],
-//           isDisabled: true,
-//           helpUrl: "https://help.smartplus-sec.com/s/article/bcp-syukouza"
-//         },
-//         ...sidebarList[1].items.slice(2, sidebarList[1].items.length)
-//       ]
-//     };
-//     return [
-//       // replace Trade item
-//       sidebarList[0],
-//       tradeItem,
-//       ...sidebarList.slice(2, sidebarList.length)
-//     ];
-//   }
-//   return sidebarList;
-// };
+const checkNormalAccountType = (sidebarList, pathname) => {
+  const itemsArray = sidebarList[1].items;
+  for (let index = 0; index < sidebarList[1].items.length; index++) {
+    if (itemsArray[index].href === pathname) {
+      sidebarList[1].items[index] = {
+        ...itemsArray[index],
+        isDisabled: true,
+        helpUrl: "https://help.smartplus-sec.com/s/article/bcp-syukouza"
+      }
+    }
+  }
+  return sidebarList;
+};
 
 export function findMenuInfoByPathName(pathName) {
   let result = null;
