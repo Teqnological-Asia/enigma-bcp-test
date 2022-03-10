@@ -1,4 +1,6 @@
 import { matchPath } from "../../utils";
+import { currentAccountTypeSelector, mainAccountIdSelector } from "../../selectors/profileSelector";
+import store from "../../store";
 
 const configMenu = () => {
   return [
@@ -21,14 +23,14 @@ const configMenu = () => {
       name: "資産状況",
       is_highlight: false,
       items: [
-        {
-          id: 0,
-          name: '口座余力',
-          href: '/account/balance',
-          subItems: [],
-          groupId: 1,
-          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
-        },
+        // {
+        //   id: 0,
+        //   name: '口座余力',
+        //   href: '/account/balance',
+        //   subItems: [],
+        //   groupId: 1,
+        //   role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
+        // },
         {
           id: 1,
           name: "取引履歴",
@@ -195,7 +197,8 @@ const listMenuBaseRules = (configMenu, rule) => {
 }
 
 export default function conditionConfigMenu() {
-  const currentAccountType = sessionStorage.getItem("currentAccountType");
+  const state = store.getState()
+  const currentAccountType = sessionStorage.getItem("currentAccountType") || currentAccountTypeSelector(state);
   const bankClosingFlag = sessionStorage.getItem("bankClosing");
   const securityClosingFlag = sessionStorage.getItem("securityClosing");
   const emergencyFlag = sessionStorage.getItem("emergency");
@@ -216,29 +219,43 @@ export default function conditionConfigMenu() {
   }
   else {
     rule = 'subAccount';
-    const pathname = window.location.pathname;
-    if (pathname === '/account/trade/tax') {
-      rule = 'mainAccount';
-      return listMenuBaseRules(checkNormalAccountType(configMenu(), pathname), rule);
-
-    }
+    const pathnameTax = '/account/trade/tax';
+    const pathnameCloseAcc = '/account/close-account';
+    return listMenuBaseRules(checkNormalAccountType(configMenu(), pathnameTax, pathnameCloseAcc), rule);
   }
   return listMenuBaseRules(configMenu(), rule);
+
 }
 
-const checkNormalAccountType = (sidebarList, pathname) => {
-  const itemsArray = sidebarList[1].items;
-  for (let index = 0; index < sidebarList[1].items.length; index++) {
-    if (itemsArray[index].href === pathname) {
-      sidebarList[1].items[index] = {
-        ...itemsArray[index],
-        isDisabled: true,
-        helpUrl: "https://help.smartplus-sec.com/s/article/bcp-syukouza"
+const checkNormalAccountType = (sidebarList, pathnameTax, pathnameCloseAcc) => {
+  let sidebarListConfig = sidebarList;
+  const state = store.getState()
+  const mainAccount = sessionStorage.getItem("mainAccount") || mainAccountIdSelector(state);
+  if (mainAccount) {
+    const mainAccountLink = process.env[`REACT_APP_${mainAccount.toUpperCase()}_URL`];
+    for (let indexOfsidebarList = 1; indexOfsidebarList < sidebarList.length; indexOfsidebarList++) {
+      const itemsArray = sidebarList[indexOfsidebarList].items;
+      for (let index = 0; index < sidebarList[indexOfsidebarList].items.length; index++) {
+        if (itemsArray[index].href === pathnameTax) {
+          sidebarListConfig[indexOfsidebarList].items[index] = {
+            ...itemsArray[index],
+            isSubAccount: true,
+            mainAccountLink: mainAccountLink,
+            helpUrl: "https://help.smartplus-sec.com/s/article/bcp-syukouza"
+          }
+        }
+        else if (itemsArray[index].href === pathnameCloseAcc) {
+          sidebarListConfig[indexOfsidebarList].items[index] = {
+            ...itemsArray[index],
+            isSubAccount: false,
+            mainAccountLink: mainAccountLink,
+          }
+        }
       }
     }
   }
-  return sidebarList;
-};
+  return sidebarListConfig;
+}
 
 export function findMenuInfoByPathName(pathName) {
   let result = null;
