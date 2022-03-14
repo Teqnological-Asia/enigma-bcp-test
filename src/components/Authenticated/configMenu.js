@@ -171,6 +171,31 @@ const configMenu = () => {
   ];
 };
 
+
+const listMenuBaseRules = (configMenu, rule) => {
+  let configMenuClear = configMenu;
+  let menuEmptyItemsDeleted = [configMenu[0]];
+  let itemsArray = []
+  let itemBaseRule = false;
+  for (let index = 1; index < configMenu.length; index++) {
+    let tempItem = configMenu[index];
+    for (let indexOfItem = 0; indexOfItem < tempItem.items.length; indexOfItem++) {
+      itemBaseRule = tempItem.items[indexOfItem].role.includes(rule);
+      if (itemBaseRule) {
+        itemsArray.push(configMenu[index].items[indexOfItem])
+      }
+    }
+    configMenuClear[index].items = itemsArray;
+    itemsArray = []
+  }
+  for (let index = 1; index < configMenu.length; index++) {
+    if (configMenu[index].items.length !== 0) {
+      menuEmptyItemsDeleted.push(configMenu[index])
+    }
+  }
+  return menuEmptyItemsDeleted;
+}
+
 export default function conditionConfigMenu() {
   const state = store.getState()
   const currentAccountType = sessionStorage.getItem("currentAccountType") || currentAccountTypeSelector(state);
