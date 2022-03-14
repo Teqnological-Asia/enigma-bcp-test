@@ -171,31 +171,6 @@ const configMenu = () => {
   ];
 };
 
-
-const listMenuBaseRules = (configMenu, rule) => {
-  let configMenuClear = configMenu;
-  let menuEmptyItemsDeleted = [configMenu[0]];
-  let itemsArray = []
-  let itemBaseRule = false;
-  for (let index = 1; index < configMenu.length; index++) {
-    let tempItem = configMenu[index];
-    for (let indexOfItem = 0; indexOfItem < tempItem.items.length; indexOfItem++) {
-      itemBaseRule = tempItem.items[indexOfItem].role.includes(rule);
-      if (itemBaseRule) {
-        itemsArray.push(configMenu[index].items[indexOfItem])
-      }
-    }
-    configMenuClear[index].items = itemsArray;
-    itemsArray = []
-  }
-  for (let index = 1; index < configMenu.length; index++) {
-    if (configMenu[index].items.length !== 0) {
-      menuEmptyItemsDeleted.push(configMenu[index])
-    }
-  }
-  return menuEmptyItemsDeleted;
-}
-
 export default function conditionConfigMenu() {
   const state = store.getState()
   const currentAccountType = sessionStorage.getItem("currentAccountType") || currentAccountTypeSelector(state);
@@ -219,33 +194,57 @@ export default function conditionConfigMenu() {
   }
   else {
     rule = 'subAccount';
-    const pathnameTax = '/account/trade/tax';
-    const pathnameCloseAcc = '/account/close-account';
-    return listMenuBaseRules(checkNormalAccountType(configMenu(), pathnameTax, pathnameCloseAcc), rule);
+    const pathNameTax = '/account/trade/tax';
+    const pathNameCloseAcc = '/account/close-account';
+    return listMenuBaseRules(checkNormalAccountType(configMenu(), pathNameTax, pathNameCloseAcc), rule);
   }
   return listMenuBaseRules(configMenu(), rule);
 
 }
 
-const checkNormalAccountType = (sidebarList, pathnameTax, pathnameCloseAcc) => {
+const listMenuBaseRules = (configMenu, rule) => {
+  let configMenuClear = configMenu;
+  let menuEmptyItemsDeleted = [configMenu[0]];
+  let itemsArray = []
+  let isItemBaseRule = false;
+  for (let index = 1; index < configMenu.length; index++) {
+    let tempItem = configMenu[index];
+    for (let indexOfItem = 0; indexOfItem < tempItem.items.length; indexOfItem++) {
+      isItemBaseRule = tempItem.items[indexOfItem].role.includes(rule);
+      if (isItemBaseRule) {
+        itemsArray.push(configMenu[index].items[indexOfItem])
+      }
+    }
+    configMenuClear[index].items = itemsArray;
+    itemsArray = []
+  }
+  for (let index = 1; index < configMenu.length; index++) {
+    if (configMenu[index].items.length !== 0) {
+      menuEmptyItemsDeleted.push(configMenu[index])
+    }
+  }
+  return menuEmptyItemsDeleted;
+}
+
+const checkNormalAccountType = (sidebarList, pathNameTax, pathNameCloseAcc) => {
   let sidebarListConfig = sidebarList;
   const state = store.getState()
   const mainAccount = sessionStorage.getItem("mainAccount") || mainAccountIdSelector(state);
   if (mainAccount) {
     const mainAccountLink = process.env[`REACT_APP_${mainAccount.toUpperCase()}_URL`];
-    for (let indexOfsidebarList = 1; indexOfsidebarList < sidebarList.length; indexOfsidebarList++) {
-      const itemsArray = sidebarList[indexOfsidebarList].items;
-      for (let index = 0; index < sidebarList[indexOfsidebarList].items.length; index++) {
-        if (itemsArray[index].href === pathnameTax) {
-          sidebarListConfig[indexOfsidebarList].items[index] = {
+    for (let indexOfSidebarList = 1; indexOfSidebarList < sidebarList.length; indexOfSidebarList++) {
+      const itemsArray = sidebarList[indexOfSidebarList].items;
+      for (let index = 0; index < sidebarList[indexOfSidebarList].items.length; index++) {
+        if (itemsArray[index].href === pathNameTax) {
+          sidebarListConfig[indexOfSidebarList].items[index] = {
             ...itemsArray[index],
             isSubAccount: true,
             mainAccountLink: mainAccountLink,
             helpUrl: "https://help.smartplus-sec.com/s/article/bcp-syukouza"
           }
         }
-        else if (itemsArray[index].href === pathnameCloseAcc) {
-          sidebarListConfig[indexOfsidebarList].items[index] = {
+        else if (itemsArray[index].href === pathNameCloseAcc) {
+          sidebarListConfig[indexOfSidebarList].items[index] = {
             ...itemsArray[index],
             isSubAccount: false,
             mainAccountLink: mainAccountLink,

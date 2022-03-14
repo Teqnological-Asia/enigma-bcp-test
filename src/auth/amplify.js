@@ -30,7 +30,7 @@ export default class Amplify {
 
     const baseUrl = process.env.REACT_APP_POC_URL
     const clientID = process.env.REACT_APP_AWS_CLIENT_ID
-    const redirectUri = `${process.env.PUBLIC_URL || 'http://localhost:8080'}/${viewObj.callback}`
+    const redirectUri = `${process.env.PUBLIC_URL || 'http://localhost:3000'}/${viewObj.callback}`
     const view = viewObj.view || ''
     const codeChallenge = new pkce(code_verifier).challenge()
     sessionStorage.setItem('code_verifier', code_verifier)

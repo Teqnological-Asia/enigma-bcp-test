@@ -92,13 +92,14 @@ export const loginRequest = (authz_code, user_id) => {
 }
 
 const ruleOfClosingRequest = () => (dispatch => {
-  const url = `${process.env.REACT_APP_ACCOUNT_MANAGER_API}/bcp/closing`
+  const url = `${process.env.REACT_APP_ENIGMA_ROLE_API}/bcp/closing`
   const options = {
     headers: getAuthHeader()
   }
-  return axios.get(url, options)
+  return axios.get(url,options)
     .then(response => {
       const data = response.data;
+      console.log(data);
       sessionStorage.setItem('bankClosing', data.bank_closing_flag);
       sessionStorage.setItem('securityClosing', data.security_closing_flag);
     })
@@ -113,11 +114,11 @@ const ruleOfClosingRequest = () => (dispatch => {
 })
 
 const ruleOfEmergencyRequest = () => (dispatch => {
-  const url = `${process.env.REACT_APP_ACCOUNT_MANAGER_API}/bcp/emergency`
+  const url = `${process.env.REACT_APP_ENIGMA_ROLE_API}/bcp/emergency`
   const options = {
     headers: getAuthHeader()
   }
-  return axios.get(url, options)
+  return axios.get(url,options)
     .then(response => {
       const data = response.data;
       sessionStorage.setItem('emergency', data.emergency_flag);
@@ -145,7 +146,7 @@ const accountStatusRequest = () => (dispatch => {
         sessionStorage.setItem('account_status', res)
         dispatch(profileRequest())
       } else {
-        const redirectUri = `${process.env.REACT_APP_OPENACCOUNT_SITE || 'http://localhost:8080'}/account-state?from=bcplogin`
+        const redirectUri = `${process.env.REACT_APP_OPENACCOUNT_SITE || 'http://localhost:3000'}/account-state?from=bcplogin`
         window.location.href = redirectUri
       }
     })
