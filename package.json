@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@Finatext/baas-common-bcp": "1.0.0-alpha.19",
     "@aws-amplify/auth": "^3.3.6",
+    "@finatext/baas-common-bcp": "^1.0.0-alpha.34",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
     "babel-core": "6.26.0",

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@Finatext/baas-common-bcp@1.0.0-alpha.19":
-  version "1.0.0-alpha.19"
-  resolved "https://npm.pkg.github.com/download/@Finatext/baas-common-bcp/1.0.0-alpha.19/801e9100894d2c76e080f34b68c552f8e78a5558b92ca6879ccecbce8e9dce72#95cdfe9a6faf281d368698d85c6850651f1210f4"
-  integrity sha512-yQwskoYjMtARGPuTYJcbtwvdnZZxBXQY+GgMA1z8tJpItUG94z5k1xpY7WPhexFL0GWoZddKuFDnHA+/aytoUg==
+"@Finatext/baas-common-bcp@1.0.0-alpha.28":
+  version "1.0.0-alpha.28"
+  resolved "https://npm.pkg.github.com/download/@Finatext/baas-common-bcp/1.0.0-alpha.28/900f76617c1d1906a4e5c73ba1294e08666c1d7a72e1f2b0c8843f70de1a28c8#9f762852f2edd110e920c7af2f1142f34d8cc7cb"
+  integrity sha512-MqQFvlxGGJvDVsaYqgyz+f++2SXL+0WKwkdBL9/1EP77PXtK6f1Js1OPIp0pYxsSpFPdJkunFX9FgOeeUvZxmA==
   dependencies:
     "@testing-library/jest-dom" "^5.11.4"
     "@testing-library/react" "^11.1.0"
@@ -1681,6 +1681,24 @@
     js-yaml "^3.13.1"
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
+
+"@finatext/baas-common-bcp@^1.0.0-alpha.34":
+  name "@Finatext/baas-common-bcp"
+  version "1.0.0-alpha.34"
+  resolved "https://npm.pkg.github.com/download/@finatext/baas-common-bcp/1.0.0-alpha.34/0941990e633ba7d4a445faa0d7e9754d450218690cfc80baa87783d17a29133c#fcc49659b5fd8e7c538c0a288332a19f93993142"
+  integrity sha512-h8+9xuAM4AWMHev0QGXhEDB5o6fKmopcwMZAhAobPXmurmxcdbQI5tA9Fwb5mLsqm07con1mE6bmp2by8eCUMg==
+  dependencies:
+    "@testing-library/jest-dom" "^5.11.4"
+    "@testing-library/react" "^11.1.0"
+    "@testing-library/user-event" "^12.1.10"
+    "@types/jest" "^26.0.15"
+    "@types/node" "^12.0.0"
+    "@types/react" "^17.0.0"
+    "@types/react-dom" "^17.0.0"
+    react-scripts "4.0.3"
+    styled-components "^5.3.3"
+    typescript "^4.1.2"
+    web-vitals "^1.0.1"
 
 "@gar/promisify@^1.0.1":
   version "1.1.2"
