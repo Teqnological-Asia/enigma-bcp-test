@@ -29,7 +29,7 @@ const configMenu = () => {
         //   href: '/account/balance',
         //   subItems: [],
         //   groupId: 1,
-        //   role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
+        //   role: ['normal', 'emergency', 'bankClosing', 'securityClosing']
         // },
         {
           id: 1,
@@ -37,7 +37,7 @@ const configMenu = () => {
           href: "/account/trade/history",
           subItems: [],
           groupId: 1,
-          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
+          role: ['normal', 'emergency', 'bankClosing', 'securityClosing']
         },
         {
           id: 2,
@@ -45,7 +45,7 @@ const configMenu = () => {
           href: "/account/trade/tax",
           subItems: [],
           groupId: 1,
-          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
+          role: ['normal', 'emergency', 'bankClosing', 'securityClosing']
         },
         {
           id: 3,
@@ -53,7 +53,7 @@ const configMenu = () => {
           href: "/account/payment/history",
           subItems: [],
           groupId: 1,
-          role: ['bankClosing', 'securityClosing', 'subAccount']
+          role: ['bankClosing', 'securityClosing']
         },
         {
           id: 4,
@@ -64,7 +64,7 @@ const configMenu = () => {
             "/account/payment/:id/cancel/complete"
           ],
           groupId: 1,
-          role: ['bankClosing', 'securityClosing', 'subAccount']
+          role: ['bankClosing', 'securityClosing']
         }
       ]
     },
@@ -82,7 +82,7 @@ const configMenu = () => {
             "/account/payment/withdrawal/complete"
           ],
           groupId: 2,
-          role: ['bankClosing', 'securityClosing', 'subAccount']
+          role: ['bankClosing', 'securityClosing']
         },
         {
           id: 7,
@@ -94,7 +94,7 @@ const configMenu = () => {
             "/account/delivery/cancel/complete"
           ],
           groupId: 2,
-          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
+          role: ['normal', 'emergency', 'bankClosing', 'securityClosing']
         },
         {
           id: 8,
@@ -102,7 +102,7 @@ const configMenu = () => {
           href: "/account/report/output",
           subItems: [],
           groupId: 2,
-          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
+          role: ['normal', 'emergency', 'bankClosing', 'securityClosing']
         },
         {
           id: 12,
@@ -110,7 +110,7 @@ const configMenu = () => {
           href: "/account/close-account",
           subItems: [],
           groupId: 2,
-          role: ['mainAccount', 'emergency', 'bankClosing', 'securityClosing', 'subAccount']
+          role: ['normal', 'emergency', 'bankClosing', 'securityClosing']
         }
       ]
     },
@@ -129,7 +129,7 @@ const configMenu = () => {
             "/account/physical/:code/order/complete"
           ],
           groupId: 3,
-          role: ['emergency', 'bankClosing', 'subAccount']
+          role: ['emergency', 'bankClosing']
         },
         // {
         //   id: 10,
@@ -152,7 +152,7 @@ const configMenu = () => {
             "/account/us-stock/:code/sell/complete"
           ],
           groupId: 3,
-          role: ['emergency', 'bankClosing', 'subAccount']
+          role: ['emergency', 'bankClosing']
         },
         {
           id: 13,
@@ -164,13 +164,37 @@ const configMenu = () => {
             "/account/order/:id/detail"
           ],
           groupId: 4,
-          role: ['emergency', 'bankClosing', 'subAccount']
+          role: ['emergency', 'bankClosing']
         }
       ]
     }
   ];
 };
 
+export default function conditionConfigMenu() {
+  const bankClosingFlag = sessionStorage.getItem("bankClosing");
+  const securityClosingFlag = sessionStorage.getItem("securityClosing");
+  const emergencyFlag = sessionStorage.getItem("emergency");
+
+  let rule = ''
+
+  const pathNameTax = '/account/trade/tax';
+  const pathNameCloseAccount = '/account/close-account';
+
+  if (bankClosingFlag) {
+    rule = 'bankClosing';
+  }
+  else if (!bankClosingFlag && securityClosingFlag) {
+    rule = 'securityClosing';
+  }
+  else if (!bankClosingFlag && !securityClosingFlag && emergencyFlag) {
+    rule = 'emergency';
+  }
+  else if (!bankClosingFlag && !securityClosingFlag && !emergencyFlag) {
+    rule = 'normal';
+  }
+  return listMenuBaseRules(checkNormalAccountType(configMenu(), pathNameTax, pathNameCloseAccount), rule);
+}
 
 const listMenuBaseRules = (configMenu, rule) => {
   let configMenuClear = configMenu;
@@ -196,66 +220,12 @@ const listMenuBaseRules = (configMenu, rule) => {
   return menuEmptyItemsDeleted;
 }
 
-export default function conditionConfigMenu() {
-  const state = store.getState()
-  const currentAccountType = sessionStorage.getItem("currentAccountType") || currentAccountTypeSelector(state);
-  const bankClosingFlag = sessionStorage.getItem("bankClosing");
-  const securityClosingFlag = sessionStorage.getItem("securityClosing");
-  const emergencyFlag = sessionStorage.getItem("emergency");
-
-  let rule = ''
-
-  if (bankClosingFlag) {
-    rule = 'bankClosing';
-  }
-  else if (!bankClosingFlag && securityClosingFlag) {
-    rule = 'securityClosing';
-  }
-  else if (!bankClosingFlag && !securityClosingFlag && emergencyFlag) {
-    rule = 'emergency';
-  }
-  else if (!bankClosingFlag && !securityClosingFlag && !emergencyFlag && currentAccountType === "MAIN") {
-    rule = 'mainAccount';
-  }
-  else {
-    rule = 'subAccount';
-    const pathNameTax = '/account/trade/tax';
-    const pathNameCloseAcc = '/account/close-account';
-    return listMenuBaseRules(checkNormalAccountType(configMenu(), pathNameTax, pathNameCloseAcc), rule);
-  }
-  return listMenuBaseRules(configMenu(), rule);
-
-}
-
-const listMenuBaseRules = (configMenu, rule) => {
-  let configMenuClear = configMenu;
-  let menuEmptyItemsDeleted = [configMenu[0]];
-  let itemsArray = []
-  let isItemBaseRule = false;
-  for (let index = 1; index < configMenu.length; index++) {
-    let tempItem = configMenu[index];
-    for (let indexOfItem = 0; indexOfItem < tempItem.items.length; indexOfItem++) {
-      isItemBaseRule = tempItem.items[indexOfItem].role.includes(rule);
-      if (isItemBaseRule) {
-        itemsArray.push(configMenu[index].items[indexOfItem])
-      }
-    }
-    configMenuClear[index].items = itemsArray;
-    itemsArray = []
-  }
-  for (let index = 1; index < configMenu.length; index++) {
-    if (configMenu[index].items.length !== 0) {
-      menuEmptyItemsDeleted.push(configMenu[index])
-    }
-  }
-  return menuEmptyItemsDeleted;
-}
-
 const checkNormalAccountType = (sidebarList, pathNameTax, pathNameCloseAcc) => {
   let sidebarListConfig = sidebarList;
   const state = store.getState()
+  const currentAccountType = sessionStorage.getItem("currentAccountType") || currentAccountTypeSelector(state);
   const mainAccount = sessionStorage.getItem("mainAccount") || mainAccountIdSelector(state);
-  if (mainAccount) {
+  if (mainAccount&&currentAccountType&&currentAccountType==="NORMAL") {
     const mainAccountLink = process.env[`REACT_APP_${mainAccount.toUpperCase()}_URL`];
     for (let indexOfSidebarList = 1; indexOfSidebarList < sidebarList.length; indexOfSidebarList++) {
       const itemsArray = sidebarList[indexOfSidebarList].items;
