@@ -172,9 +172,9 @@ const configMenu = () => {
 };
 
 export default function conditionConfigMenu() {
-  const bankClosingFlag = sessionStorage.getItem("bankClosing");
-  const securityClosingFlag = sessionStorage.getItem("securityClosing");
-  const emergencyFlag = sessionStorage.getItem("emergency");
+  const bankClosingFlag = JSON.parse(sessionStorage.getItem("bankClosing"));
+  const securityClosingFlag = JSON.parse(sessionStorage.getItem("securityClosing"));
+  const emergencyFlag = JSON.parse(sessionStorage.getItem("emergency"));
 
   let rule = ''
 
