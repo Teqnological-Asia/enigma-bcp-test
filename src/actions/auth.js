@@ -99,7 +99,6 @@ const ruleOfClosingRequest = () => (dispatch => {
   return axios.get(url,options)
     .then(response => {
       const data = response.data;
-      console.log(data);
       sessionStorage.setItem('bankClosing', data.bank_closing_flag);
       sessionStorage.setItem('securityClosing', data.security_closing_flag);
     })
