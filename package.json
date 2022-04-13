@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@aws-amplify/auth": "^3.3.6",
-    "@finatext/baas-common-bcp": "^1.0.0-alpha.36",
+    "@finatext/baas-common-bcp": "^1.0.0-alpha.37",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
     "babel-core": "6.26.0",
