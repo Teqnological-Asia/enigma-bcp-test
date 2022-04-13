@@ -2,23 +2,6 @@
 # yarn lockfile v1
 
 
-"@Finatext/baas-common-bcp@1.0.0-alpha.28":
-  version "1.0.0-alpha.28"
-  resolved "https://npm.pkg.github.com/download/@Finatext/baas-common-bcp/1.0.0-alpha.28/900f76617c1d1906a4e5c73ba1294e08666c1d7a72e1f2b0c8843f70de1a28c8#9f762852f2edd110e920c7af2f1142f34d8cc7cb"
-  integrity sha512-MqQFvlxGGJvDVsaYqgyz+f++2SXL+0WKwkdBL9/1EP77PXtK6f1Js1OPIp0pYxsSpFPdJkunFX9FgOeeUvZxmA==
-  dependencies:
-    "@testing-library/jest-dom" "^5.11.4"
-    "@testing-library/react" "^11.1.0"
-    "@testing-library/user-event" "^12.1.10"
-    "@types/jest" "^26.0.15"
-    "@types/node" "^12.0.0"
-    "@types/react" "^17.0.0"
-    "@types/react-dom" "^17.0.0"
-    react-scripts "4.0.3"
-    styled-components "^5.3.3"
-    typescript "^4.1.2"
-    web-vitals "^1.0.1"
-
 "@aws-amplify/auth@^3.3.6":
   version "3.4.34"
   resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-3.4.34.tgz#020c68d2d0a05697cebce2fa7a601c29d22799a5"

@@ -6,10 +6,10 @@ class UserMenu extends Component {
   }
 
   render() {
-    // const kanjiUsername = sessionStorage.getItem('name');
+    const kanjiUsername = sessionStorage.getItem('name');
     return (
       <div className="p-nav_usermenu">
-        <div className="icon-user">様</div>
+        <div className="icon-user">{kanjiUsername} 様</div>
         <a className="cursor" onClick={this.handleLogout}>ログアウト</a>
       </div>
     );
