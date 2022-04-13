@@ -1665,11 +1665,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@finatext/baas-common-bcp@^1.0.0-alpha.34":
+"@finatext/baas-common-bcp@^1.0.0-alpha.36":
   name "@Finatext/baas-common-bcp"
-  version "1.0.0-alpha.34"
-  resolved "https://npm.pkg.github.com/download/@finatext/baas-common-bcp/1.0.0-alpha.34/0941990e633ba7d4a445faa0d7e9754d450218690cfc80baa87783d17a29133c#fcc49659b5fd8e7c538c0a288332a19f93993142"
-  integrity sha512-h8+9xuAM4AWMHev0QGXhEDB5o6fKmopcwMZAhAobPXmurmxcdbQI5tA9Fwb5mLsqm07con1mE6bmp2by8eCUMg==
+  version "1.0.0-alpha.36"
+  resolved "https://npm.pkg.github.com/download/@finatext/baas-common-bcp/1.0.0-alpha.36/266dfdc1243db9704e216dba25566672bc3350c7e67d310aa5f722eb4ff3a081#0dafd5d911a92ef268d96a8e1dde8f2c1b887c99"
+  integrity sha512-EpYASo3NlLpvOVcUCfqOEtJQL19+MQ/iB2QdzhT2KOhxq6mTWxCVpO8+w0XCaLf1vFjTUwmAr1E3+NCTr2puCA==
   dependencies:
     "@testing-library/jest-dom" "^5.11.4"
     "@testing-library/react" "^11.1.0"
