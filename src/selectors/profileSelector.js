@@ -13,3 +13,7 @@ export const mainAccountSelector = (state) => (
 export const mainAccountIdSelector = (state) => (
   mainAccountSelector(state) && mainAccountSelector(state).rpId
 )
+
+export const userInforV5Selector = (state) => (
+  state.profileReducer.userInfo
+)

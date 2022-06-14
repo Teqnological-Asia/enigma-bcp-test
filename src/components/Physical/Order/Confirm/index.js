@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import OrderInfo from '../OrderInfo';
+import OrderInfo from './../../../Stock/StockSelling/OrderInfo';
 
 class PhysicalOrderConfirm extends Component {
   constructor(props) {
@@ -29,24 +29,23 @@ class PhysicalOrderConfirm extends Component {
     e.preventDefault();
 
     if (!this.state.isSubmitting) {
-      this.setState({isSubmitting: true});
+      this.setState({ isSubmitting: true });
 
       this.props.createOrderRequest(this.stockCode).then((result) => {
-        this.setState({isSubmitting: false});
+        this.setState({ isSubmitting: false });
       });
     }
   }
 
   render() {
-    const { stockDetail, orderFormValues } = this.props;
+    const { stockDetail } = this.props;
 
-    if (stockDetail == null || orderFormValues == null) return <Redirect to={{ pathname: `/account/physical/${this.stockCode}/order` }} />;
-
+    if (stockDetail == null) return <Redirect to={{ pathname: `/account/physical/${this.stockCode}/order` }} />;
     return (
       <div className="l-contents_body_inner">
         <div className="u-mt40p">
           <div className="p-section_header">
-            <div className="p-section_header_title">現物売却 <b>取引確認</b></div>
+            <div className="p-section_header_title">国内株式 <b>取引確認</b></div>
           </div>
         </div>
         <div className="u-mt20p">
@@ -56,7 +55,7 @@ class PhysicalOrderConfirm extends Component {
         </div>
         <OrderInfo {...this.props} />
         <div className="u-mt20p">
-          <Link className="c-button c-button_cancel" to={`/account/physical/${this.stockCode}/order`}>入力へ戻る</Link>
+          <Link className="c-button c-button_cancel" to={"/account/physical"}>一覧へ戻る</Link>
           <a className="c-button" onClick={this.handleSubmit}>発注する</a>
         </div>
       </div>

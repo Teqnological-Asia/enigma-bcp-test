@@ -4,10 +4,9 @@ import OrderDetail from '../../components/Order/Detail';
 import { loadOrderDetailRequest } from '../../actions/orderDetail';
 
 const mapStateToProps = (state) => {
-  const { order, events } = state.orderDetailReducer;
+  const { order } = state.orderDetailReducer;
   return {
     order,
-    events
   };
 };
 

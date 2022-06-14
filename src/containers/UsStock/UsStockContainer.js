@@ -1,23 +1,19 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import UsStock from '../../components/UsStock';
-import { loadUsStockBalancesRequest, loadUsStocksRequest } from "../../actions/usStock";
+import { loadPhysicalsRequest, createOrderSuccess } from '../../actions/physical';
 
-
-const mapStateToProps = (state) => ({
-  usStockBalances: state.usStockReducer.usStockBalances,
-  usStocks: state.usStockReducer.usStocks
-})
-
+const mapStateToProps = (state) => {
+  return {
+    physicals: state.physicalReducer.physicals
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    loadUsStockBalancesRequest: loadUsStockBalancesRequest,
-    loadUsStocksRequest: loadUsStocksRequest,
+    loadPhysicalsRequest,
+    createOrderSuccess
   }, dispatch);
-}
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UsStock);
+export default connect(mapStateToProps, mapDispatchToProps)(UsStock);

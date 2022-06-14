@@ -1,20 +1,23 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { changeOrderTab } from '../../actions/order';
 import { createOrderSuccess } from '../../actions/physical';
 import PhysicalOrderComplete from '../../components/Physical/Order/Complete';
 
 const mapStateToProps = (state) => {
-  const { stockDetail, orderFormValues } = state.physicalReducer;
+  const { stockDetail, orderFormValues,orderQuantity } = state.physicalReducer;
 
   return {
     stockDetail,
-    orderFormValues
+    orderFormValues,
+    orderQuantity
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    createOrderSuccess
+    createOrderSuccess,
+    changeOrderTab
   }, dispatch);
 };
 

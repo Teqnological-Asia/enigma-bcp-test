@@ -10,6 +10,7 @@ import {
   LOAD_US_STOCKS_SUCCESS,
   GET_INTRADAY_SUCCESS,
   GET_TRADE_CAPACITIES_SUCCESS,
+  SAVE_ORDER_QUANTITY
 } from "../constants/usStock";
 
 const initialState = {
@@ -78,6 +79,11 @@ export const usStockReducer = (state = initialState, action) => {
       return {
         ...state,
         capacities: action.capacities,
+      };
+    case SAVE_ORDER_QUANTITY:
+      return {
+        ...state,
+        orderQuantity: action.orderQuantity
       };
     default:
       return state;

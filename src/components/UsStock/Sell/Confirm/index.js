@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import OrderInfo from '../OrderInfo'
+import OrderInfo from './../../../Stock/StockSelling/OrderInfo';
 
 class UsStockSellConfirm extends Component {
   constructor(props) {
@@ -38,9 +38,9 @@ class UsStockSellConfirm extends Component {
   }
 
   render() {
-    const { stockDetail, orderSendParams  } = this.props;
+    const { stockDetail } = this.props;
 
-    if (stockDetail == null || orderSendParams == null) return <Redirect to={{ pathname: `/account/us-stock/${this.stockCode}/sell` }} />;
+    if (stockDetail == null ) return <Redirect to={{ pathname: `/account/us-stock/${this.stockCode}/order` }} />;
 
     return (
       <div className="l-contents_body_inner">
@@ -54,9 +54,9 @@ class UsStockSellConfirm extends Component {
             <p>内容をご確認いただき「発注する」を押すとご注文が確定します。</p>
           </div>
         </div>
-        <OrderInfo {...this.props} />
+        <OrderInfo {...this.props} isUSStock/>
         <div className="u-mt20p">
-          <Link className="c-button c-button_cancel" to={`/account/us-stock/${this.stockCode}/sell`}>入力へ戻る</Link>
+          <Link className="c-button c-button_cancel" to="/account/us-stock">一覧へ戻る</Link>
           <a className="c-button" onClick={this.handleSubmit}>発注する</a>
         </div>
       </div>
@@ -64,4 +64,4 @@ class UsStockSellConfirm extends Component {
   }
 }
 
-export default UsStockSellConfirm;
+export default UsStockSellConfirm

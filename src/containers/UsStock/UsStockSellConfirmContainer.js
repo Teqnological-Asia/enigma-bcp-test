@@ -4,12 +4,13 @@ import UsStockSellConfirm from '../../components/UsStock/Sell/Confirm/index'
 import { createOrderRequest } from '../../actions/usStock';
 
 const mapStateToProps = (state) => {
-  const { stockDetail, orderSendParams, orderFormValues } = state.usStockReducer;
+  const { stockDetail, orderSendParams, orderFormValues, orderQuantity } = state.usStockReducer;
 
   return {
     stockDetail,
     orderSendParams,
-    orderFormValues
+    orderFormValues,
+    orderQuantity
   };
 };
 

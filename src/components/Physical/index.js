@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import PhysicalList from './PhysicalList';
-import { formatDateTime } from '../../utils';
+import StockList from './../Stock/StockList/StockList';
+import Header from './../Stock/StockList/Header';
+import { formatDateTime,filterStockList } from '../../utils';
 
 class Physical extends Component {
   constructor(props) {
@@ -23,17 +24,12 @@ class Physical extends Component {
   render() {
     return (
       <div className="l-contents_body_inner">
-        <div className="u-mt40p">
-          <div className="p-section_header">
-            <div className="p-section_header_title">現物株式 <b>売却</b></div>
-            <div className="p-section_header_aside">
-              <span> {formatDateTime(this.state.curDateTime)} </span>
-              (<a className="icon-arrows-ccw cursor" onClick={this.reloadData}>更新</a>）
-            </div>
-          </div>
-        </div>
-
-        <PhysicalList physicals={this.props.physicals} /> 
+        <Header 
+        curDateTime={formatDateTime(this.state.curDateTime)}
+        onReloadData={this.reloadData}
+        textOfStockMarket="国内株式"
+        />
+        <StockList physicals={filterStockList(this.props.physicals,["STOCK","ETF"])} isInternalMarket/> 
       </div>
     );
   }

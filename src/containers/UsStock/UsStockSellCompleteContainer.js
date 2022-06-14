@@ -1,21 +1,24 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createOrderSuccess } from '../../actions/usStock';
+import { changeOrderTab } from '../../actions/order';
 import UsStockSellComplete from '../../components/UsStock/Sell/Complete/index';
 
 const mapStateToProps = (state) => {
-  const { stockDetail, orderFormValues, orderSendParams } = state.usStockReducer;
+  const { stockDetail, orderFormValues, orderSendParams, orderQuantity } = state.usStockReducer;
 
   return {
     stockDetail,
     orderFormValues,
-    orderSendParams
+    orderSendParams,
+    orderQuantity
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    createOrderSuccess
+    createOrderSuccess,
+    changeOrderTab
   }, dispatch);
 };
 

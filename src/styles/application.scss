@@ -281,6 +281,55 @@ video {
   display: inline-block;
   /* Internet Explorer 11+, Windows Phone 8.1+ */ }
 
+input[type=checkbox] {
+  display:none;
+}
+  input[type=checkbox] + label {
+      background-size:cover;
+      background-position:center;
+      background-repeat: no-repeat;
+      height: 30px;
+      width: 30px;
+      display:inline-block;
+      background-color:#FFFFFF;
+      border: 2px solid #BFBFBF;
+      border-radius: 9px;
+  }
+  
+  input:checked + label {
+       background-image: url('./../assets/images/checkIcon.png');
+       background-size: 60%;
+  }
+  
+  .caution{
+    color: #FF0000;
+    margin-bottom: 1rem;
+    font-size: 0.8125rem;
+
+    &--header {
+      @extend .caution;
+      font-size: 1.125rem;
+    }
+
+    &--body {
+      @extend .caution;
+    }
+
+    &--footer {
+      @extend .caution;
+      color:#323232;
+      line-height: 1.875rem;
+      padding-left: 1rem;
+      margin-bottom: 0;
+    }
+  }
+
+  .caution-area {
+    background-color: #FFE8E8;
+    padding: 1rem 2.5rem;
+    border-radius: 0.5rem;
+}
+
 /* # =================================================================
    # Accessibility
    # ================================================================= */

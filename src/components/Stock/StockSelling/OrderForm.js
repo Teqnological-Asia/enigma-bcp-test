@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { formatCurrency, validateIntegerNumber, validateNumber } from '../../../utils';
-
+import CautionBox from '../Caution/CautionBox';
+import { cautionConditions } from './Helper';
+import { ICaution } from './IStockSelling';
+import { insider, executive } from '../../../assets/constantVariables';
 class OrderForm extends Component {
   constructor(props) {
     super(props);
@@ -11,7 +14,8 @@ class OrderForm extends Component {
     this.state = {
       quantity: quantity || '',
       orderType: orderType || 'Market',
-      price: price || ''
+      price: price || '',
+      cautionDetail: ICaution,
     }
 
     this.validateNumberError = '数値を入力してください';
@@ -21,16 +25,17 @@ class OrderForm extends Component {
     const target = e.target;
     const name = target.name;
     const value = target.value;
-    this.setState({[name]: value});
+    this.setState({ [name]: value });
   }
 
   handleRadioChange = (e) => {
-    this.setState({orderType: e.target.value});
+    this.setState({ orderType: e.target.value });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     const { quantity, orderType, price } = this.state;
+    const stockCode = this.props.stockCode;
 
     if (!quantity || !validateIntegerNumber(quantity)) {
       alert(this.validateNumberError);
@@ -42,11 +47,11 @@ class OrderForm extends Component {
       return;
     }
 
-    this.props.saveOrderFormRequest(this.props.stockCode, this.state);
+    this.props.saveOrderQuantityRequest(quantity, stockCode);
   }
 
   setShortableQuantity = () => {
-    this.setState({quantity: this.getDefaultQuantity(this.props.physicalDetail)});
+    this.setState({ quantity: this.getDefaultQuantity(this.props.physicalDetail) });
   }
 
   getDefaultQuantity = (physicalDetail) => {
@@ -60,12 +65,10 @@ class OrderForm extends Component {
   handleChangeQuantity = (e, type) => {
     e.preventDefault();
     const quantity = this.state.quantity;
-    const { physicalDetail } = this.props;
-    const tradeUnit = parseInt(physicalDetail.trade_unit, 10);
-    // const defaultQuantity = this.getDefaultQuantity(physicalDetail);
+    let initialQuantity = 1;
 
     if (quantity === '') {
-      this.setState({quantity: tradeUnit});
+      this.setState({ quantity: initialQuantity });
       return;
     }
 
@@ -76,29 +79,14 @@ class OrderForm extends Component {
 
     let parsedQuantity = parseInt(quantity, 10);
 
-    if (parsedQuantity < tradeUnit) {
-      this.setState({quantity: tradeUnit});
-      return;
-    }
-
-    // if (parsedQuantity > defaultQuantity) {
-    //   this.setState({quantity: defaultQuantity});
-    //   return;
-    // }
-
     if (type === 'up') {
-      parsedQuantity = Math.floor(parsedQuantity / tradeUnit) * tradeUnit + tradeUnit;
-      // if (parsedQuantity > defaultQuantity) {
-      //   parsedQuantity = defaultQuantity;
-      // }
+      parsedQuantity = parsedQuantity + 1;
     } else {
-      parsedQuantity = Math.ceil(parsedQuantity / tradeUnit) * tradeUnit - tradeUnit;
-      if (parsedQuantity < tradeUnit) {
-        parsedQuantity = tradeUnit;
+      if (parsedQuantity > 0) {
+        parsedQuantity = parsedQuantity - 1;
       }
     }
-
-    this.setState({quantity: parsedQuantity});
+    this.setState({ quantity: parsedQuantity });
   }
 
   validateMaxNumChar = (e) => {
@@ -122,11 +110,11 @@ class OrderForm extends Component {
 
     if (price === '') {
       if (bid < priceRangeLower) {
-        this.setState({price: priceRangeLower});
+        this.setState({ price: priceRangeLower });
       } else if (bid > priceRangeUpper) {
-        this.setState({price: priceRangeUpper});
+        this.setState({ price: priceRangeUpper });
       } else {
-        this.setState({price: bid});
+        this.setState({ price: bid });
       }
       return;
     }
@@ -139,12 +127,12 @@ class OrderForm extends Component {
     let parsedPrice = parseFloat(price);
 
     if (parsedPrice < priceRangeLower) {
-      this.setState({price: priceRangeLower});
+      this.setState({ price: priceRangeLower });
       return;
     }
 
     if (parsedPrice > priceRangeUpper) {
-      this.setState({price: priceRangeUpper});
+      this.setState({ price: priceRangeUpper });
       return;
     }
 
@@ -177,7 +165,7 @@ class OrderForm extends Component {
     if (type === 'up') {
       if (step >= 1) {
         parsedPrice = Math.floor(((parsedPrice - priceMin) * 10) / (step * 10)) * step + step + priceMin;
-      } else{
+      } else {
         parsedPrice = (((parsedPrice - priceMin) * 10) / (step * 10)) * step + step + priceMin;
         parsedPrice = parsedPrice.toFixed(1);
       }
@@ -198,19 +186,39 @@ class OrderForm extends Component {
       }
     }
 
-    this.setState({price: parsedPrice});
+    this.setState({ price: parsedPrice });
   }
 
   formattedQuantities = physical => (
     physical && physical.shortable_quantity ? formatCurrency(physical.shortable_quantity) : '-'
   )
 
-  render() {
-    const { stockDetail, physicalDetail } = this.props;
-    const { quantity, orderType, price } = this.state;
+  handleClickCautionBox = (caution) => {
+    // eslint-disable-next-line
+    { ICaution[caution.type].isClick = caution.checked }
+    this.setState({ cautionDetail: ICaution });
+  }
 
-    if (stockDetail === null || physicalDetail === null) return null;
-    const isMarketType = orderType === 'Market';
+  render() {
+    const { stockDetail, isUSStock, userInfo } = this.props;
+    const { quantity, orderType, price, cautionDetail } = this.state;
+
+    if (!stockDetail) return null;
+
+    let isDisabled = false;
+    let isClickCautionInsider = false;
+    let isClickCautionExcutive = false;
+    let codeCheckedFinal = false;
+    let isShowExecutiveCautionBoxFinal = false;
+
+    if (!isUSStock && userInfo) {
+      isClickCautionInsider = cautionDetail.insider.isClick;
+      isClickCautionExcutive = cautionDetail.executive.isClick;
+      const { codeChecked, isShowExecutiveCautionBox } = cautionConditions(stockDetail, userInfo);
+      codeCheckedFinal = codeChecked;
+      isShowExecutiveCautionBoxFinal = isShowExecutiveCautionBox;
+      isDisabled = (!isClickCautionInsider && codeChecked) || (!isClickCautionExcutive && isShowExecutiveCautionBox);
+    }
 
     return (
       <form onSubmit={(e) => this.handleSubmit(e)}>
@@ -228,7 +236,7 @@ class OrderForm extends Component {
                     <td>現物売却</td>
                   </tr>
                   <tr>
-                    <th>取引株数</th>
+                    <th>数量</th>
                     <td>
                       <div className="u-row">
                         <div className="u-col_50 u-col_100_sp">
@@ -237,60 +245,79 @@ class OrderForm extends Component {
                               <input name="quantity" className="u-right" type="text" placeholder="数値を入力してください" onChange={this.handleTextChange} value={quantity} onKeyPress={this.validateMaxNumChar} />
                             </div><span className="p-unit">株</span>
                             <button className="p-input_control p-input_up" onClick={(e) => this.handleChangeQuantity(e, 'up')}>UP</button>
-                            <hr/>
+                            <hr />
                             <button className="p-input_control p-input_down" onClick={(e) => this.handleChangeQuantity(e, 'down')}>DOWN</button>
                           </div>
                         </div>
-                        <div className="u-col_50 u-col_100_sp u-mt10p_sp">
-                          <p style={{fontSize: '12px'}}>売却可能数量　{this.formattedQuantities(physicalDetail)}株</p>
-                        </div>
                       </div>
                     </td>
                   </tr>
                   <tr>
-                    <th>執行条件・単価</th>
-                    <td>
-                      <div className={"p-labelblock " + (isMarketType ? 'is-selected': '')} id="ptn_block_A">
-                        <label>
-                          <input type="radio" name="orderType" value="Market" checked={orderType === 'Market'} onChange={this.handleRadioChange} /><span>成行</span>
-                        </label>
-                      </div>
-                      <div className={"p-labelblock " + (!isMarketType ? 'is-selected': '')} id="ptn_block_B">
-                        <label>
-                          <input type="radio" name="orderType" value="Limit" checked={orderType === 'Limit'} onChange={this.handleRadioChange} /><span>指値</span>
-                        </label>
-                        <div className="u-row">
-                          <div className="u-col_50 u-col_100_sp">
-                            <div className={"p-input_updown u-mt10p "+ (isMarketType ? 'is_disbale' : '')} id="dummy_parent">
-                              <div className="p-input">
-                                <input name="price" className="u-right" id="dummy_child" type="text" placeholder="数値を入力してください" disabled={isMarketType} onChange={this.handleTextChange} value={price} onKeyPress={this.validateMaxNumChar} />
-                              </div><span className="p-unit">円</span>
-                              <button className="p-input_control p-input_up" onClick={(e) => this.handleChangePrice(e, 'up')}>UP</button>
-                              <hr/>
-                              <button className="p-input_control p-input_down" onClick={(e) => this.handleChangePrice(e, 'down')}>DOWN</button>
+                    <th>執行条件</th>
+                    <td>相対</td>
+                  </tr>
+                  {
+                    isUSStock &&
+                    <tr>
+                      <th style={{ verticalAlign: 'baseline' }}>価格情報</th>
+                      <td>
+                        <div className="price-container">
+                          <div className="price-item">
+                            <p className="description">参考為替レート（米ドル）</p>
+                            <div>
+                              <span className="price">
+                                {stockDetail.rate}
+                              </span>
+                              &nbsp;
+                              円
                             </div>
                           </div>
-
+                          <div className="price-item">
+                            <p className="description">為替コスト</p>
+                            <div>
+                              <span className="price">
+                                {stockDetail.cost}
+                              </span>
+                              &nbsp;
+                              %
+                            </div>
+                          </div>
                         </div>
-
-                        <span className="p-range">制限値幅：{stockDetail.price_range_lower}～{stockDetail.price_range_upper}円
-                        </span>
-
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>取引期限</th>
-                    <td>当日限り</td>
-                  </tr>
+                        <div className="notice">
+                          <div style={{ marginRight: '15px' }}>※</div>
+                          <div>
+                            ・実際の取引価格は米国市場が開いた後に注文が速やかに発注され、約定した株の平均価格に対して当社の定める為替コスト反映後のレートを適用した価格になります。
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  }
                 </tbody>
               </table>
             </div>
           </div>
         </div>
+
+        {!isUSStock && (
+          <div>
+            <CautionBox
+              isShow={codeCheckedFinal}
+              typeOfWarning={insider}
+              onSelect={this.handleClickCautionBox}
+            />
+            <CautionBox
+              isShow={isShowExecutiveCautionBoxFinal}
+              typeOfWarning={executive}
+              onSelect={this.handleClickCautionBox}
+            />
+          </div>
+        )
+        }
+
         <div className="u-mt20p">
-          <Link className="c-button c-button_cancel" to="/account/physical">一覧へ戻る</Link>
-          <input className="c-button" type="submit" value="確認画面へ" disabled={!quantity || (orderType === 'Limit' && !price)} />
+          <Link className="c-button c-button_cancel" to={`/account/${isUSStock ? "us-stock" : "physical"}`}>一覧へ戻る</Link>
+          <input className="c-button" type="submit" value="確認画面へ" disabled={isDisabled || !quantity || (orderType === 'Limit' && !price)} />
+
         </div>
       </form>
     );

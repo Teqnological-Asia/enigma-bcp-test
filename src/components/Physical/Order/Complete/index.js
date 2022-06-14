@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import OrderInfo from '../OrderInfo';
+import OrderInfo from './../../../Stock/StockSelling/OrderInfo';
+
 
 class PhysicalOrderComplete extends Component {
+  constructor(props) {
+    super(props);
+    this.stockCode = this.props.match.params.code;
+  }
   componentWillUnmount() {
     this.props.createOrderSuccess();
   }
 
   render() {
-    const { stockDetail, orderFormValues } = this.props;
+    const { stockDetail, orderQuantity } = this.props;
 
-    if (stockDetail == null || orderFormValues == null) return <Redirect to={{ pathname: `/account/physical` }} />;
+    const onChangeTab=() => {
+      this.props.changeOrderTab(1)
+    }
+
+    if (!stockDetail || !orderQuantity) return <Redirect to={{ pathname: `/account/physical/${this.stockCode}/order`}} />;
 
     return (
       <div className="l-contents_body_inner">
         <div className="u-mt40p">
           <div className="p-section_header">
-            <div className="p-section_header_title">現物売却 <b>取引受付</b></div>
+            <div className="p-section_header_title">国内株式 <b>取引受付</b></div>
           </div>
         </div>
         <div className="u-mt20p">
@@ -26,7 +35,7 @@ class PhysicalOrderComplete extends Component {
         </div>
         <OrderInfo {...this.props} />
         <div className="u-mt20p">
-          <Link className="c-button" to="/account/order">注文照会へ</Link>
+          <Link className="c-button" to="/account/order" onClick={onChangeTab}>注文照会へ</Link>
           <Link className="c-button" to="/account/physical">国内株式売却へ</Link>
         </div>
       </div>

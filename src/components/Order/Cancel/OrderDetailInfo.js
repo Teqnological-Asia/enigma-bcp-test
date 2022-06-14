@@ -1,7 +1,7 @@
 import React from 'react';
-import {formatTradeType, formatPrice, formatExpirationDate} from '../common';
+import { formatSide } from '../../../utils';
 
-const OrderDetailInfo = ({order}) => {
+const OrderDetailInfo = ({ order }) => {
   if (!order) return null;
 
   return (
@@ -9,27 +9,21 @@ const OrderDetailInfo = ({order}) => {
       <tbody>
         <tr>
           <th>銘柄コード</th>
-          <td>{order.stock_code || order.stockCode}</td>
-        </tr>
-        {/* <tr>
-            <th>市場</th>
-            <td>当社最良執行市場</td>
-          </tr> */}
-        <tr>
-          <th>取引</th>
-          <td>{formatTradeType(order)}</td>
+          <td>{order.stock.code}/{order.stock.name}</td>
         </tr>
         <tr>
-          <th>取引株数</th>
+          <th>区分</th>
+          <td style={{ color: formatSide(order.side).color }}>
+            {`現物${formatSide(order.side).side}`}
+          </td>
+        </tr>
+        <tr>
+          <th>取引数量</th>
           <td>{order.order_quantity || order.quantity}株</td>
         </tr>
         <tr>
-          <th>執行条件・単価</th>
-          <td>{formatPrice(order)}</td>
-        </tr>
-        <tr>
-          <th>取引期限</th>
-          <td>{formatExpirationDate(order)}</td>
+          <th>執行条件</th>
+          <td>相対</td>
         </tr>
       </tbody>
     </table>

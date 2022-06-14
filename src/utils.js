@@ -1,5 +1,8 @@
 import moment from 'moment';
 import pathToRegexp from 'path-to-regexp';
+import { invalidToken } from './actions/auth';
+import { createError } from "./actions/error";
+import { setLoading } from "./actions/loading";
 
 export function validateEmail(email) {
   return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
@@ -69,8 +72,8 @@ export function isTokenExpired() {
 }
 
 export function removeElementFromArray(array, element) {
-    const index = array.indexOf(element);
-    array.splice(index, 1);
+  const index = array.indexOf(element);
+  array.splice(index, 1);
 }
 
 export function handleMinMaxCondition(value, min, max) {
@@ -89,5 +92,96 @@ export const sumMarginReducer = (accumulator, currentPosition) => accumulator + 
 
 //remove array square brackets
 export const removeArrSB = arr => {
-  return {...arr[0]}
+  return { ...arr[0] }
 }
+
+export const filterOrderList = (stockList, typeOfMarkets) => {
+  let result = [];
+  if (!stockList) return result;
+  for (let i = 0; i < typeOfMarkets.length; i++) {
+    result = result.concat(stockList.filter(function (order) {
+      return order.stock.type === typeOfMarkets[i];
+    }))
+  }
+  return result;
+}
+
+export const filterStockList = (stockList, typeOfMarkets) => {
+  let result = [];
+  if (!stockList) return result;
+  for (let i = 0; i < typeOfMarkets.length; i++) {
+    result = result.concat(stockList.filter(function (stock) {
+      return stock.type === typeOfMarkets[i];
+    }))
+  }
+  return result;
+}
+
+export const formatSide = (side) => {
+  if (side === "BUY") {
+    return {
+      side: "買",
+      color: "#d64f26"
+    }
+  }
+  return {
+    side: "売",
+    color: "#0c498e"
+  }
+}
+
+export const formatStatus = (status) => {
+  const statusTranslation = {
+    "WAITING": "入金待ち",
+    "ORDERING": "注文中(口座振替前)",
+    "TRANSFER_FAILED": "口座振替エラー",
+    "FILLED": "約定済み",
+    "CANCELLED": "取消済",
+    "EXPIRED": "失効",
+    "REJECTED": "リジェクト"
+  }
+  return statusTranslation[status];
+}
+
+export const formattedQuantities = (quantity) => {
+  if (quantity == null) {
+    return "-";
+  }
+  return quantity > 0
+    ? `${formatCurrency(quantity, 0)}`
+    : formatCurrency(quantity);
+};
+
+export const formattedTransactionPrice = price => (
+  price && price[0] && price[0].estimatePrice ? formatCurrency(price[0].estimatePrice.ask) : '-'
+)
+
+export const formattedUpdateTime = time => (
+  time && time[0] && time[0].exchangeRate ? moment(time[0].exchangeRate.updateAt).format('MM/DD hh:mm ') : '-'
+)
+
+export const formattedExchangeRate = rate => (
+  rate && rate[0] && rate[0].exchangeRate ? formatCurrency(rate[0].exchangeRate.ask) : '-'
+)
+
+export const formattedCommission = rate => (
+  rate && rate[0] && rate[0].commission ? formatCurrency(rate[0].commission.value) : '-'
+)
+
+export const showErrorMessage = (error, dispatch) => {
+  let errorMessage = '';
+  const errorCode = error.response.data.code;
+  const errorMsg = error.response.data.message;
+
+  dispatch(setLoading(false))
+  if (isTokenExpired()) {
+    dispatch(invalidToken());
+  } else {
+    errorMessage = errorCode ? `${errorMsg} [${error.response.data.code}]` : errorMsg;
+    dispatch(createError(errorMessage));
+  }
+}
+
+export const splitLine = (inputText) => {
+  return inputText.split("<br/>");
+};

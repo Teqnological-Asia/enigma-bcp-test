@@ -1,73 +1,29 @@
-import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Pagination from '../Authenticated/Pagination';
-import OrderUsList from './OrderUsList';
+import React, { Component } from 'react';
+import { formatDateTime } from '../../utils';
 import OrderList from "./OrderList";
-import {formatDateTime} from '../../utils';
 
 class Order extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: 1,
       curDateTime: new Date(),
     };
   }
 
-  getChildContext() {
-    const {currentPage, totalPages} = this.props;
-    return {currentPage, totalPages};
-  }
+  onChangeTab = (tab) => {
+    this.props.changeOrderTab(tab);
+  };
 
   componentDidMount() {
-    this.loadOrders(1, 1);
-
-    // Call only 1 times instead of everytime change page
-    this.props.loadUsStocksRequest()
-  }
-
-  loadOrders = (page = 1, tab) => {
-    if (tab !== this.state.tab) { //Reset orders state first when change tab
-      this.props.loadOrdersSuccess([], null, null)
-    }
-    let params = {page: page, size: 10};
-    tab === 1 ? this.props.loadOrdersRequest(params) : this.props.loadOrdersRequestUs(params)
-  }
-
-  handlePageChange = page => {
-    const tab = this.state.tab;
-    this.loadOrders(page, tab);
-  }
-
-  reloadData = () => {
-    const tab = this.state.tab
-    this.loadOrders(1, tab);
-    this.setState({curDateTime: new Date()});
-  }
-  selectTab = (tab) => {
-    this.loadOrders(1, tab)
-    this.setState({
-      tab: tab
-    })
+    this.props.loadOrdersRequest()
   }
 
   render() {
-    const {orders, currentPage, totalPages, usStocks} = this.props;
-    const {tab} = this.state
-    const showPagination = orders.length > 0;
-    console.log(orders)
-    const country = tab === 1 ? <OrderList orders={orders}/> :
-      <OrderUsList orders={orders} usStocks={usStocks.items}/>
-    const pagination = (
-      showPagination &&
-      <Pagination
-        boundaryPagesRange={0}
-        siblingPagesRange={2}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onChange={this.handlePageChange}
-      />
-    )
+    const { orders,tab } = this.props;
+    const JPSTockType = ["STOCK", "ETF"];
+    const USSTockType = ["US_STOCK"];
+    const orderList = <OrderList orders={orders} typesOfStock={(tab) === 1 ? JPSTockType : USSTockType} />
 
     return (
       <div className="l-contents_body_inner">
@@ -82,17 +38,16 @@ class Order extends Component {
         </div>
         <div className="p-nav_sub">
           <ul>
-            <li className={`custom ${tab === 1 ? 'is_current_custom' : ''}`}>
-              <a onClick={() => this.selectTab(1)}>国内株式</a>
+            <li className={`custom ${(tab) === 1 ? 'is_current_custom' : ''}`}>
+              <a onClick={() => this.onChangeTab(1)}>国内株式</a>
             </li>
-            <li className={`custom ${tab === 2 ? 'is_current_custom' : ''}`}>
-              <a onClick={() => this.selectTab(2)}>米株株式</a>
+            <li className={`custom ${(tab) === 2 ? 'is_current_custom' : ''}`}>
+              <a onClick={() => this.onChangeTab(2)}>米国株式</a>
             </li>
           </ul>
         </div>
         <div className="u-mt20p">
-          {country}
-          {pagination}
+          {orderList}
         </div>
         <div className="u-mt40p">
           <div className="p-section_lead">

@@ -1,10 +1,13 @@
 import React from "react";
 import OrderRow from "./OrderRow";
 import EmptyTableRow from "../Authenticated/EmptyTableRow";
+import { filterOrderList } from '../../utils';
 
-const OrderList = ({orders}) => {
+
+const OrderList = ({orders,typesOfStock}) => {
+  const filteredOrderList=filterOrderList(orders,typesOfStock);
   const renderOrders = (orders) => {
-    if (orders.length > 0) {
+    if (orders && orders.length > 0) {
       return orders.map((item, key) => <OrderRow order={item} key={key} />);
     } else {
       return <EmptyTableRow message="明細はありません。" />;
@@ -23,11 +26,10 @@ const OrderList = ({orders}) => {
           <th>取引数量</th>
           <th className="c-l">（出来済）</th>
           <th className="c-l">取引状況</th>
-          <th className="c-l">執行条件・単価</th>
-          <th className="c-l">有効期限</th>
+          <th className="c-l">執行条件</th>
         </tr>
       </thead>
-      <tbody>{renderOrders(orders)}</tbody>
+      <tbody>{renderOrders(filteredOrderList)}</tbody>
     </table>
   );
 };

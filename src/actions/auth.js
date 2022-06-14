@@ -23,6 +23,13 @@ export const getAuthHeader = () => {
   }
 }
 
+export const getHeaderEnigma = () => {
+  return {
+    Authorization: `Bearer ${getToken()}`,
+    "X-ORDER-CHANNEL": "BCP"
+  }
+}
+
 export const setHeader = (params) => {
   return {
     params: params,
@@ -92,7 +99,7 @@ export const loginRequest = (authz_code, user_id) => {
 }
 
 const ruleOfClosingRequest = () => (dispatch => {
-  const url = `${process.env.REACT_APP_ENIGMA_ROLE_API}/bcp/closing`
+  const url = `${process.env.REACT_APP_ENIGMA_API_HOST}/bcp/closing`
   const options = {
     headers: getAuthHeader()
   }
@@ -113,7 +120,7 @@ const ruleOfClosingRequest = () => (dispatch => {
 })
 
 const ruleOfEmergencyRequest = () => (dispatch => {
-  const url = `${process.env.REACT_APP_ENIGMA_ROLE_API}/bcp/emergency`
+  const url = `${process.env.REACT_APP_ENIGMA_API_HOST}/bcp/emergency`
   const options = {
     headers: getAuthHeader()
   }

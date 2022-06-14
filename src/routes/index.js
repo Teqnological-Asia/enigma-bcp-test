@@ -205,17 +205,17 @@ export const routes = [
     isAuthenticated: false
   },
   {
-    path: '/account/us-stock/:code/sell',
+    path: '/account/us-stock/:code/order',
     component: UsStockSellContainer,
     isAuthenticated: true
   },
   {
-    path: '/account/us-stock/:code/sell/confirm',
+    path: '/account/us-stock/:code/order/confirm',
     component: UsStockSellConfirm,
     isAuthenticated: true
   },
   {
-    path: '/account/us-stock/:code/sell/complete',
+    path: '/account/us-stock/:code/order/complete',
     component: UsStockSellComplete,
     isAuthenticated: true
   },

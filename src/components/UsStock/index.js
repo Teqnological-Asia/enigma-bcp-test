@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import { formatDateTime } from "../../utils";
-import UsStockList from "./UsStockList";
+import React, { Component } from 'react';
+import StockList from './../Stock/StockList/StockList';
+import Header from './../Stock/StockList/Header';
+import { formatDateTime, filterStockList } from '../../utils';
 
 class UsStock extends Component {
   constructor(props) {
@@ -11,34 +12,25 @@ class UsStock extends Component {
   }
 
   componentDidMount() {
-    this.props.loadUsStockBalancesRequest();
-    this.props.loadUsStocksRequest();
+    this.props.loadPhysicalsRequest();
+    this.props.createOrderSuccess();
   }
 
   reloadData = () => {
-    this.props.loadUsStockBalancesRequest();
-    this.props.loadUsStocksRequest();
+    this.props.loadPhysicalsRequest();
     this.setState({ curDateTime: new Date() });
-  };
+  }
+
 
   render() {
     return (
       <div className="l-contents_body_inner">
-        <div className="u-mt40p">
-          <div className="p-section_header">
-            <div className="p-section_header_title">
-              米国株式 <b>売却</b>
-            </div>
-            <div className="p-section_header_aside">
-              <span> {formatDateTime(this.state.curDateTime)} </span>(
-              <a className="icon-arrows-ccw cursor" onClick={this.reloadData}>
-                更新
-              </a>
-              ）
-            </div>
-          </div>
-        </div>
-        <UsStockList usStockBalances={this.props.usStockBalances.items}  usStocks={this.props.usStocks.items}/>
+        <Header
+          curDateTime={formatDateTime(this.state.curDateTime)}
+          onReloadData={this.reloadData}
+          textOfStockMarket="米国株式"
+        />
+        <StockList physicals={filterStockList(this.props.physicals, ["US_STOCK"])} />
       </div>
     );
   }
