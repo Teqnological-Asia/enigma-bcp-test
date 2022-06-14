@@ -13,12 +13,14 @@ class OrderCancel extends Component {
     this.props.loadOrderDetailRequest(this.orderId);
   }
 
-  handleCancel = () => {
-    const tradeType = this.props.order.trade_type
-    this.props.cancelOrderRequest(this.orderId, tradeType);
+  handleCancel = (tab) => {
+    const stockCode = this.props.order.stock.code;
+    tab === 1 ? this.props.cancelOrderRequest(stockCode) : this.props.cancelUSOrderRequest(stockCode);
   }
 
   render() {
+    // eslint-disable-next-line
+    const currentTab = parseInt(this.props.tab)
     return (
       <div className="l-contents_body_inner">
         <div className="u-mt40p">
@@ -38,7 +40,7 @@ class OrderCancel extends Component {
         </div>
         <div className="u-mt20p">
           <Link className="c-button c-button_cancel" to="/account/order">戻る</Link>
-          <a className="c-button c-button_delete" onClick={this.handleCancel}>取り消しする</a>
+          <a className="c-button c-button_delete" onClick={() => this.handleCancel(currentTab)}>取り消しする</a>
         </div>
       </div>
     )

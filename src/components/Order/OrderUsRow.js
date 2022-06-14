@@ -29,7 +29,7 @@ const OrderUsRow = ({order, loadUs}) => {
         )}
       </td>
       <td className="c-l" data-name="銘柄コード">{order.stockCode}</td>
-      <td className="c-l" data-name={order.stockCode}>{loadUs.name}</td>
+      <td className="c-l" data-name={order.stockCode} style={{ maxWidth: "10rem" }}>{loadUs.name}</td>
       <td className="c-l" data-name="区分">{renderTradeType(order)}</td>
       <td className="c-l" data-name="取引時間">
         {formatDate(order.orderTime)} <br/>

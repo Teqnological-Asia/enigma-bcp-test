@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import OrderForm from './OrderForm';
+import OrderForm from './../../Stock/StockSelling/OrderForm';
 
 class UsStockSell extends Component {
   constructor(props) {
     super(props);
-
     this.stockCode = this.props.match.params.code;
   }
 
@@ -13,9 +12,8 @@ class UsStockSell extends Component {
   }
 
   componentDidMount() {
-    this.props.loadStockDetailRequest(this.stockCode);
+    // this.props.loadStockDetailRequest(this.stockCode);
     this.props.getUsStockBalances(this.stockCode);
-    this.props.getPriceInfo(this.stockCode);
     window.addEventListener("beforeunload", this.onUnload)
   }
 
@@ -36,7 +34,7 @@ class UsStockSell extends Component {
             <p>ご注文を入力し確認画面へお進みください。</p>
           </div>
         </div>
-        <OrderForm {...this.props} stockCode={this.stockCode} />
+        <OrderForm {...this.props} stockCode={this.stockCode} isUSStock/>
       </div>
     );
   }

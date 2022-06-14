@@ -1,8 +1,10 @@
 import React from "react";
 import OrderUsRow from "./OrderUsRow";
 import EmptyTableRow from "../Authenticated/EmptyTableRow";
+import { filterOrderList } from '../../utils';
 
 const OrderUsList = ({orders,usStocks}) => {
+  const filteredOrderList=filterOrderList(orders,["US_STOCK"]);
   const renderOrders = (orders) => {
     if (orders && usStocks && orders.length > 0) {
       return orders.map((order, key) => {
@@ -33,7 +35,7 @@ const OrderUsList = ({orders,usStocks}) => {
         <th className="c-l">有効期限</th>
       </tr>
       </thead>
-      <tbody>{renderOrders(orders)}</tbody>
+      <tbody>{renderOrders(filteredOrderList)}</tbody>
     </table>
   );
 };

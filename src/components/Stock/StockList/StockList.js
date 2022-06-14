@@ -1,12 +1,12 @@
 import React from 'react';
-import EmptyTableRow from '../Authenticated/EmptyTableRow';
-import PhysicalRow from './PhysicalRow';
+import EmptyTableRow from '../../Authenticated/EmptyTableRow';
+import PhysicalRow from './StockRow';
 
-const PhysicalList = ({physicals}) => {
+const StockList = ({ physicals, isInternalMarket }) => {
   const renderPhysicals = (physicals) => {
     if (physicals.length > 0) {
       return physicals.map((physical, key) => (
-        <PhysicalRow {...{ physical, key }} />
+        <PhysicalRow {...{ physical, key }} isInternalMarket={isInternalMarket} />
       ));
     } else {
       return <EmptyTableRow message="明細はありません。" />;
@@ -18,15 +18,15 @@ const PhysicalList = ({physicals}) => {
       <table className="c-table_list">
         <thead>
           <tr>
-            <th className="c-l">銘柄コード</th>
-            <th className="c-l">銘柄</th>
+            <th className="c-l" >銘柄コード</th>
+            <th className="c-l">銘柄名</th>
             <th className="c-l">区分</th>
-            <th>数量/（取引中）</th>
+            <th>数量</th>
             <th>参考取得単価</th>
             <th>取得額</th>
             <th>時価評価額</th>
             <th>評価損益</th>
-            <th className="c-c">発注</th>
+            <th className="c-c">売却</th>
           </tr>
         </thead>
         <tbody>
@@ -37,4 +37,4 @@ const PhysicalList = ({physicals}) => {
   );
 }
 
-export default PhysicalList;
+export default StockList;

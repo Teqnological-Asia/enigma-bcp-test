@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import OrderInfo from '../OrderInfo';
+import OrderInfo from './../../../Stock/StockSelling/OrderInfo';
 
 class UsStockSellCompleteContainer extends Component {
   componentWillUnmount() {
@@ -8,9 +8,13 @@ class UsStockSellCompleteContainer extends Component {
   }
 
   render() {
-    const { stockDetail, orderFormValues } = this.props;
+    const { stockDetail } = this.props;
 
-    if (stockDetail == null || orderFormValues == null) return <Redirect to={{ pathname: `/account/us-stock` }} />;
+    const onChangeTab=() => {
+      this.props.changeOrderTab(2)
+    }
+
+    if (stockDetail == null) return <Redirect to={{ pathname: `/account/us-stock` }} />;
 
     return (
       <div className="l-contents_body_inner">
@@ -24,9 +28,9 @@ class UsStockSellCompleteContainer extends Component {
             <p>お取引を受け付けいたしました。</p>
           </div>
         </div>
-        <OrderInfo {...this.props} />
+        <OrderInfo {...this.props} isUSStock />
         <div className="u-mt20p">
-          <Link className="c-button" to="/account/order">注文照会へ</Link>
+          <Link className="c-button" to="/account/order" onClick={onChangeTab}>注文照会へ</Link>
           <Link className="c-button" to="/account/us-stock">米国株式売却へ</Link>
         </div>
       </div>

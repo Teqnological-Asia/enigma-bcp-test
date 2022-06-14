@@ -1,22 +1,25 @@
-import { setLoading } from "./loading";
 import axios from "axios";
-import { getAuthHeader } from './auth';
 import {
   push
 } from 'react-router-redux';
 import {
-  LOAD_STOCKS_SUCCESS,
-  LOAD_US_STOCK_DETAIL_SUCCESS,
-  LOAD_PHYSICAL_DETAIL_SUCCESS,
-  SAVE_STOCK_FORM,
   CREATE_STOCK_SUCCESS,
-  SAVE_STOCK_SEND_PARAMS,
-  GET_ORDER_PRICE_SUCCESS,
-  LOAD_US_STOCK_BALANCES_SUCCESS,
-  LOAD_US_STOCKS_SUCCESS,
   GET_INTRADAY_SUCCESS,
-  GET_TRADE_CAPACITIES_SUCCESS
+  GET_ORDER_PRICE_SUCCESS,
+  GET_TRADE_CAPACITIES_SUCCESS,
+  LOAD_PHYSICAL_DETAIL_SUCCESS,
+  LOAD_STOCKS_SUCCESS,
+  LOAD_US_STOCKS_SUCCESS,
+  LOAD_US_STOCK_BALANCES_SUCCESS,
+  LOAD_US_STOCK_DETAIL_SUCCESS,
+  SAVE_ORDER_QUANTITY,
+  SAVE_STOCK_FORM,
+  SAVE_STOCK_SEND_PARAMS
 } from '../constants/usStock';
+import { showErrorMessage } from '../utils';
+import { getAuthHeader, getHeaderEnigma } from './auth';
+import { setLoading } from "./loading";
+
 
 
 export const loadUsStockBalancesSuccess = (usStockBalances) => {
@@ -95,6 +98,22 @@ export const getTradeCapacitiesSuccess = (capacities) => {
   }
 }
 
+export const saveOrderQuantity = (orderQuantity) => {
+  return {
+    type: SAVE_ORDER_QUANTITY,
+    orderQuantity
+  }
+}
+
+export const saveOrderQuantityRequest = (quantity, id) => {
+  return (dispatch) => {
+    dispatch(setLoading(true))
+    dispatch(saveOrderQuantity(quantity));
+    dispatch(push(`/account/us-stock/${id}/order/confirm`));
+    dispatch(setLoading(false))
+  }
+}
+
 export const loadUsStockBalancesRequest = () => {
   return (dispatch) => {
     dispatch(setLoading(true));
@@ -116,13 +135,13 @@ export const loadUsStocksRequest = (type) => {
   return (dispatch) => {
     dispatch(setLoading(true));
     const request = axios.get(
-        `${process.env.REACT_APP_STREAM_API_HOST}/v1/stocks/us_stocks`,
-        {
-          headers: getAuthHeader(),
-          params: {
-            page: 1,
-          }
+      `${process.env.REACT_APP_STREAM_API_HOST}/v1/stocks/us_stocks`,
+      {
+        headers: getAuthHeader(),
+        params: {
+          page: 1,
         }
+      }
     );
 
     return request.then((response) => {
@@ -143,9 +162,9 @@ export const loadPhysicalsRequest = () => {
   return dispatch => {
     dispatch(setLoading(true))
     const request = axios
-                      .get(`${process.env.REACT_APP_BALANCE_API_HOST}/equity_balances`, {
-                        headers: getAuthHeader()
-                      });
+      .get(`${process.env.REACT_APP_BALANCE_API_HOST}/equity_balances`, {
+        headers: getAuthHeader()
+      });
 
     return request.then((response) => {
       dispatch(loadPhysicalsSuccess(response.data.data.equity_balances));
@@ -154,19 +173,28 @@ export const loadPhysicalsRequest = () => {
   };
 }
 
+
 export const getUsStockBalances = (stockCode) => {
   return dispatch => {
     dispatch(setLoading(true))
-    const params = {code: stockCode};
-    const request = axios
-                      .get(`${process.env.REACT_APP_BALANCE_API_HOST}/usStock/balances`, {
-                        params: params,
-                        headers: getAuthHeader()
-                      });
-    return request.then((response) => {
-      dispatch(loadPhysicalDetailSuccess(response.data.data.items[0]));
-      dispatch(setLoading(false))
-    });
+    const stockRequest = axios
+      .get(`${process.env.REACT_APP_ENIGMA_API_HOST}/usStocks/${stockCode}`, {
+        headers: getAuthHeader()
+      });
+    const forexRequest = axios
+      .get(`${process.env.REACT_APP_ENIGMA_API_HOST}/forex`, {
+        headers: getAuthHeader()
+      });
+    Promise.all([stockRequest, forexRequest])
+      .then(([stockRequest, forexRequest]) => {
+        dispatch(loadStockDetailSuccess({ ...stockRequest.data.stock, ...forexRequest.data }));
+        dispatch(setLoading(false))
+      })
+      .catch((error) => {
+        showErrorMessage(error, dispatch)
+        dispatch(loadStockDetailSuccess(null))
+        dispatch(setLoading(false))
+      })
   };
 }
 
@@ -174,9 +202,9 @@ export const loadStockDetailRequest = (stockCode) => {
   return dispatch => {
     dispatch(setLoading(true))
     const request = axios
-                      .get(`${process.env.REACT_APP_STREAM_API_HOST}/v1/stocks?code=${stockCode}`, {
-                        headers: getAuthHeader()
-                      });
+      .get(`${process.env.REACT_APP_STREAM_API_HOST}/v1/stocks?code=${stockCode}`, {
+        headers: getAuthHeader()
+      });
     return request.then((response) => {
       dispatch(loadStockDetailSuccess(response.data.data));
       dispatch(setLoading(false))
@@ -196,13 +224,13 @@ export const saveOrderFormRequest = (id, params) => {
     };
 
     const request = axios
-                      .post(
-                        `${process.env.REACT_APP_ORDER_API_HOST}/usStockOrders/sell/new`,
-                        orderNewParams,
-                        {
-                          headers: getAuthHeader(),
-                        }
-                      );
+      .post(
+        `${process.env.REACT_APP_ORDER_API_HOST}/usStockOrders/sell/new`,
+        orderNewParams,
+        {
+          headers: getAuthHeader(),
+        }
+      );
 
     return request.then((response) => {
       const data = response.data.data;
@@ -215,8 +243,8 @@ export const saveOrderFormRequest = (id, params) => {
       const otherDataForm = {
         price: getState().usStockReducer.orderPrice[0].estimatePrice.bid
       }
-      dispatch(saveOrderForm({...params, ...otherDataForm}));
-      dispatch(saveOrderSendParams({...orderNewParams, ...orderParams}));
+      dispatch(saveOrderForm({ ...params, ...otherDataForm }));
+      dispatch(saveOrderSendParams({ ...orderNewParams, ...orderParams }));
       dispatch(push(`/account/us-stock/${id}/sell/confirm`));
       dispatch(setLoading(false))
     });
@@ -232,17 +260,22 @@ export const accountTypes = {
 export const createOrderRequest = (id) => {
   return (dispatch, getState) => {
     dispatch(setLoading(true))
-    const params = getState().usStockReducer.orderSendParams;
+    const quantity = getState().usStockReducer.orderQuantity;
+    const params = {
+      "code": id,
+      // eslint-disable-next-line
+      "quantity": parseInt(quantity)
+    }
     const request = axios
-                      .post(
-                        `${process.env.REACT_APP_ORDER_API_HOST}/usStockOrders/sell/new/send`,
-                        params,
-                        {
-                          headers: getAuthHeader(),
-                        }
-                      );
+      .post(
+        `${process.env.REACT_APP_ENIGMA_API_HOST}/usStocks/sell`,
+        params,
+        {
+          headers: getHeaderEnigma()
+        }
+      );
     return request.then((response) => {
-      dispatch(push(`/account/us-stock/${id}/sell/complete`));
+      dispatch(push(`/account/us-stock/${id}/order/complete`));
       dispatch(setLoading(false))
     });
   }
@@ -251,12 +284,12 @@ export const createOrderRequest = (id) => {
 export const getPriceInfo = (symbol) => {
   return dispatch => {
     dispatch(setLoading(true))
-    const params = {symbol: symbol};
+    const params = { symbol: symbol };
     const request = axios
-                      .get(`${process.env.REACT_APP_ORDER_API_HOST}/usStockOrders/priceInfo`, {
-                        params: params,
-                        headers: getAuthHeader()
-                      });
+      .get(`${process.env.REACT_APP_ORDER_API_HOST}/usStockOrders/priceInfo`, {
+        params: params,
+        headers: getAuthHeader()
+      });
     return request.then((response) => {
       dispatch(getOrderPriceSuccess(response.data.data.items));
       dispatch(setLoading(false))
@@ -268,7 +301,7 @@ export const getPriceInfo = (symbol) => {
 export const getIntradayInfo = (code) => {
   return dispatch => {
     dispatch(setLoading(true))
-    const params = {code};
+    const params = { code };
     const request = axios.get(`${process.env.REACT_APP_PRICE_API_HOST}/v2/intradays`, {
       params,
       headers: getAuthHeader()
@@ -304,13 +337,13 @@ export const savePurchaseOrderFormRequest = (id, params) => {
     };
 
     const request = axios
-                      .post(
-                        `${process.env.REACT_APP_ORDER_API_HOST}​/usStockOrders/buy/new`,
-                        orderNewParams,
-                        {
-                          headers: getAuthHeader(),
-                        }
-                      );
+      .post(
+        `${process.env.REACT_APP_ORDER_API_HOST}​/usStockOrders/buy/new`,
+        orderNewParams,
+        {
+          headers: getAuthHeader(),
+        }
+      );
 
     return request.then((response) => {
       const data = response.data.data;
@@ -323,8 +356,8 @@ export const savePurchaseOrderFormRequest = (id, params) => {
         wb4CheckPrice,
         wb4OrderID
       }
-      dispatch(saveOrderForm({...params, ...otherDataForm}));
-      dispatch(saveOrderSendParams({...orderNewParams, ...orderParams}));
+      dispatch(saveOrderForm({ ...params, ...otherDataForm }));
+      dispatch(saveOrderSendParams({ ...orderNewParams, ...orderParams }));
       dispatch(push(`/account/us-stock/${id}/purchase/confirm`));
       dispatch(setLoading(false))
     });
@@ -336,13 +369,13 @@ export const createPurchaseOrderConfirm = (id) => {
     dispatch(setLoading(true))
     const params = getState().usStockReducer.orderSendParams;
     const request = axios
-                      .post(
-                        `${process.env.REACT_APP_ORDER_API_HOST}/usStockOrders/buy/new/send`,
-                        params,
-                        {
-                          headers: getAuthHeader(),
-                        }
-                      );
+      .post(
+        `${process.env.REACT_APP_ORDER_API_HOST}/usStockOrders/buy/new/send`,
+        params,
+        {
+          headers: getAuthHeader(),
+        }
+      );
 
     return request.then((response) => {
       dispatch(push(`/account/us-stock/${id}/purchase/complete`));

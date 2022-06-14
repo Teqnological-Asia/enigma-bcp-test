@@ -1,9 +1,10 @@
-import {LOAD_ACCOUNTS_INFO_SUCCESS, LOAD_PROFILE_SUCCESS, GET_DELIVER_STATUS_SUCCESS} from '../constants/profile';
+import {LOAD_ACCOUNTS_INFO_SUCCESS, LOAD_PROFILE_SUCCESS, GET_DELIVER_STATUS_SUCCESS, GET_USER_INFO_SUCCESS} from '../constants/profile';
 
 const initialState = {
   profile: null,
   documents: null,
   currentAccount: null,
+  userInfo: null,
   accounts: [],
   hasFinishReading: false,
 };
@@ -33,6 +34,12 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         hasFinishReading: action.hasFinishReading
+      }
+    }
+    case GET_USER_INFO_SUCCESS: {
+      return {
+        ...state,
+        userInfo: action.userInfo
       }
     }
     default:

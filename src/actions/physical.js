@@ -6,9 +6,10 @@ import {
   LOAD_PHYSICAL_DETAIL_SUCCESS,
   SAVE_ORDER_FORM,
   CREATE_ORDER_SUCCESS,
-  SAVE_ORDER_SEND_PARAMS
+  SAVE_ORDER_SEND_PARAMS,
+  SAVE_ORDER_QUANTITY
 } from '../constants/physical';
-import { getAuthHeader } from './auth';
+import { getAuthHeader, getHeaderEnigma } from './auth';
 import { setLoading } from '../actions/loading';
 
 export const loadPhysicalsSuccess = (physicals) => {
@@ -39,6 +40,13 @@ export const saveOrderForm = (orderFormValues) => {
   }
 }
 
+export const saveOrderQuantity = (orderQuantity) => {
+  return {
+    type: SAVE_ORDER_QUANTITY,
+    orderQuantity
+  }
+}
+
 export const saveOrderSendParams = (orderSendParams) => {
   return {
     type: SAVE_ORDER_SEND_PARAMS,
@@ -52,16 +60,17 @@ export const createOrderSuccess = () => {
   }
 }
 
+
 export const loadPhysicalsRequest = () => {
   return dispatch => {
     dispatch(setLoading(true))
     const request = axios
-                      .get(`${process.env.REACT_APP_BALANCE_API_HOST}/equity_balances`, {
-                        headers: getAuthHeader()
-                      });
+      .get(`${process.env.REACT_APP_ENIGMA_API_HOST}/user/balance/stocks `, {
+        headers: getAuthHeader()
+      });
 
     return request.then((response) => {
-      dispatch(loadPhysicalsSuccess(response.data.data.equity_balances));
+      dispatch(loadPhysicalsSuccess(response.data.balances));
       dispatch(setLoading(false))
     });
   };
@@ -70,15 +79,15 @@ export const loadPhysicalsRequest = () => {
 export const loadPhysicalDetailRequest = (stockCode) => {
   return dispatch => {
     dispatch(setLoading(true))
-    const params = {code: stockCode};
+    const params = { code: stockCode };
     const request = axios
-                      .get(`${process.env.REACT_APP_BALANCE_API_HOST}/equity_balances`, {
-                        params: params,
-                        headers: getAuthHeader()
-                      });
+      .get(`${process.env.REACT_APP_ENIGMA_API_HOST}/user/balance/stocks`, {
+        params: params,
+        headers: getAuthHeader()
+      });
 
     return request.then((response) => {
-      dispatch(loadPhysicalDetailSuccess(response.data.data.equity_balances[0]));
+      dispatch(loadPhysicalDetailSuccess(response.data.balances));
       dispatch(setLoading(false))
     });
   };
@@ -88,14 +97,19 @@ export const loadStockDetailRequest = (stockCode) => {
   return dispatch => {
     dispatch(setLoading(true))
     const request = axios
-                      .get(`${process.env.REACT_APP_BALANCE_API_HOST}/stocks/${stockCode}`, {
-                        headers: getAuthHeader()
-                      });
+      .get(`${process.env.REACT_APP_ENIGMA_API_HOST}/stocks/${stockCode}`, {
+        headers: getAuthHeader()
+      });
 
-    return request.then((response) => {
-      dispatch(loadStockDetailSuccess(response.data.data));
-      dispatch(setLoading(false))
-    });
+    return (
+      request.then((response) => {
+        dispatch(loadStockDetailSuccess(response.data.stock));
+        dispatch(setLoading(false))
+      })
+        .catch((error) => {
+          dispatch(loadStockDetailSuccess(null))
+        })
+    );
   };
 }
 
@@ -120,13 +134,13 @@ export const saveOrderFormRequest = (id, params) => {
     }
 
     const request = axios
-                      .post(
-                        `${process.env.REACT_APP_ORDER_API_HOST}/orders`,
-                        orderNewParams,
-                        {
-                          headers: getAuthHeader(),
-                        }
-                      );
+      .post(
+        `${process.env.REACT_APP_ORDER_API_HOST}/orders`,
+        orderNewParams,
+        {
+          headers: getAuthHeader(),
+        }
+      );
 
     return request.then((response) => {
       const data = response.data.data;
@@ -137,10 +151,19 @@ export const saveOrderFormRequest = (id, params) => {
       };
 
       dispatch(saveOrderForm(params));
-      dispatch(saveOrderSendParams({...orderNewParams, ...orderNewResponse}));
+      dispatch(saveOrderSendParams({ ...orderNewParams, ...orderNewResponse }));
       dispatch(push(`/account/physical/${id}/order/confirm`));
       dispatch(setLoading(false))
     });
+  }
+}
+
+export const saveOrderQuantityRequest = (quantity, id) => {
+  return (dispatch) => {
+    dispatch(setLoading(true))
+    dispatch(saveOrderQuantity(quantity));
+    dispatch(push(`/account/physical/${id}/order/confirm`));
+    dispatch(setLoading(false))
   }
 }
 
@@ -153,15 +176,20 @@ export const accountTypes = {
 export const createOrderRequest = (id) => {
   return (dispatch, getState) => {
     dispatch(setLoading(true))
-    const params = getState().physicalReducer.orderSendParams;
+    const quantity = getState().physicalReducer.orderQuantity;
+    const params = {
+      "code": id,
+      // eslint-disable-next-line
+      "quantity": parseInt(quantity)
+    }
     const request = axios
-                      .post(
-                        `${process.env.REACT_APP_ORDER_API_HOST}/orders/send`,
-                        params,
-                        {
-                          headers: getAuthHeader(),
-                        }
-                      );
+      .post(
+        `${process.env.REACT_APP_ENIGMA_API_HOST}/stocks/sell`,
+        params,
+        {
+          headers: getHeaderEnigma(),
+        }
+      );
 
     return request.then((response) => {
       dispatch(push(`/account/physical/${id}/order/complete`));

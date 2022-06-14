@@ -1,16 +1,13 @@
 import axios from 'axios';
-import {push} from 'react-router-redux';
-import {tradeTypeCancelPath} from '../components/Order/common';
-import {LOAD_ORDERS_SUCCESS, LOAD_ORDERS_US_SUCCESS} from '../constants/order';
-import {getAuthHeader} from './auth';
-import {setLoading} from '../actions/loading';
+import { push } from 'react-router-redux';
+import { setLoading } from '../actions/loading';
+import { LOAD_ORDERS_SUCCESS, LOAD_ORDERS_US_SUCCESS, CHANGE_ORDER_TAB } from '../constants/order';
+import { getAuthHeader, getHeaderEnigma } from './auth';
 
-export const loadOrdersSuccess = (orders, currentPage, totalPages) => {
+export const loadOrdersSuccess = (orders) => {
   return {
     type: LOAD_ORDERS_SUCCESS,
     orders,
-    currentPage,
-    totalPages,
   }
 }
 
@@ -21,18 +18,24 @@ export const orderOrderUsSuccess = (request) => {
   }
 }
 
-export const loadOrdersRequest = (params) => {
+export const changeOrderTab = (tab) => {
+  return {
+    type: CHANGE_ORDER_TAB,
+    tab,
+  }
+}
+
+export const loadOrdersRequest = () => {
   return dispatch => {
     dispatch(setLoading(true))
     const request = axios
-      .get(`${process.env.REACT_APP_BALANCE_API_HOST}/v3/orders`, {
-        params: params,
+      .get(`${process.env.REACT_APP_ENIGMA_API_HOST}/orders`, {
         headers: getAuthHeader()
       });
 
     return request.then((response) => {
-      const data = response.data.data;
-      dispatch(loadOrdersSuccess(data.orders, data.page, data.total_pages));
+      const data = response.data;
+      dispatch(loadOrdersSuccess(data.orders));
       dispatch(setLoading(false))
     });
   };
@@ -49,7 +52,7 @@ export const loadOrdersRequestUs = (params) => {
 
     return request.then((response) => {
       const data = response.data.data;
-      dispatch(loadOrdersSuccess(data.items, data.page, data.totalPages));
+      dispatch(loadOrdersSuccess(data.items));
       dispatch(setLoading(false))
     });
   };
@@ -99,37 +102,46 @@ export const orderCancelUsRequest = (id, request) => {
   }
 }
 
-
-export const cancelOrderRequest = (id, type) => {
-  const path = tradeTypeCancelPath[type]
-  const baseUrl = `${process.env.REACT_APP_ORDER_API_HOST}/${path}`
-  const headers = {
-    headers: getAuthHeader()
-  }
-  return dispatch => {
+export const cancelOrderRequest = (id) => {
+  return (dispatch, getState) => {
     dispatch(setLoading(true))
-    const cancelNewRequest = axios.post(
-      `${baseUrl}/${id}/cancel`,
-      {},
-      headers
-    );
-
-    return cancelNewRequest.then((response) => {
-      const data = response.data.data;
-      const body = {
-        wb5_confirmed_at: data.wb5_confirmed_date,
-        system_order_id: data.system_order_id
-      }
-      const cancelSendRequest = axios.post(
-        `${baseUrl}/${id}/cancel/send`,
-        body,
-        headers
+    const params = {
+      "code": id
+    }
+    const request = axios
+      .post(
+        `${process.env.REACT_APP_ENIGMA_API_HOST}/stocks/sell/cancel`,
+        params,
+        {
+          headers: getHeaderEnigma(),
+        }
       );
 
-      return cancelSendRequest.then((response) => {
-        dispatch(push(`/account/order/${id}/cancel/complete`));
-        dispatch(setLoading(false))
-      });
+    return request.then((response) => {
+      dispatch(setLoading(false))
+      dispatch(push("/account/order"));
     });
-  };
+  }
+}
+
+export const cancelUSOrderRequest = (id) => {
+  return (dispatch, getState) => {
+    dispatch(setLoading(true))
+    const params = {
+      "code": id
+    }
+    const request = axios
+      .post(
+        `${process.env.REACT_APP_ENIGMA_API_HOST}/usStocks/sell/cancel`,
+        params,
+        {
+          headers: getHeaderEnigma()
+        }
+      );
+
+    return request.then((response) => {
+      dispatch(setLoading(false))
+      dispatch(push("/account/order"));
+    });
+  }
 }

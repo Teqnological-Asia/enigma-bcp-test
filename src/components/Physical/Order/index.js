@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import OrderForm from './OrderForm';
-
+import OrderForm from './../../Stock/StockSelling/OrderForm';
 class PhysicalOrder extends Component {
   constructor(props) {
     super(props);
-
     this.stockCode = this.props.match.params.code;
   }
 
@@ -15,7 +13,8 @@ class PhysicalOrder extends Component {
   componentDidMount() {
     this.props.loadStockDetailRequest(this.stockCode);
     this.props.loadPhysicalDetailRequest(this.stockCode);
-    window.addEventListener("beforeunload", this.onUnload)
+    this.props.loadUserInfoRequest();
+    window.addEventListener("beforeunload", this.onUnload);
   }
 
   componentWillUnmount() {
@@ -27,7 +26,7 @@ class PhysicalOrder extends Component {
       <div className="l-contents_body_inner">
         <div className="u-mt40p">
           <div className="p-section_header">
-            <div className="p-section_header_title">現物売却 <b>取引入力</b></div>
+            <div className="p-section_header_title">国内株式 <b>取引入力</b></div>
           </div>
         </div>
         <div className="u-mt20p">
