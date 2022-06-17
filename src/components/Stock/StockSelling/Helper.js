@@ -1,13 +1,10 @@
 import { executive } from '../../../assets/constantVariables';
 
-export const checkCode = (insiderArr, stockName, stockCode) => {
+export const checkCode = (insiderArr, stockCode) => {
     const insiderArray = insiderArr.filter(el => {
-        return el.name === stockName;
+        return el.code === stockCode;
     });
-    if (insiderArray.length > 0) {
-        return insiderArray[0].code === stockCode;
-    }
-    return false;
+    return insiderArray.length > 0;
 }
 
 export const checkPosition = (occupationInfo, position) => {
@@ -28,7 +25,7 @@ export const cautionConditions = (stockDetail, userInfo) => {
     if (!stockDetail && !userInfo && (userInfo && (userInfo.insiders.length === 0 || !userInfo.occupation))) return result;
     if (userInfo && (userInfo.insiders.length === 0 || !userInfo.occupation)) return result;
 
-    const codeChecked = checkCode(userInfo.insiders, stockDetail.name, stockDetail.code);
+    const codeChecked = checkCode(userInfo.insiders, stockDetail.code);
     const positionChecked = checkPosition(userInfo.occupation, executive.toUpperCase());
     const isShowExecutiveCautionBox = codeChecked && positionChecked;
 
