@@ -11,6 +11,10 @@ export const checkPosition = (occupationInfo, position) => {
     return occupationInfo.position === position;
 }
 
+export const checkCompanyCodeCondition = (stockCode, companyCode) => {
+    return stockCode === companyCode;
+}
+
 export const isShowExecutiveCautionBox = (codeCondition, positionCondition) => {
     return codeCondition && positionCondition;
 }
@@ -26,8 +30,9 @@ export const cautionConditions = (stockDetail, userInfo) => {
     if (userInfo && (userInfo.insiders.length === 0 || !userInfo.occupation)) return result;
 
     const codeChecked = checkCode(userInfo.insiders, stockDetail.code);
+    const companyCodeChecked = checkCompanyCodeCondition(stockDetail.code, userInfo.occupation.companyCode);
     const positionChecked = checkPosition(userInfo.occupation, executive.toUpperCase());
-    const isShowExecutiveCautionBox = codeChecked && positionChecked;
+    const isShowExecutiveCautionBox = companyCodeChecked && positionChecked;
 
     result.codeChecked = codeChecked;
     result.positionChecked = positionChecked;
