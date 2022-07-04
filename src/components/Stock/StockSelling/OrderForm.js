@@ -266,7 +266,7 @@ class OrderForm extends Component {
                             <p className="description">参考為替レート（米ドル）</p>
                             <div>
                               <span className="price">
-                                {stockDetail.rate}
+                                0.55
                               </span>
                               &nbsp;
                               円
@@ -275,10 +275,10 @@ class OrderForm extends Component {
                           <div className="price-item">
                             <p className="description">為替コスト</p>
                             <div>
-                              <span className="price">
-                                {stockDetail.cost}
-                              </span>
-                              &nbsp;
+                                <span className="price">
+                                  —-
+                                </span>
+                                &nbsp;
                               %
                             </div>
                           </div>
