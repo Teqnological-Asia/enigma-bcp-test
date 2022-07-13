@@ -9,7 +9,7 @@ phases:
   pre_build:
     commands:
       - if [ "$(git branch --contains $(git rev-parse HEAD) | sed -e 's|[\* ]*||' | grep -E ^${APPROVED_BRANCH_NAME}$)" = "" ]; then echo Not a permitted branch...; exit 1; fi
-      - docker login ghcr.io -u "${GITHUB_USER}" -p "${GITHUB_TOKEN}"
+      - echo ${GITHUB_TOKEN} | docker login ghcr.io -u "${GITHUB_USER}" --password-stdin
       - TOKEN="${GITHUB_TOKEN}"
       - echo -e "\n//npm.pkg.github.com/:_authToken=$TOKEN" >> .npmrc
       - |
