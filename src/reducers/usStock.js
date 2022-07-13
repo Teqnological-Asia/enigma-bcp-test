@@ -10,7 +10,8 @@ import {
   LOAD_US_STOCKS_SUCCESS,
   GET_INTRADAY_SUCCESS,
   GET_TRADE_CAPACITIES_SUCCESS,
-  SAVE_ORDER_QUANTITY
+  SAVE_ORDER_QUANTITY,
+  GET_US_SELL_INPUT_SUCCESS
 } from "../constants/usStock";
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
   usStocks: [],
   intraday: [],
   capacities: null,
+  sellInput: null,
 };
 
 export const usStockReducer = (state = initialState, action) => {
@@ -85,6 +87,11 @@ export const usStockReducer = (state = initialState, action) => {
         ...state,
         orderQuantity: action.orderQuantity
       };
+    case GET_US_SELL_INPUT_SUCCESS:
+      return {
+        ...state,
+        sellInput: action.sellInput
+      }
     default:
       return state;
   }

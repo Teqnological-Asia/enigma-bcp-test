@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import UsStockSell from '../../components/UsStock/Sell'
-import { loadStockDetailRequest, getUsStockBalances, saveOrderFormRequest, getPriceInfo,saveOrderQuantityRequest } from '../../actions/usStock';
+import { loadStockDetailRequest, getUsStockBalances, saveOrderFormRequest, getPriceInfo,saveOrderQuantityRequest, getUSSellInput } from '../../actions/usStock';
 
 const mapStateToProps = (state) => {
-  const { stockDetail, physicalDetail, orderFormValues, orderPrice,orderQuantity } = state.usStockReducer;
+  const { stockDetail, physicalDetail, orderFormValues, orderPrice,orderQuantity, sellInput} = state.usStockReducer;
   return {
     stockDetail,
     physicalDetail,
     orderFormValues,
     orderPrice,
-    orderQuantity
+    orderQuantity, 
+    sellInput
   };
 };
 
@@ -20,7 +21,8 @@ const mapDispatchToProps = (dispatch) => {
     getUsStockBalances,
     saveOrderFormRequest,
     getPriceInfo,
-    saveOrderQuantityRequest
+    saveOrderQuantityRequest,
+    getUSSellInput
   }, dispatch);
 };
 
