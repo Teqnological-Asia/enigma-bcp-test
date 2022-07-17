@@ -1,9 +1,10 @@
-import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, EXPIRED_TOKEN, SET_ANTI_SOCIAL } from '../constants/auth';
+import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, EXPIRED_TOKEN, SET_ANTI_SOCIAL, STOCK_ORDER_ERROR } from '../constants/auth';
 
 const initialState = {
   error: null,
   isInvalidToken: false,
   isAntiSocial: false,
+  isStockOrderErr: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -36,6 +37,11 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isAntiSocial: action.isAntiSocial,
+      }
+    case STOCK_ORDER_ERROR:
+      return {
+        ...state,
+        isStockOrderErr: action.isStockOrderErr,
       }
     default:
       return state;

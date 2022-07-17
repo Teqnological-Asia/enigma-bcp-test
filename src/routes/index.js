@@ -41,6 +41,7 @@ import UsStockPurchaseOrderContainer from '../containers/UsStock/UsStockPurchase
 import UsStockPurchaseOrderConfirmContainer from '../containers/UsStock/UsStockPurchaseOrderConfirmContainer'
 import UsStockPurchaseOrderComplete from '../containers/UsStock/UsStockPurchaseOrderComplete'
 import LoginCallbackContainer from '../containers/Login/LoginCallbackContainer.js'
+import GoToLoginContainer from '../containers/GoToLoginContainer'
 import { AppHelmet } from '../components/Helmet';
 
 export const routes = [
@@ -202,6 +203,11 @@ export const routes = [
   {
     path: '/account/logout',
     component: LogoutContainer,
+    isAuthenticated: false
+  },
+  {
+    path: '/account/go-to-login',
+    component: GoToLoginContainer,
     isAuthenticated: false
   },
   {
