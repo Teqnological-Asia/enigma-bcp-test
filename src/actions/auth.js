@@ -139,36 +139,59 @@ const ruleOfEmergencyRequest = () => (dispatch => {
     })
 })
 
-const accountStatusRequest = () => (dispatch => {
-  const url = `${process.env.REACT_APP_ACCOUNT_MANAGER_API}/v4/accountStatus`
+const stockAndOrderRequest = () => (dispatch => {
+  const balanceStockUrl = `${process.env.REACT_APP_ENIGMA_API_HOST}/user/balance/stocks`
+  const orderUrl = `${process.env.REACT_APP_ENIGMA_API_HOST}/orders`
   const options = {
     headers: getAuthHeader()
   }
-  return axios.get(url, options)
+  const balanceStockRequest = axios.get(balanceStockUrl, options)
+  const orderRequest = axios.get(orderUrl, options)
+  return axios.all([balanceStockRequest, orderRequest])
+  .then(axios.spread((balanceStockResponse, orderResponse) => {
+    dispatch(profileRequest())
+  }))
+    .catch(error => {
+      const errorStatus = error.response ? error.response.status : null;
+      (errorStatus === 400 || errorStatus === 500) && sessionStorage.setItem('stock_order_err', 'yes')
+      dispatch(goToLoginPage())
+    })
+})
+
+
+const accountStatusRequest = () => (dispatch => {
+  dispatch(setLoading(true))
+  const statusUrl = `${process.env.REACT_APP_ENIGMA_API_HOST}/status`
+  const options = {
+    headers: getAuthHeader()
+  }
+  sessionStorage.setItem('stock_order_err', 'no')
+  sessionStorage.setItem('account_status', 'available') //default value
+
+  return axios.get(statusUrl, options)
     .then(({ data: items }) => {
-      const { equity } = items.status
-      if (equity === 'AVAILABLE') {
-        const res = equity.toLowerCase()
-        sessionStorage.setItem('account_status', res)
-        dispatch(profileRequest())
-      } else {
-        const redirectUri = `${process.env.REACT_APP_OPENACCOUNT_SITE || 'http://localhost:3000'}/account-state?from=bcplogin`
-        window.location.href = redirectUri
+      const isOpenAccount = items.openAccount.status === 'NONE' ? false : true;
+      if(!isOpenAccount){
+        sessionStorage.setItem('account_status', 'none')
+        dispatch(goToLoginPage())
+        dispatch(setLoading(false))
+      }
+      else{ //account status is AVAILABLE or CLOSE
+        dispatch(stockAndOrderRequest())
+        dispatch(setLoading(false))
       }
     })
     .catch(error => {
-      let errorMessage = '';
-      if (error.response) {
-        errorMessage = error.response.data.message;
-      }
-      dispatch(loginFailure(errorMessage));
+      const errorStatus = error.response ? error.response.status : null;
+      (errorStatus === 400 || errorStatus === 500) && sessionStorage.setItem('stock_order_err', 'yes')
+      dispatch(goToLoginPage())
       dispatch(setLoading(false))
-    })
+    }
+    )
 })
 
 const profileRequest = () => {
   return dispatch => {
-    // dispatch(loadStockLendingStatus());
     const profileRequest = axios
       .get(`${process.env.REACT_APP_USER_INFORMATION_API_HOST}/profile`, {
         headers: getAuthHeader()
@@ -216,6 +239,15 @@ export const invalidTokenLogoutRequest = () => {
     dispatch(logoutSuccess());
     dispatch(push('/account/login'));
   }
+}
+
+export const goToLoginPage = () => {
+  return dispatch => {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('currentAccountType');
+    dispatch(logoutSuccess());
+    dispatch(push('/account/go-to-login'));
+  } 
 }
 
 export const invalidToken = () => {

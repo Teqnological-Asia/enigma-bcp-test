@@ -200,7 +200,7 @@ class OrderForm extends Component {
   }
 
   render() {
-    const { stockDetail, isUSStock, userInfo } = this.props;
+    const { stockDetail, isUSStock, userInfo, USSellInput} = this.props;
     const { quantity, orderType, price, cautionDetail } = this.state;
 
     if (!stockDetail) return null;
@@ -257,36 +257,36 @@ class OrderForm extends Component {
                     <td>相対</td>
                   </tr>
                   {
-                    isUSStock &&
+                    (isUSStock && USSellInput) &&
                     <tr>
                       <th style={{ verticalAlign: 'baseline' }}>価格情報</th>
                       <td>
-                        <div className="price-container">
-                          <div className="price-item">
-                            <p className="description">参考為替レート（米ドル）</p>
+                        <div className="price-container" style={{display: 'block', marginBottom:'1,25rem'}}>
+                          <div className="price-item" style={{marginBottom: '1rem'}}>
+                            <p className="description">取引参考価格 (1株)</p>
                             <div>
                               <span className="price">
-                                0.55
+                                {formatCurrency(USSellInput.exchangedPrice)}
                               </span>
                               &nbsp;
                               円
                             </div>
                           </div>
                           <div className="price-item">
-                            <p className="description">為替コスト</p>
+                            <p className="description">参考為替レート（米ドル)</p>
                             <div>
                                 <span className="price">
-                                  —-
+                                  {USSellInput.forex.rate}
                                 </span>
                                 &nbsp;
-                              %
+                                円
                             </div>
                           </div>
                         </div>
                         <div className="notice">
                           <div style={{ marginRight: '15px' }}>※</div>
                           <div>
-                            ・実際の取引価格は米国市場が開いた後に注文が速やかに発注され、約定した株の平均価格に対して当社の定める為替コスト反映後のレートを適用した価格になります。
+                          取引参考価格は前日終値を元に0.715%のスプレッドを加味したうえで参考為替レート（為替コストを含みます）を適用した価格になります。
                           </div>
                         </div>
                       </td>

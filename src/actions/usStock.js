@@ -14,7 +14,8 @@ import {
   LOAD_US_STOCK_DETAIL_SUCCESS,
   SAVE_ORDER_QUANTITY,
   SAVE_STOCK_FORM,
-  SAVE_STOCK_SEND_PARAMS
+  SAVE_STOCK_SEND_PARAMS,
+  GET_US_SELL_INPUT_SUCCESS
 } from '../constants/usStock';
 import { showErrorMessage } from '../utils';
 import { getAuthHeader, getHeaderEnigma } from './auth';
@@ -102,6 +103,13 @@ export const saveOrderQuantity = (orderQuantity) => {
   return {
     type: SAVE_ORDER_QUANTITY,
     orderQuantity
+  }
+}
+
+export const getUSSellInputSuccess = (sellInput) => {
+  return {
+    type: GET_US_SELL_INPUT_SUCCESS,
+    sellInput
   }
 }
 
@@ -381,5 +389,24 @@ export const createPurchaseOrderConfirm = (id) => {
       dispatch(push(`/account/us-stock/${id}/purchase/complete`));
       dispatch(setLoading(false))
     });
+  }
+}
+
+export const getUSSellInput = (stockCode) => {
+  return (dispatch,getState) => {
+    dispatch(setLoading(true))
+    const params = {
+      "code": stockCode,
+      "quantity": 0 //default value
+    }
+    const request = axios.post(`${process.env.REACT_APP_ENIGMA_API_HOST}/usStocks/sellInput`,
+      params,
+      {
+        headers: getAuthHeader()
+      })
+    return request.then((response) => {
+      dispatch(getUSSellInputSuccess(response.data))
+      dispatch(setLoading(false))
+    })
   }
 }

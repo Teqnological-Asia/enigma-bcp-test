@@ -13,6 +13,7 @@ class UsStockSell extends Component {
 
   componentDidMount() {
     // this.props.loadStockDetailRequest(this.stockCode);
+    this.props.getUSSellInput(this.stockCode);
     this.props.getUsStockBalances(this.stockCode);
     window.addEventListener("beforeunload", this.onUnload)
   }
@@ -34,7 +35,12 @@ class UsStockSell extends Component {
             <p>ご注文を入力し確認画面へお進みください。</p>
           </div>
         </div>
-        <OrderForm {...this.props} stockCode={this.stockCode} isUSStock/>
+        <OrderForm 
+        {...this.props} 
+        stockCode={this.stockCode} 
+        USSellInput={this.props.sellInput}
+        isUSStock
+        />
       </div>
     );
   }
