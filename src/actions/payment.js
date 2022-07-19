@@ -40,12 +40,12 @@ export const loadCashTransferRequest = () => {
   return dispatch => {
     dispatch(setLoading(true))
     const request = axios
-                      .get(`${process.env.REACT_APP_BALANCE_API_HOST}/deposit_info`, {
+                      .get(`${process.env.REACT_APP_ACCOUNT_MANAGER_API}/v4/virtualAccounts`, {
                         headers: getAuthHeader()
                       });
 
     return request.then((response) => {
-      dispatch(loadCashTransferSuccess(response.data.data));
+      dispatch(loadCashTransferSuccess(response.data.bank));
       dispatch(setLoading(false))
     });
   };
@@ -55,9 +55,9 @@ export const loadCashWithdrawalRequest = () => {
   return dispatch => {
     dispatch(setLoading(true))
     const request = axios
-                      .get(`${process.env.REACT_APP_BALANCE_API_HOST}/cashout_info`, {
-                        headers: getAuthHeader()
-                      });
+      .get(`${process.env.REACT_APP_BALANCE_API_HOST}/cashout_info`, {
+        headers: getAuthHeader()
+      });
 
     return request.then((response) => {
       dispatch(loadCashWithdrawalSuccess(response.data.data));
