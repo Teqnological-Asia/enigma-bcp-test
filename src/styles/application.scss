@@ -3555,7 +3555,15 @@ body.p-public {
       width: 100%;
       padding: 0; } }
 
-     @media screen and (min-width: 376px) and (max-width: 628px) {
+      .go_to_login{
+        font-size: 16px;
+      }
+
+     @media screen and (min-width: 375px) and (max-width: 628px) {
+      .go_to_login {
+        font-size: 14.25px;
+      }
+
        .p-modal input.p-modal_isopen:checked~.p-modal_window {
          width: 80vw;
          height: auto;
@@ -3577,5 +3585,17 @@ body.p-public {
         .p-container {
           height: auto;
           display: block;
+        }
+      }
+
+      @media screen and (min-width: 281px) and (max-width: 320px) {
+         .go_to_login {
+          font-size: 14px;
+        }
+      }
+
+      @media screen and (max-width: 280px) {
+       .go_to_login {
+          font-size: 12px;
         }
       }
