@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { goToLoginPage } from '../actions/auth';
+import { goToLoginPage, goToBassAuthFontSignin } from '../actions/auth';
 import GoToLogin from '../components/Authenticated/GoToLogin';
 
 const mapStateToProps = (state) => {
@@ -11,7 +11,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    goToLoginPage
+    goToLoginPage,
+    goToBassAuthFontSignin
   }, dispatch);
 };
 

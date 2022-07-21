@@ -1,6 +1,4 @@
-import {
-  push
-} from 'react-router-redux';
+import { push } from 'react-router-redux';
 import axios from 'axios';
 import qs from 'qs';
 import {
@@ -10,9 +8,7 @@ import {
   EXPIRED_TOKEN,
   SET_ANTI_SOCIAL
 } from '../constants/auth';
-import {
-  getToken
-} from '../utils';
+import { getToken } from '../utils';
 import { setLoading } from './loading'
 import { loadAccountsInfoRequest } from "./profile";
 import Amplify from "../auth/amplify";
@@ -61,6 +57,12 @@ export const setAntiSocial = (isAntiSocial) => {
   return {
     type: SET_ANTI_SOCIAL,
     isAntiSocial
+  }
+}
+
+export const invalidToken = () => {
+  return {
+    type: EXPIRED_TOKEN
   }
 }
 
@@ -250,8 +252,9 @@ export const goToLoginPage = () => {
   } 
 }
 
-export const invalidToken = () => {
-  return {
-    type: EXPIRED_TOKEN
+export const goToBassAuthFontSignin= () => {
+  return dispatch => {
+    dispatch(setLoading(true));
+    window.location.replace(`${process.env.REACT_APP_POC_URL}/enigma/signin`);
   }
 }
