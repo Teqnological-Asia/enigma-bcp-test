@@ -42,13 +42,6 @@ class Payment extends Component {
         </div>
         <DepositInfo cashTransfer={cashTransfer} />
         <WithdrawalForm cashWithdrawal={cashWithdrawal} saveWithdrawalAmountRequest={saveWithdrawalAmountRequest} />
-        <div className="u-mt30p">
-          <div className="p-section_lead">
-            <p>
-              ご出金に関する詳細は<a href="https://smartplus-sec.com/service/procedure/payment/withdrawal/" target="_blank" rel="noopener noreferrer">こちら</a>をご確認ください。
-            </p>
-          </div>
-        </div>
       </div>
     );
   }

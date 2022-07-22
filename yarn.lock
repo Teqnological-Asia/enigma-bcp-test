@@ -1665,11 +1665,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@finatext/baas-common-bcp@^1.0.0-alpha.38":
+"@finatext/baas-common-bcp@^1.0.0-alpha.40":
   name "@Finatext/baas-common-bcp"
-  version "1.0.0-alpha.38"
-  resolved "https://npm.pkg.github.com/download/@finatext/baas-common-bcp/1.0.0-alpha.38/34e335e627c42af9cd4d968f56ec0a5efd9837891503035b81da98e7b9af11b7#f86be51745e6f7ea42824e44b14768a83f69c093"
-  integrity sha512-wfKEXRsbF8LcCTPanWEcIxll1Fg1zBhVfMeOQAPJZ7sA5VuzDHit/bN+TuCO3qq/JAwlrNJNr8kuA26gaEgMKw==
+  version "1.0.0-alpha.40"
+  resolved "https://npm.pkg.github.com/download/@finatext/baas-common-bcp/1.0.0-alpha.40/2815130d26a011257457b85de4756e419eaf5b452680d150123940aace7aaa3d#260047a79a9fb3c08ec5dfe7fb4b59a272659fe7"
+  integrity sha512-YGfvFd1phk2tzGPkmrQKfcypIbGNTF5y3Xade/v3lBHO/t9q4fOav64KCKSXMsSs/SSDwiny0zOE+52xo6QkgA==
   dependencies:
     "@testing-library/jest-dom" "^5.11.4"
     "@testing-library/react" "^11.1.0"
@@ -4412,6 +4412,11 @@ body-parser@1.19.1:
     qs "6.9.6"
     raw-body "2.4.2"
     type-is "~1.6.18"
+
+body-scroll-lock@^4.0.0-beta.0:
+  version "4.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/body-scroll-lock/-/body-scroll-lock-4.0.0-beta.0.tgz#4f78789d10e6388115c0460cd6d7d4dd2bbc4f7e"
+  integrity sha512-a7tP5+0Mw3YlUJcGAKUqIBkYYGlYxk2fnCasq/FUph1hadxlTRjF+gAcZksxANnaMnALjxEddmSi/H3OR8ugcQ==
 
 bonjour@^3.5.0:
   version "3.5.0"

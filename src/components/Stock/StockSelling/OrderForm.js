@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { formatCurrency, validateIntegerNumber, validateNumber } from '../../../utils';
 import CautionBox from '../Caution/CautionBox';
-import { cautionConditions } from './Helper';
+import { cautionConditions } from '../Helper';
 import { ICaution } from './IStockSelling';
 import { insider, executive } from '../../../assets/constantVariables';
+import USCautionBox from '../Caution/USCautionBox';
+import USStockTradingRuleModal from '../Modal/USStockTradingRule';
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 class OrderForm extends Component {
   constructor(props) {
     super(props);
@@ -16,9 +19,21 @@ class OrderForm extends Component {
       orderType: orderType || 'Market',
       price: price || '',
       cautionDetail: ICaution,
+      isClickUSStockCaution: false,
+      isShowUSStockTradingModal: false,
     }
 
     this.validateNumberError = '数値を入力してください';
+  }
+
+  targetElement = null;
+
+  componentDidMount() {  
+    this.targetElement = document.querySelectorAll('*');
+  }
+
+  componentWillUnmount() {
+    clearAllBodyScrollLocks();
   }
 
   handleTextChange = (e) => {
@@ -97,6 +112,14 @@ class OrderForm extends Component {
     if (this.state.price.length + 1 > 9) {
       e.preventDefault();
     }
+  }
+
+  isQuantityTypeError = () => {
+    const { quantity } = this.state;
+    if (quantity <= 0 || !validateIntegerNumber(quantity)) {
+      return true;
+    }
+    return false;
   }
 
   handleChangePrice = (e, type) => {
@@ -199,13 +222,30 @@ class OrderForm extends Component {
     this.setState({ cautionDetail: ICaution });
   }
 
+  handleClickUSCautionBox = () => {
+    this.setState({isClickUSCaution: !this.state.isClickUSCaution});
+  }
+
+  handleShowUSStockTradingModal = () => {
+    this.setState({isShowUSStockTradingModal: true});
+    // Disable body scroll
+    disableBodyScroll(this.targetElement);
+  }
+
+  handleCloseUSStockTradingModal = () => {
+    this.setState({isShowUSStockTradingModal: false});
+    // Re-enable body scroll
+    enableBodyScroll(this.targetElement);
+  }
+
   render() {
     const { stockDetail, isUSStock, userInfo, USSellInput} = this.props;
     const { quantity, orderType, price, cautionDetail } = this.state;
+    const isShowUSStockTradingModal = this.state.isShowUSStockTradingModal;
 
     if (!stockDetail) return null;
 
-    let isDisabled = false;
+    let isJPDisabled = false;
     let isClickCautionInsider = false;
     let isClickCautionExcutive = false;
     let codeCheckedFinal = false;
@@ -217,8 +257,16 @@ class OrderForm extends Component {
       const { codeChecked, isShowExecutiveCautionBox } = cautionConditions(stockDetail, userInfo);
       codeCheckedFinal = codeChecked;
       isShowExecutiveCautionBoxFinal = isShowExecutiveCautionBox;
-      isDisabled = (!isClickCautionInsider && codeChecked) || (!isClickCautionExcutive && isShowExecutiveCautionBox);
+      isJPDisabled = (!isClickCautionInsider && codeChecked) || (!isClickCautionExcutive && isShowExecutiveCautionBox);
     }
+
+    const isDisabled = (isUSStock ? !this.state.isClickUSCaution : isJPDisabled) || this.isQuantityTypeError();
+    
+    if(isShowUSStockTradingModal) return (
+      <USStockTradingRuleModal 
+      onClose={this.handleCloseUSStockTradingModal} 
+      />
+    )
 
     return (
       <form onSubmit={(e) => this.handleSubmit(e)}>
@@ -289,6 +337,12 @@ class OrderForm extends Component {
                           取引参考価格は前日終値を元に0.715%のスプレッドを加味したうえで参考為替レート（為替コストを含みます）を適用した価格になります。
                           </div>
                         </div>
+                          <div
+                          className="stock-rule"
+                          onClick={() => this.handleShowUSStockTradingModal()}
+                          >
+                            ＞ 米国株式取引ルール
+                          </div>
                       </td>
                     </tr>
                   }
@@ -298,20 +352,21 @@ class OrderForm extends Component {
           </div>
         </div>
 
-        {!isUSStock && (
-          <div>
-            <CautionBox
-              isShow={codeCheckedFinal}
-              typeOfWarning={insider}
-              onSelect={this.handleClickCautionBox}
-            />
-            <CautionBox
-              isShow={isShowExecutiveCautionBoxFinal}
-              typeOfWarning={executive}
-              onSelect={this.handleClickCautionBox}
-            />
-          </div>
-        )
+        {isUSStock ? <USCautionBox onChecked={this.handleClickUSCautionBox} />
+          : (
+            <div>
+              <CautionBox
+                isShow={codeCheckedFinal}
+                typeOfWarning={insider}
+                onSelect={this.handleClickCautionBox}
+              />
+              <CautionBox
+                isShow={isShowExecutiveCautionBoxFinal}
+                typeOfWarning={executive}
+                onSelect={this.handleClickCautionBox}
+              />
+            </div>
+          )
         }
 
         <div className="u-mt20p">

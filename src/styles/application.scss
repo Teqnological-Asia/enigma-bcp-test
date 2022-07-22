@@ -3465,6 +3465,22 @@ body.p-public {
       margin: .5em 0;
       display: inline-block; } }
 
+.stock-rule{
+  color: #2EAFE8;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.stock-rule-modal-wbtn{
+  width: 15rem;
+}
+
+@media screen and (max-width: 720px) {
+  .stock-rule-modal-wbtn{
+    width: auto;
+  }
+}
+
 .u-mt10p {
   margin-top: 10px !important; }
 
@@ -3479,6 +3495,11 @@ body.p-public {
 
 .u-mb05r {
   margin-bottom: .5rem !important; }
+
+.u-mt3rem-btn {
+  margin-top: 3rem !important; 
+  text-align: center; 
+}
 
 @media screen and (max-width: 375px) {
   .u-mt10p_sp {

@@ -1,4 +1,4 @@
-import { executive } from '../../../assets/constantVariables';
+import { executive } from '../../assets/constantVariables';
 
 export const checkCode = (insiderArr, stockCode) => {
     const insiderArray = insiderArr.filter(el => {
@@ -26,8 +26,10 @@ export const cautionConditions = (stockDetail, userInfo) => {
         isShowExecutiveCautionBox: false
     }
 
-    if (!stockDetail && !userInfo && (userInfo && (userInfo.insiders.length === 0 || !userInfo.occupation))) return result;
-    if (userInfo && (userInfo.insiders.length === 0 || !userInfo.occupation)) return result;
+    if ((!stockDetail && !userInfo && (userInfo && (userInfo.insiders.length === 0 || !userInfo.occupation)))
+        || (userInfo && (userInfo.insiders.length === 0 || !userInfo.occupation))) {
+        return result;
+    }
 
     const codeChecked = checkCode(userInfo.insiders, stockDetail.code);
     const companyCodeChecked = checkCompanyCodeCondition(stockDetail.code, userInfo.occupation.companyCode);
