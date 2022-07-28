@@ -29,7 +29,6 @@ class OrderForm extends Component {
   targetElement = null;
 
   componentDidMount() {  
-    this.targetElement = document.querySelectorAll('*');
   }
 
   componentWillUnmount() {
@@ -228,13 +227,16 @@ class OrderForm extends Component {
 
   handleShowUSStockTradingModal = () => {
     this.setState({isShowUSStockTradingModal: true});
-    // Disable body scroll
-    disableBodyScroll(this.targetElement);
+
+    //delay to wait for modal to be shown
+    setTimeout(() => {
+      this.targetElement = document.querySelector(".p-modal_window");
+      disableBodyScroll(this.targetElement);
+    }, 500);
   }
 
   handleCloseUSStockTradingModal = () => {
     this.setState({isShowUSStockTradingModal: false});
-    // Re-enable body scroll
     enableBodyScroll(this.targetElement);
   }
 
@@ -263,9 +265,7 @@ class OrderForm extends Component {
     const isDisabled = (isUSStock ? !this.state.isClickUSCaution : isJPDisabled) || this.isQuantityTypeError();
     
     if(isShowUSStockTradingModal) return (
-      <USStockTradingRuleModal 
-      onClose={this.handleCloseUSStockTradingModal} 
-      />
+      <USStockTradingRuleModal onClose={this.handleCloseUSStockTradingModal} />
     )
 
     return (
