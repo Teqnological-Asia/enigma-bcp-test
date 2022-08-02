@@ -256,6 +256,6 @@ export const goToLoginPage = () => {
 export const goToBassAuthFontSignin= () => {
   return dispatch => {
     dispatch(setLoading(true));
-    window.location.replace(`${process.env.REACT_APP_POC_URL}/enigma/signin`);
+    window.location.replace(`${process.env.REACT_APP_POC_URL}/collekabu/signin`);
   }
 }
