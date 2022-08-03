@@ -1,6 +1,5 @@
 import React from 'react';
 import { excutive, insider } from './CautionText';
-import { splitLine } from '../../../utils';
 
 const CautionBox = ({ isShow, typeOfWarning, onSelect }) => {
   const { headerText, bodyText, checkText } = typeOfWarning === 'insider' ? insider : excutive;
@@ -24,11 +23,7 @@ const CautionBox = ({ isShow, typeOfWarning, onSelect }) => {
       (<div className="u-mt20p">
         <div className="caution-area" >
           <div className="caution--header" > {headerText} </div>
-          <div className="caution--body" >
-            {splitLine(bodyText).map((line, index) => {
-              return <div key={index}>{line}</div>;
-            })}
-          </div>
+          <div className="caution--body" > {bodyText} </div>
           <div style={{ display: 'inline-flex' }}>
             <input
               type='checkbox'

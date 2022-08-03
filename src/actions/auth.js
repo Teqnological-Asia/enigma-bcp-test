@@ -152,6 +152,7 @@ const stockAndOrderRequest = () => (dispatch => {
   return axios.all([balanceStockRequest, orderRequest])
   .then(axios.spread((balanceStockResponse, orderResponse) => {
     dispatch(profileRequest())
+    //TODO: handle with returned data
   }))
     .catch(error => {
       const errorStatus = error.response ? error.response.status : null;
@@ -178,7 +179,7 @@ const accountStatusRequest = () => (dispatch => {
         dispatch(goToLoginPage())
         dispatch(setLoading(false))
       }
-      else{ //account status is AVAILABLE or CLOSE
+      else{ //account status is 'AVAILABLE' or 'CLOSE'
         dispatch(stockAndOrderRequest())
         dispatch(setLoading(false))
       }
@@ -255,6 +256,6 @@ export const goToLoginPage = () => {
 export const goToBassAuthFontSignin= () => {
   return dispatch => {
     dispatch(setLoading(true));
-    window.location.replace(`${process.env.REACT_APP_POC_URL}/enigma/signin`);
+    window.location.replace(`${process.env.REACT_APP_POC_URL}/collekabu/signin`);
   }
 }

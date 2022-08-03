@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@aws-amplify/auth": "^3.3.6",
-    "@finatext/baas-common-bcp": "^1.0.0-alpha.38",
+    "@finatext/baas-common-bcp": "^1.0.0-alpha.40",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
     "babel-core": "6.26.0",
@@ -14,6 +14,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-react-app": "^3.1.1",
     "babel-runtime": "6.26.0",
+    "body-scroll-lock": "^4.0.0-beta.0",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
     "chalk": "1.1.3",
     "connected-react-router": "^6.9.2",

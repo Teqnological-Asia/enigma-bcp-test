@@ -183,5 +183,19 @@ export const showErrorMessage = (error, dispatch) => {
 }
 
 export const splitLine = (inputText) => {
-  return inputText.split("<br/>");
+  //return an array that elements are splited lines
+  return (inputText + '').split("<br/>");
+}
+
+export const createArrayWithId = (inputText, currentCount) => {
+  const splitLineResult = splitLine(inputText)
+  //return an array that each element is an object contain id
+  const result = splitLineResult.map((text, index) => {
+    currentCount++;
+    return {
+      id: currentCount,
+      text
+    }
+  })
+  return result;
 };

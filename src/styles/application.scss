@@ -3465,6 +3465,22 @@ body.p-public {
       margin: .5em 0;
       display: inline-block; } }
 
+.stock-rule{
+  color: #2EAFE8;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.stock-rule-modal-wbtn{
+  width: 15rem;
+}
+
+@media screen and (max-width: 720px) {
+  .stock-rule-modal-wbtn{
+    width: auto;
+  }
+}
+
 .u-mt10p {
   margin-top: 10px !important; }
 
@@ -3479,6 +3495,11 @@ body.p-public {
 
 .u-mb05r {
   margin-bottom: .5rem !important; }
+
+.u-mt3rem-btn {
+  margin-top: 3rem !important; 
+  text-align: center; 
+}
 
 @media screen and (max-width: 375px) {
   .u-mt10p_sp {
@@ -3599,3 +3620,60 @@ body.p-public {
           font-size: 12px;
         }
       }
+      
+.btn_close{
+  color: #fff;
+  background-color: #12315e;
+  border: 1px solid #12315e;
+  display: inline-block;
+  margin-bottom: 0;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  white-space: nowrap;
+  letter-spacing: 0.15em;
+  text-indent: 0.15em;
+  border-radius: 5px;
+  font-weight: 400;
+  padding: 0.5em 0.5em;
+  font-size: 12px;
+  line-height: 1.25;
+  text-decoration: none;
+  
+  @media (max-width: 414px) {
+    display: block;
+  }
+}
+
+.btn_close:link,
+:hover,
+:focus,
+:visited {
+  color: #fff;
+}
+
+.btn_close:focus {
+  outline: 0;
+  color: #fff;
+  background-color: #0a1b33;
+}
+
+.btn_close:hover {
+  color: #fff;
+  background-color: #0a1b33;
+}
+
+.btn_close :visited:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.content-body{
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 900px;
+  font-family: 'Noto Sans JP', sans-serif;
+}

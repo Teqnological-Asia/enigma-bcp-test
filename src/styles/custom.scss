@@ -694,3 +694,14 @@ table.c-table_list tbody tr .us-stock-price {
   font-size: 14px;
   padding-bottom: 10px;
 }
+
+.body-scroll {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+  height: 49.125vh;
+}
+
+.body-scroll::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
