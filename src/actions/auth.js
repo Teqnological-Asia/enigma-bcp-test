@@ -173,8 +173,8 @@ const accountStatusRequest = () => (dispatch => {
 
   return axios.get(statusUrl, options)
     .then(({ data: items }) => {
-      const isOpenAccount = items.openAccount.status === 'NONE' ? false : true;
-      if(!isOpenAccount){
+      const isNotOpenAccount = items.openAccount.status === 'NONE'
+      if(isNotOpenAccount){
         sessionStorage.setItem('account_status', 'none')
         dispatch(goToLoginPage())
         dispatch(setLoading(false))
