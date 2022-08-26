@@ -65,7 +65,7 @@ export const loadPhysicalsRequest = () => {
   return dispatch => {
     dispatch(setLoading(true))
     const request = axios
-      .get(`${process.env.REACT_APP_ENIGMA_API_HOST}/user/balance/stocks `, {
+      .get(`${process.env.REACT_APP_ENIGMA_API_HOST}/user/balance/stocks`, {
         headers: getAuthHeader()
       });
 
