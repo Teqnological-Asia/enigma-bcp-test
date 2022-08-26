@@ -50,7 +50,7 @@ export default class Amplify {
 
   static viewTypeMap = {
     login: {
-      view: 'login',
+      view: 'bcplogin',
       callback: 'account/login/callback/'
     },
     nayose: {
