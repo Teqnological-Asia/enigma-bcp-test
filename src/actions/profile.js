@@ -100,7 +100,7 @@ export const loadAccountsInfoRequest = () => {
         sessionStorage.setItem('currentAccountType', currentAccount.type);
         sessionStorage.setItem('mainAccount', mainAccount.rpId);
         dispatch(loadAccountsInfoSuccess(currentAccount, accounts));
-        currentAccount.branchCode !== '235' && dispatch(dispatch(createError("予期せぬエラーが発生しました​")));
+        currentAccount.branchCode !== '235' && dispatch(createError("予期せぬエラーが発生しました​"));
         dispatch(setLoading(false))
       });
   };

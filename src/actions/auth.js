@@ -66,12 +66,13 @@ export const invalidToken = () => {
   }
 }
 
-export const loginRequest = (authz_code, user_id) => {
+export const loginRequest = (authz_code, user_id, device_id) => {
   return dispatch => {
     dispatch(setLoading(true))
     const amplify = new Amplify({
       authzCode: authz_code,
       baasId: user_id,
+      deviceId: device_id
     });
     return amplify.login()
       .then((result) => {
@@ -173,8 +174,8 @@ const accountStatusRequest = () => (dispatch => {
 
   return axios.get(statusUrl, options)
     .then(({ data: items }) => {
-      const isOpenAccount = items.openAccount.status === 'NONE' ? false : true;
-      if(!isOpenAccount){
+      const isNotOpenAccount = items.openAccount.status === 'NONE'
+      if(isNotOpenAccount){
         sessionStorage.setItem('account_status', 'none')
         dispatch(goToLoginPage())
         dispatch(setLoading(false))
