@@ -2,6 +2,23 @@
 # yarn lockfile v1
 
 
+"@Finatext/baas-common-bcp@1.0.0-alpha.48":
+  version "1.0.0-alpha.48"
+  resolved "https://npm.pkg.github.com/download/@Finatext/baas-common-bcp/1.0.0-alpha.48/65c2f6c9080e785b63fb6a34528c42961b826795#65c2f6c9080e785b63fb6a34528c42961b826795"
+  integrity sha512-TLs8vYzUxdYiS+o//QbEAMtRe1qyrqu/UvrmZ3sgz6U5MAJyZM6RNnJX+VGsPg+6qMia4+K2SBlrg98WaAKUKQ==
+  dependencies:
+    "@testing-library/jest-dom" "^5.11.4"
+    "@testing-library/react" "^11.1.0"
+    "@testing-library/user-event" "^12.1.10"
+    "@types/jest" "^26.0.15"
+    "@types/node" "^12.0.0"
+    "@types/react" "^17.0.0"
+    "@types/react-dom" "^17.0.0"
+    react-scripts "4.0.3"
+    styled-components "^5.3.3"
+    typescript "^4.1.2"
+    web-vitals "^1.0.1"
+
 "@aws-amplify/auth@^3.3.6":
   version "3.4.34"
   resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-3.4.34.tgz#020c68d2d0a05697cebce2fa7a601c29d22799a5"
@@ -1664,24 +1681,6 @@
     js-yaml "^3.13.1"
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
-
-"@finatext/baas-common-bcp@^1.0.0-alpha.40":
-  name "@Finatext/baas-common-bcp"
-  version "1.0.0-alpha.40"
-  resolved "https://npm.pkg.github.com/download/@finatext/baas-common-bcp/1.0.0-alpha.40/2815130d26a011257457b85de4756e419eaf5b452680d150123940aace7aaa3d#260047a79a9fb3c08ec5dfe7fb4b59a272659fe7"
-  integrity sha512-YGfvFd1phk2tzGPkmrQKfcypIbGNTF5y3Xade/v3lBHO/t9q4fOav64KCKSXMsSs/SSDwiny0zOE+52xo6QkgA==
-  dependencies:
-    "@testing-library/jest-dom" "^5.11.4"
-    "@testing-library/react" "^11.1.0"
-    "@testing-library/user-event" "^12.1.10"
-    "@types/jest" "^26.0.15"
-    "@types/node" "^12.0.0"
-    "@types/react" "^17.0.0"
-    "@types/react-dom" "^17.0.0"
-    react-scripts "4.0.3"
-    styled-components "^5.3.3"
-    typescript "^4.1.2"
-    web-vitals "^1.0.1"
 
 "@gar/promisify@^1.0.1":
   version "1.1.2"

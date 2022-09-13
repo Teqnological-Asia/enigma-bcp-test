@@ -3558,70 +3558,79 @@ body.p-public {
 @media screen and (max-width: 375px) {
   .u-row {
     width: 100%;
-    font-size: 0; }
-    .u-row .u-col_25_sp {
-      display: inline-block;
-      width: 25%;
-      padding: 0 10px 0 0; }
-    .u-row .u-col_50_sp {
-      display: inline-block;
-      width: 50%;
-      padding: 0 10px 0 0; }
-    .u-row .u-col_75_sp {
-      display: inline-block;
-      width: 75%;
-      padding: 0 10px 0 0; }
-    .u-row .u-col_100_sp {
-      display: block;
-      width: 100%;
-      padding: 0; } }
+    font-size: 0;
+  }
 
-      .go_to_login{
-        font-size: 16px;
-      }
+  .u-row .u-col_25_sp {
+    display: inline-block;
+    width: 25%;
+    padding: 0 10px 0 0;
+  }
 
-     @media screen and (min-width: 375px) and (max-width: 628px) {
-      .go_to_login {
-        font-size: 14.25px;
-      }
+  .u-row .u-col_50_sp {
+    display: inline-block;
+    width: 50%;
+    padding: 0 10px 0 0;
+  }
 
-       .p-modal input.p-modal_isopen:checked~.p-modal_window {
-         width: 80vw;
-         height: auto;
-         padding: 20px 16px 24px;
-       }
-  
-       .p-container {
-         height: auto;
-         display: block;
-       }
-     }
-      @media screen and (max-width: 374px) {
-        .p-modal input.p-modal_isopen:checked~.p-modal_window {
-          width: 80vw;
-          height: auto;
-          padding: 16px 12px 20px;
-        }
-    
-        .p-container {
-          height: auto;
-          display: block;
-        }
-      }
+  .u-row .u-col_75_sp {
+    display: inline-block;
+    width: 75%;
+    padding: 0 10px 0 0;
+  }
 
-      @media screen and (min-width: 281px) and (max-width: 320px) {
-         .go_to_login {
-          font-size: 14px;
-        }
-      }
+  .u-row .u-col_100_sp {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+}
 
-      @media screen and (max-width: 280px) {
-       .go_to_login {
-          font-size: 12px;
-        }
-      }
-      
-.btn_close{
+.go_to_login {
+  font-size: 1.125rem;
+}
+
+@media screen and (min-width: 360px) and (max-width: 628px) {
+  .go_to_login {
+    font-size: 0.675rem;
+  }
+
+  .p-modal input.p-modal_isopen:checked~.p-modal_window {
+    width: 80vw;
+    height: auto;
+    padding: 20px 16px 24px;
+  }
+
+  .p-container {
+    height: auto;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .p-modal input.p-modal_isopen:checked~.p-modal_window {
+    padding: 16px 12px 20px;
+  }
+}
+
+@media screen and (min-width: 281px) and (max-width: 320px) {
+  .go_to_login {
+    font-size: 0.695rem;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .go_to_login {
+    font-size: 0.675rem;
+  }
+
+  .p-modal input.p-modal_isopen:checked~.p-modal_window {
+    width: 250px;
+    height: 360px;
+  }
+}
+
+.btn_close {
   color: #fff;
   background-color: #12315e;
   border: 1px solid #12315e;
@@ -3635,13 +3644,13 @@ body.p-public {
   white-space: nowrap;
   letter-spacing: 0.15em;
   text-indent: 0.15em;
-  border-radius: 5px;
+  border-radius: 0.255rem;
   font-weight: 400;
   padding: 0.5em 0.5em;
-  font-size: 12px;
-  line-height: 1.25;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
   text-decoration: none;
-  
+
   @media (max-width: 414px) {
     display: block;
   }
@@ -3663,7 +3672,7 @@ body.p-public {
   text-decoration: none;
 }
 
-.content-body{
+.content-body {
   padding: 0;
   margin: 0 auto;
   width: 100%;
