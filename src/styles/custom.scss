@@ -195,14 +195,8 @@ label.my-modal_close::after {
   margin-right: 20px;
   line-height: 20px;
 }
-/* .c-table_list .__react_component_tooltip.type-info::before {
-  display: none;
-}
-.c-table_list .__react_component_tooltip.type-info::after {
-  display: none;
-} */
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 678px) {
   label.my-modal_close {
     background-color: #091733;
     color: #FFF;
