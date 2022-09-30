@@ -2164,6 +2164,24 @@ input[type="button"].button-block {
   margin-top: 20px;
 }
 
+$fsize: auto;
+@mixin p-contact($fsize) {
+  @if $fsize =='m' {
+    font-size: 16px;
+  }
+  @else if $fsize =='xm' {
+    font-size: 14.5px;
+  }
+  color:#323232;
+  margin-top: 20px;
+}
+.p-contact-medium{
+  @include p-contact('m');
+}
+.p-contact-xmedium{
+  @include p-contact('xm');
+}
+
 .p-body {
   font-size:16px;
   color:#323232;
