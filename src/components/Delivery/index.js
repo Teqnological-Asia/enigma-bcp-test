@@ -9,15 +9,18 @@ class Delivery extends Component {
             <div className="p-section_header_title">お問い合わせ先</div>
           </div>
         </div>
-        <div className="p-contact">
+        <div className="p-contact-xmedium">
+          移管を希望の方は以下にお問い合わせをお願いいたします。
+        </div>
+        <div className="p-contact-medium">
           株式会社スマートプラス　コレカブお客さま窓口
         </div>
-        <div className="p-contact">
+        <div className="p-contact-medium">
           ・電話番号：0120-540-278
           <br />
           ・メール：support-collekabu@smartplus-sec.com
         </div>
-        <div className="p-contact">
+        <div className="p-contact-medium">
           ※メールでのお問い合わせは一般的な回答になる場合がございます。
           <br />
           ・受付時間：月曜〜金曜 8時30分から17時30分（祝日、年末年始除く）
