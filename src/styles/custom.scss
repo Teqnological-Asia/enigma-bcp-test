@@ -623,7 +623,10 @@ label.my-modal_close::after {
     table-layout: fixed;
   }
   .l-contents_body_inner .u-mt20p .c-table_list thead tr th {
-    width: 100px;
+    width: 120px;
+  }
+  .l-contents_body_inner .u-mt20p .c-table_list thead tr th:nth-child(2) {
+    width: 140px;
   }
   .l-contents_body_inner .u-mt20p .c-table_list tbody tr td {
     width: 100px;
