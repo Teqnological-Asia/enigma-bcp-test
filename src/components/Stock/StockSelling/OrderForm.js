@@ -231,7 +231,9 @@ class OrderForm extends Component {
     //delay to wait for modal to be shown
     setTimeout(() => {
       this.targetElement = document.querySelector(".p-modal_window");
-      disableBodyScroll(this.targetElement);
+      disableBodyScroll(this.targetElement, {
+        allowTouchMove: el => el.tagName === "DIV" && el.className.match('allow-scroll')
+      });
     }, 500);
   }
 
