@@ -15,7 +15,8 @@ class OrderCancel extends Component {
 
   handleCancel = (tab) => {
     const stockCode = this.props.order.stock.code;
-    tab === 1 ? this.props.cancelOrderRequest(stockCode) : this.props.cancelUSOrderRequest(stockCode);
+    const side = this.props.order.side
+    tab === 1 ? this.props.cancelOrderRequest(stockCode, side) : this.props.cancelUSOrderRequest(stockCode, side);
   }
 
   render() {
