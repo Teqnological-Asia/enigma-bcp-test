@@ -43,7 +43,7 @@ const OrderDetailHeader = ({ order }) => {
         <div className="p-section_info_status">
           <div className="p-section_info_attr">注文状況</div>
           <div className="p-section_info_value">
-            {formatStatus(order.status)}
+            {formatStatus(order.status, order.side)}
           </div>
         </div>
         <div className="p-section_info_condition">
