@@ -102,15 +102,16 @@ export const orderCancelUsRequest = (id, request) => {
   }
 }
 
-export const cancelOrderRequest = (id) => {
+export const cancelOrderRequest = (id, side) => {
   return (dispatch, getState) => {
     dispatch(setLoading(true))
     const params = {
       "code": id
     }
+    const url = side === "BUY" ? `${process.env.REACT_APP_ENIGMA_API_HOST}/stocks/buy/cancel` : `${process.env.REACT_APP_ENIGMA_API_HOST}/stocks/sell/cancel`
     const request = axios
       .post(
-        `${process.env.REACT_APP_ENIGMA_API_HOST}/stocks/sell/cancel`,
+        url,
         params,
         {
           headers: getHeaderEnigma(),
@@ -124,15 +125,16 @@ export const cancelOrderRequest = (id) => {
   }
 }
 
-export const cancelUSOrderRequest = (id) => {
+export const cancelUSOrderRequest = (id, side) => {
   return (dispatch, getState) => {
     dispatch(setLoading(true))
     const params = {
       "code": id
     }
+    const url = side === "BUY" ? `${process.env.REACT_APP_ENIGMA_API_HOST}/usStocks/buy/cancel` : `${process.env.REACT_APP_ENIGMA_API_HOST}/usStocks/sell/cancel`
     const request = axios
       .post(
-        `${process.env.REACT_APP_ENIGMA_API_HOST}/usStocks/sell/cancel`,
+        url,
         params,
         {
           headers: getHeaderEnigma()
