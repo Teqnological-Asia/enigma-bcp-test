@@ -130,10 +130,18 @@ export const formatSide = (side) => {
   }
 }
 
-export const formatStatus = (status) => {
-  const statusTranslation = {
+export const formatStatus = (status, side) => {
+  const statusTranslation = side === "BUY" ? {
     "WAITING": "入金待ち",
     "ORDERING": "注文中(口座振替前)",
+    "TRANSFER_FAILED": "口座振替エラー",
+    "FILLED": "約定済み",
+    "CANCELLED": "取消済",
+    "EXPIRED": "失効",
+    "REJECTED": "リジェクト"
+  } : {
+    "WAITING": "注文受付",
+    "ORDERING": "注文中",
     "TRANSFER_FAILED": "口座振替エラー",
     "FILLED": "約定済み",
     "CANCELLED": "取消済",

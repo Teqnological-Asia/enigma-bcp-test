@@ -6,7 +6,7 @@ const OrderRow = ({ order }) => {
 
   const renderStatusLink = (order) => {
     return (
-      <Link className="c-u" to={`/account/order/${order.id}/detail`}>{formatStatus(order.status)}</Link>
+      <Link className="c-u" to={`/account/order/${order.id}/detail`}>{formatStatus(order.status, order.side)}</Link>
     );
   }
 
