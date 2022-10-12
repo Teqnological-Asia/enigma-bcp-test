@@ -690,6 +690,7 @@ table.c-table_list tbody tr .us-stock-price {
 }
 
 .body-scroll {
+  text-align: justify;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
   overflow-y: scroll;
