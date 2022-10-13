@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {createError} from "../../actions/error";
 class CloseAccountHome extends Component {
   componentDidMount() {
     this.props.loadAccountsInfoRequest();
@@ -14,10 +17,12 @@ class CloseAccountHome extends Component {
       return null;
     }
 
-    const { branchCode, type } = currentAccount;
-    const closeAccountDocUrlName = (branchCode && type)
-      && (branchCode === "235" ? (type.toUpperCase() === "NORMAL" ? closeAccountDoc.normal : closeAccountDoc.main) : '');
-    
+    const handleCloseAccount = () => {
+      const { branchCode, type } = currentAccount;
+      const closeAccountDocUrlName = (branchCode && type) && (branchCode === "235" ? (type.toUpperCase() === "NORMAL" ? closeAccountDoc.normal : closeAccountDoc.main) : undefined);
+      closeAccountDocUrlName ? window.open(`https://smartplus-sec.com/support/${closeAccountDocUrlName}.pdf`, "_blank") : this.props.createError("予期せぬエラーが発生しました​")
+    }
+
     return (
       <div className="content-body">
         <div className="u-mt40p">
@@ -46,21 +51,26 @@ class CloseAccountHome extends Component {
             ・証券総合口座廃止届出書のご提出時は、必ず本人確認書類貼付けシートに本人確認書類の写しを貼り付け、同封してください。<br />
             なお、口座廃止届出時に本人確認書類と認められる書類については、貼付けシートに記載の案内をご確認ください。
           </p>
-          <a
+          <button
             className="btn_close"
             style={{color: '#fff'}}
-            target="_blank" 
             rel="noopener noreferrer"
-            href={`https://smartplus-sec.com/support/${closeAccountDocUrlName}.pdf`}
+            onClick={handleCloseAccount}
           >
             口座廃止
             <br />
             書面をダウンロード
-          </a>
+          </button>
         </div>
       </div>
     );
   }
 }
 
-export default CloseAccountHome;
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    createError
+  }, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(CloseAccountHome);
