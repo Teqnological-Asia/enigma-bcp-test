@@ -34,6 +34,12 @@ const OrderDetailHeader = ({ order }) => {
             <span className="num">{formatCurrency(order.amount, 0)}</span>
           </div>
         </div>
+        <div className="p-section_info_val">
+          <div className="p-section_info_attr">取引数量</div>
+          <div className="p-section_info_value en">
+            <span className="num">{formatCurrency(order.quantity, 0)}</span>
+          </div>
+        </div>
         <div className="p-section_info_val_done">
           <div className="p-section_info_attr">約定数</div>
           <div className="p-section_info_value en">
