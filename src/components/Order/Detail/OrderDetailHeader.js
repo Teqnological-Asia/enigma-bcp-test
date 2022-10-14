@@ -29,6 +29,12 @@ const OrderDetailHeader = ({ order }) => {
           </div>
         </div>
         <div className="p-section_info_val">
+          <div className="p-section_info_attr">注文金額</div>
+          <div className="p-section_info_value en">
+            <span className="num">{formatCurrency(order.amount, 0)}</span>
+          </div>
+        </div>
+        <div className="p-section_info_val">
           <div className="p-section_info_attr">取引数量</div>
           <div className="p-section_info_value en">
             <span className="num">{formatCurrency(order.quantity, 0)}</span>
@@ -43,7 +49,7 @@ const OrderDetailHeader = ({ order }) => {
         <div className="p-section_info_status">
           <div className="p-section_info_attr">注文状況</div>
           <div className="p-section_info_value">
-            {formatStatus(order.status)}
+            {formatStatus(order.status, order.side)}
           </div>
         </div>
         <div className="p-section_info_condition">

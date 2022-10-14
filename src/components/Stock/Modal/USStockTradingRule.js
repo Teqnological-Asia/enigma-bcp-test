@@ -12,7 +12,7 @@ const USStockTradingRuleModal = ({ onClose }) => {
       <div className="p-modal_overlay_logout" />
       <div className="p-modal_window" style={{ padding: '2.5rem 2.5rem 3rem' }}>
         <div className="p-modal_window_contents">
-          <div className="body-scroll">
+          <div className="body-scroll allow-scroll">
             ■取引の概要
             <br />
             お買い物投資コレカブの米国株式取引は、お客さまとスマートプラス間で取引をする相対取引です。お取引の流れは以下になります。

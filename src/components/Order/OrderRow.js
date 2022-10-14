@@ -6,7 +6,7 @@ const OrderRow = ({ order }) => {
 
   const renderStatusLink = (order) => {
     return (
-      <Link className="c-u" to={`/account/order/${order.id}/detail`}>{formatStatus(order.status)}</Link>
+      <Link className="c-u" to={`/account/order/${order.id}/detail`}>{formatStatus(order.status, order.side)}</Link>
     );
   }
 
@@ -20,7 +20,7 @@ const OrderRow = ({ order }) => {
         )}
       </td>
       <td className="c-l" data-name="銘柄コード">{order.stock.code}</td>
-      <td className="c-l" data-name="銘柄" style={{ maxWidth: "10rem" }}>{order.stock.name}</td>
+      <td className="c-l" data-name="銘柄" >{order.stock.name}</td>
       <td className="c-l" data-name="区分" style={{ color: formatSide(order.side).color }}>{`現物${formatSide(order.side).side}`}</td>
       <td className="c-l" data-name="取引時間">
         {formatDate(order.orderTime)} <br />

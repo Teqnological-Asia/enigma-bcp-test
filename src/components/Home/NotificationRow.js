@@ -9,6 +9,10 @@ class NotificationRow extends Component {
   render() {
     const { notification } = this.props;
 
+    if(!notification) {
+      return null;
+    }
+
     return (
       <div className="p-section_user_article">
         <div className="p-section_user_article_date">{formatDate(notification.last_update_time)}</div>

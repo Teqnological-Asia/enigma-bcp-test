@@ -5,7 +5,6 @@ import { loadPublicNotificationsRequest } from '../actions/publicNotification';
 import { loadPrivateNotificationsRequest } from '../actions/privateNotification';
 import { setLoading } from '../actions/loading';
 import { push } from "react-router-redux";
-import { createError } from "./error";
 
 
 export const loadProfileSuccess = (profile, documents) => {
@@ -100,7 +99,7 @@ export const loadAccountsInfoRequest = () => {
         sessionStorage.setItem('currentAccountType', currentAccount.type);
         sessionStorage.setItem('mainAccount', mainAccount.rpId);
         dispatch(loadAccountsInfoSuccess(currentAccount, accounts));
-        currentAccount.branchCode !== '235' && dispatch(createError("予期せぬエラーが発生しました​"));
+        // currentAccount.branchCode !== '235' && dispatch(createError("予期せぬエラーが発生しました​"));
         dispatch(setLoading(false))
       });
   };

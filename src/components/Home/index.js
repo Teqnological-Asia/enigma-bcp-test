@@ -1,9 +1,7 @@
+import { UserAccount } from "@Finatext/baas-common-bcp";
 import React, { Component } from 'react';
 import ProfileDetail from './ProfileDetail';
-import PublicNotificationList from './PublicNotificationList';
-import PrivateNotificationList from './PrivateNotificationList';
 import Shomen from './Shomen';
-import {UserAccount} from "@Finatext/baas-common-bcp";
 class Home extends Component {
   componentDidMount() {
     this.props.loadProfileRequest();
@@ -16,10 +14,14 @@ class Home extends Component {
   }
 
   render() {
-    const { profile, documents, accounts, currentAccount,
-      privateNotifications, publicNotifications,
-      loadPrivateNotificationsRequest, loadPublicNotificationsRequest,
-      loadNotificationDetailRequest, lbxConfirmRequest, getDeliverStatus, hasFinishReading
+    const {
+      profile,
+      documents,
+      accounts,
+      currentAccount,
+      lbxConfirmRequest,
+      getDeliverStatus,
+      hasFinishReading
     } = this.props;
 
     return (
@@ -28,20 +30,6 @@ class Home extends Component {
         } hasFinishReading={hasFinishReading}/>
         <ProfileDetail profile={profile} />
         <UserAccount accounts={accounts} currentAccount={currentAccount}/>
-        <PublicNotificationList
-          notifications={publicNotifications.notifications}
-          currentPage={publicNotifications.currentPage}
-          totalPages={publicNotifications.totalPages}
-          loadPublicNotificationsRequest={loadPublicNotificationsRequest}
-          loadNotificationDetailRequest={loadNotificationDetailRequest}
-        />
-        <PrivateNotificationList
-          notifications={privateNotifications.notifications}
-          currentPage={privateNotifications.currentPage}
-          totalPages={privateNotifications.totalPages}
-          loadPrivateNotificationsRequest={loadPrivateNotificationsRequest}
-          loadNotificationDetailRequest={loadNotificationDetailRequest}
-        />
       </div>
     );
   }

@@ -21,11 +21,11 @@ const StockList = ({ physicals, isInternalMarket }) => {
             <th className="c-l" >銘柄コード</th>
             <th className="c-l">銘柄名</th>
             <th className="c-l">区分</th>
-            <th>数量</th>
-            <th>参考取得単価</th>
-            <th>取得額</th>
-            <th>時価評価額</th>
-            <th>評価損益</th>
+            <th className="c-l">数量</th>
+            <th className="c-l">参考取得単価</th>
+            <th className="c-l">取得額</th>
+            <th className="c-l">時価評価額</th>
+            <th className="c-l">評価損益</th>
             <th className="c-c">売却</th>
           </tr>
         </thead>

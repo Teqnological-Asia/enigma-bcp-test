@@ -195,14 +195,8 @@ label.my-modal_close::after {
   margin-right: 20px;
   line-height: 20px;
 }
-/* .c-table_list .__react_component_tooltip.type-info::before {
-  display: none;
-}
-.c-table_list .__react_component_tooltip.type-info::after {
-  display: none;
-} */
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 678px) {
   label.my-modal_close {
     background-color: #091733;
     color: #FFF;
@@ -620,27 +614,30 @@ label.my-modal_close::after {
 
 /* Custom table sp mode */
 
-@media screen and (max-width: 500px) and (min-width: 376px) {
-  .l-contents_body_inner .u-mt20p {
-    overflow-x: scroll;
-    width: 100%;
-  }
-  .l-contents_body_inner .u-mt20p .c-table_list {
-    table-layout: fixed;
-  }
-  .l-contents_body_inner .u-mt20p .c-table_list thead tr th {
-    width: 100px;
-  }
-  .l-contents_body_inner .u-mt20p .c-table_list tbody tr td {
-    width: 100px;
-  }
-  .l-contents_body_inner .u-mt20p .c-table_list tbody tr td .p-form-object_stock{
-    width: 100%;
-  }
-  .l-contents_body_inner .u-mt20p .c-table_list tbody tr td .p-form-object_stock .dummy_text{
-    width: 100%;
-  }
-}
+//@media screen and (max-width: 500px) and (min-width: 376px) {
+//  .l-contents_body_inner .u-mt20p {
+//    overflow-x: scroll;
+//    width: 100%;
+//  }
+//  .l-contents_body_inner .u-mt20p .c-table_list {
+//    table-layout: fixed;
+//  }
+//  .l-contents_body_inner .u-mt20p .c-table_list thead tr th {
+//    width: 120px;
+//  }
+//  .l-contents_body_inner .u-mt20p .c-table_list thead tr th:nth-child(2) {
+//    width: 140px;
+//  }
+//  .l-contents_body_inner .u-mt20p .c-table_list tbody tr td {
+//    width: 100px;
+//  }
+//  .l-contents_body_inner .u-mt20p .c-table_list tbody tr td .p-form-object_stock{
+//    width: 100%;
+//  }
+//  .l-contents_body_inner .u-mt20p .c-table_list tbody tr td .p-form-object_stock .dummy_text{
+//    width: 100%;
+//  }
+//}
 
 @media screen and (max-width: 768px) {
   .p-nav_global .p-nav_global_body .scrollable > dl:first-child{
@@ -696,6 +693,7 @@ table.c-table_list tbody tr .us-stock-price {
 }
 
 .body-scroll {
+  text-align: justify;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
   overflow-y: scroll;

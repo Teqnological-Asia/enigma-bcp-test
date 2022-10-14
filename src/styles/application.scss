@@ -1793,7 +1793,7 @@ table.c-table_list {
       table.c-table_list tbody tr td .bbb {
         width: 100px;
         display: inline-block; }
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 540px) {
     table.c-table_list {
       font-size: 15px; }
       table.c-table_list thead tr {
@@ -2162,6 +2162,31 @@ input[type="button"].button-block {
   font-size:16px;
   color:#323232;
   margin-top: 20px;
+}
+
+$fsize: auto;
+@mixin p-contact($fsize) {
+  @if $fsize =='m' {
+    font-size: 16px;
+  }
+  @else if $fsize =='xm' {
+    font-size: 14.5px;
+  }
+  color:#323232;
+  margin-top: 20px;
+}
+.p-contact-medium{
+  @include p-contact('m');
+}
+.p-contact-xmedium{
+  @include p-contact('xm');
+}
+
+.p-body {
+  font-size:16px;
+  color:#323232;
+  margin-top: 14px;
+  line-height: 24px;
 }
 
 .contact_information{
