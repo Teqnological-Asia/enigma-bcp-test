@@ -36,7 +36,7 @@ class StockRow extends Component {
     return (
       <tr>
         <td className="c-l c-code">{physical.code}</td>
-        <td className="c-l c-title" data-name={physical.name} style={{ maxWidth: "10rem" }}>{physical.name}</td>
+        <td className="c-l c-title" data-name={physical.code}>{physical.name}</td>
         <td className="c-l" data-name="区分">特定</td>
         <td className="c-l" data-name="数量">{formattedQuantities(physical.balanceQuiantity)}</td>
         <td className="c-l" data-name="取得単価">{formatCurrency(Number(physical.bookPrice).toFixed(0))}円</td>
