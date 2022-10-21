@@ -12,6 +12,7 @@ class UsStock extends Component {
   }
 
   componentDidMount() {
+    this.props.loadOrdersRequest();
     this.props.loadPhysicalsRequest();
     this.props.createOrderSuccess();
   }
@@ -30,7 +31,7 @@ class UsStock extends Component {
           onReloadData={this.reloadData}
           textOfStockMarket="米国株式"
         />
-        <StockList physicals={filterStockList(this.props.physicals, ["US_STOCK"])} />
+        <StockList orders={this.props.orders} physicals={filterStockList(this.props.physicals, ["US_STOCK"])} />
       </div>
     );
   }

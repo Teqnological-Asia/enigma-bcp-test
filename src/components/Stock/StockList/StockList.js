@@ -2,11 +2,11 @@ import React from 'react';
 import EmptyTableRow from '../../Authenticated/EmptyTableRow';
 import PhysicalRow from './StockRow';
 
-const StockList = ({ physicals, isInternalMarket }) => {
-  const renderPhysicals = (physicals) => {
+const StockList = ({ orders, physicals, isInternalMarket }) => {
+  const renderPhysicals = (orders,physicals) => {
     if (physicals.length > 0) {
       return physicals.map((physical, key) => (
-        <PhysicalRow {...{ physical, key }} isInternalMarket={isInternalMarket} />
+        <PhysicalRow {...{ orders, physical, key }} isInternalMarket={isInternalMarket} />
       ));
     } else {
       return <EmptyTableRow message="明細はありません。" />;
@@ -30,7 +30,7 @@ const StockList = ({ physicals, isInternalMarket }) => {
           </tr>
         </thead>
         <tbody>
-          {renderPhysicals(physicals)}
+          {renderPhysicals(orders, physicals)}
         </tbody>
       </table>
     </div>
