@@ -31,7 +31,7 @@ const OrderDetailHeader = ({ order }) => {
         <div className="p-section_info_val">
           <div className="p-section_info_attr">注文金額</div>
           <div className="p-section_info_value en">
-            <span className="num">{formatCurrency(order.amount, 0)}</span>
+            <span className="num">{order.side === 'BUY' ? formatCurrency(order.amount, 0) : '-'}</span>
           </div>
         </div>
         <div className="p-section_info_val">

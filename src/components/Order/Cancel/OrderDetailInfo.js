@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatSide } from '../../../utils';
+import { formatSide, formatCurrency } from '../../../utils';
 
 const OrderDetailInfo = ({ order }) => {
   if (!order) return null;
@@ -16,6 +16,10 @@ const OrderDetailInfo = ({ order }) => {
           <td style={{ color: formatSide(order.side).color }}>
             {`現物${formatSide(order.side).side}`}
           </td>
+        </tr>
+        <tr>
+          <th>注文金額</th>
+          <td>{order.side === 'BUY' ? formatCurrency(order.amount, 0) + '円' : '-'}</td>
         </tr>
         <tr>
           <th>取引数量</th>

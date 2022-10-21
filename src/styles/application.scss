@@ -2927,6 +2927,12 @@ body.p-public {
       height: 332px;
       vertical-align: middle;
       text-align: center; }
+    .p-modal input.p-modal_isopen:checked ~ .p-modal_window .p-modal_window_contents .p-modal_window_msg_cancel {
+      display: table-cell;
+      width: 560px;
+      height: 120px;
+      vertical-align: middle;
+      text-align: center; }
     .p-modal input.p-modal_isopen:checked ~ .p-modal_window .p-modal_window_contents .p-modal_window_msg_shomen {
       vertical-align: top; }
   .p-modal input.p-modal_isopen:checked ~ .p-modal_window.p-modal_window_shomen {
@@ -2962,6 +2968,8 @@ body.p-public {
       font-size: 15px;
       padding-right: 0; }
     .p-modal input.p-modal_isopen:checked ~ .p-modal_window .p-modal_window_contents .p-modal_window_msg_shomen {
+      font-size: 13px; }
+    .p-modal input.p-modal_isopen:checked ~ .p-modal_window .p-modal_window_contents .p-modal_window_msg_cancel {
       font-size: 13px; }
     .p-modal input.p-modal_isopen:checked ~ .p-modal_window.p-modal_window_shomen {
       padding: 20px 10px 60px 10px; } }
