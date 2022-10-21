@@ -14,13 +14,13 @@ class Physical extends Component {
   componentDidMount() {
     this.props.loadPhysicalsRequest();
     this.props.createOrderSuccess();
+    this.props.loadOrdersRequest();
   }
 
   reloadData = () => {
     this.props.loadPhysicalsRequest();
     this.setState({curDateTime: new Date()});
   }
-
   render() {
     return (
       <div className="l-contents_body_inner">
@@ -29,7 +29,7 @@ class Physical extends Component {
         onReloadData={this.reloadData}
         textOfStockMarket="国内株式"
         />
-        <StockList physicals={filterStockList(this.props.physicals,["STOCK","ETF"])} isInternalMarket/> 
+        <StockList orders={this.props.orders} physicals={filterStockList(this.props.physicals,["STOCK","ETF"])} isInternalMarket/> 
       </div>
     );
   }
